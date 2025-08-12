@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Flame, Menu, X } from "lucide-react"
 import { motion } from "framer-motion"
+import { useActiveSection } from "@/hooks/use-active-section"
+import { cn } from "@/lib/utils"
 
 const headerVariants = {
   hidden: { y: -50, opacity: 0 },
@@ -21,12 +23,13 @@ const headerVariants = {
 
 export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const activeSection = useActiveSection()
 
   const navLinks = [
-    { href: "#menu", label: "Menú" },
-    { href: "#galeria", label: "Galería" },
-    { href: "#opiniones", label: "Opiniones" },
-    { href: "#ubicacion", label: "Ubicación" },
+    { href: "#menu", label: "Menú", id: "menu" },
+    { href: "#galeria", label: "Galería", id: "galeria" },
+    { href: "#opiniones", label: "Opiniones", id: "opiniones" },
+    { href: "#ubicacion", label: "Ubicación", id: "ubicacion" },
   ]
 
   return (
@@ -47,10 +50,25 @@ export default function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-gray-700 transition-colors hover:text-red-600"
+              className={cn(
+                "relative px-3 py-2 transition-colors duration-200",
+                activeSection === link.id ? "text-red-600 font-semibold" : "text-gray-700 hover:text-red-600",
+              )}
               prefetch={false}
             >
               {link.label}
+              {activeSection === link.id && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
+                  layoutId="activeSection"
+                  initial={false}
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                />
+              )}
             </Link>
           ))}
           <Button asChild size="sm" className="bg-red-600 text-white shadow-md shadow-red-500/20 hover:bg-red-700">
@@ -85,11 +103,16 @@ export default function SiteHeader() {
                   </SheetClose>
                 </div>
                 <div className="mt-6 grid gap-4">
-                  {[...navLinks, { href: "#pedir", label: "Pedir Ahora" }].map((link) => (
+                  {[...navLinks, { href: "#pedir", label: "Pedir Ahora", id: "pedir" }].map((link) => (
                     <SheetClose asChild key={link.href}>
                       <Link
                         href={link.href}
-                        className="rounded-lg px-4 py-3 text-lg font-semibold text-gray-800 hover:bg-gray-100"
+                        className={cn(
+                          "rounded-lg px-4 py-3 text-lg font-semibold transition-colors",
+                          activeSection === link.id
+                            ? "bg-red-50 text-red-600 border-l-4 border-red-600"
+                            : "text-gray-800 hover:bg-gray-100",
+                        )}
                         prefetch={false}
                       >
                         {link.label}

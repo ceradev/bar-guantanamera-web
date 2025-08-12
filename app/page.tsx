@@ -2,7 +2,7 @@ import PhotoGallery from "@/components/photo-gallery"
 import SiteHeader from "@/components/site-header"
 import BackToTopButton from "@/components/back-to-top-button"
 import HeroSection from "@/components/hero-section"
-import SpecialtiesSection from "@/components/specialties-section"
+import MenuSection from "@/components/menu-section"
 import WhyChooseUsSection from "@/components/why-choose-us-section"
 import TestimonialsSection from "@/components/testimonials-section"
 import LocationSection from "@/components/location-section"
@@ -16,7 +16,7 @@ export default function GuantanameraPage() {
 
       <main className="flex-1">
         <HeroSection />
-        <SpecialtiesSection />
+        <MenuSection />
         <WhyChooseUsSection />
         <PhotoGallery />
         <TestimonialsSection />
