@@ -153,13 +153,7 @@ export default function OrderSection() {
                 <p className="text-gray-700">O llámanos:</p>
                 <motion.a
                   href="tel:912345678"
-                  className="mt-1 inline-block text-2xl font-bold text-black hover:text-red-600 sm:text-3xl"
-                  whileHover={{
-                    scale: 1.1,
-                    color: "#ef4444",
-                    transition: { duration: 0.2 },
-                  }}
-                  whileTap={{ scale: 0.95 }}
+                  className="mt-1 inline-block text-2xl font-bold text-black hover:text-red-600 sm:text-3xl transition-colors"
                 >
                   <motion.span
                     className="mr-2 inline-block"
