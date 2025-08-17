@@ -2,6 +2,7 @@ import PhotoGallery from "@/components/photo-gallery"
 import SiteHeader from "@/components/site-header"
 import BackToTopButton from "@/components/back-to-top-button"
 import FloatingCallButton from "@/components/floating-call-button"
+import CookieBanner from "@/components/cookie-banner"
 import HeroSection from "@/components/hero-section"
 import MenuSection from "@/components/menu-section"
 import WhyChooseUsSection from "@/components/why-choose-us-section"
@@ -28,6 +29,7 @@ export default function GuantanameraPage() {
       <SiteFooter />
       <BackToTopButton />
       <FloatingCallButton />
+      <CookieBanner />
     </div>
   )
 }
