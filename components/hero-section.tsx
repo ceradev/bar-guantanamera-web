@@ -1,9 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ShoppingBag, Bike, ArrowRight } from "lucide-react"
+import { ArrowDown } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { motion } from "framer-motion"
 
 const containerVariants = {
@@ -45,28 +44,16 @@ export default function HeroSection() {
           <p className="mx-auto max-w-xl text-lg text-gray-700 md:mx-0">
             Especialistas en pollos asados, costillas y patatas con la receta tradicional que nos define.
           </p>
-          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-start">
+          <div className="flex items-center justify-center md:justify-start">
             <Button
               size="lg"
               asChild
               className="w-full bg-red-600 text-white shadow-lg shadow-red-500/30 hover:bg-red-700 md:w-auto"
             >
               <a href="#menu">
-                Ver el Menú <ArrowRight className="ml-2 h-5 w-5" />
+                Ver el Menú <ArrowDown className="ml-2 h-5 w-5" />
               </a>
             </Button>
-            <div className="flex w-full gap-4 md:w-auto">
-              <Button size="lg" variant="outline" className="w-full border-gray-300 bg-transparent text-black" asChild>
-                <Link href="#" target="_blank" rel="noopener noreferrer">
-                  <ShoppingBag className="mr-2 h-5 w-5" /> Uber Eats
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="w-full border-gray-300 bg-transparent text-black" asChild>
-                <Link href="#" target="_blank" rel="noopener noreferrer">
-                  <Bike className="mr-2 h-5 w-5" /> Glovo
-                </Link>
-              </Button>
-            </div>
           </div>
         </motion.div>
         <motion.div

@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
-import { Flame, Menu, X } from "lucide-react"
+import { Flame, Menu, X, ShoppingBag, Bike } from "lucide-react"
 import { motion } from "framer-motion"
 import { useActiveSection } from "@/hooks/use-active-section"
 import { cn } from "@/lib/utils"
@@ -71,6 +71,29 @@ export default function SiteHeader() {
               )}
             </Link>
           ))}
+
+          {/* Delivery Icons */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
+              title="Pedir en Uber Eats"
+            >
+              <ShoppingBag className="h-5 w-5" />
+            </Link>
+            <Link
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
+              title="Pedir en Glovo"
+            >
+              <Bike className="h-5 w-5" />
+            </Link>
+          </div>
+
           <Button asChild size="sm" className="bg-red-600 text-white shadow-md shadow-red-500/20 hover:bg-red-700">
             <a href="#pedir">Pedir Ahora</a>
           </Button>
@@ -102,16 +125,16 @@ export default function SiteHeader() {
                     </Button>
                   </SheetClose>
                 </div>
-                <div className="mt-6 grid gap-4">
+                <div className="mt-6 grid grid-cols-2 gap-4">
                   {[...navLinks, { href: "#pedir", label: "Pedir Ahora", id: "pedir" }].map((link) => (
                     <SheetClose asChild key={link.href}>
                       <Link
                         href={link.href}
                         className={cn(
-                          "rounded-lg px-4 py-3 text-lg font-semibold transition-colors",
+                          "rounded-lg px-3 py-3 text-base font-semibold transition-colors text-center",
                           activeSection === link.id
-                            ? "bg-red-50 text-red-600 border-l-4 border-red-600"
-                            : "text-gray-800 hover:bg-gray-100",
+                            ? "bg-red-50 text-red-600 border-2 border-red-600"
+                            : "text-gray-800 hover:bg-gray-100 border-2 border-gray-200",
                         )}
                         prefetch={false}
                       >
@@ -119,6 +142,34 @@ export default function SiteHeader() {
                       </Link>
                     </SheetClose>
                   ))}
+                </div>
+                {/* Add delivery options below in mobile */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3 text-center">Pedir a Domicilio</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <SheetClose asChild>
+                      <Link
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 border-2 border-gray-200 transition-colors"
+                      >
+                        <ShoppingBag className="h-4 w-4" />
+                        Uber Eats
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 border-2 border-gray-200 transition-colors"
+                      >
+                        <Bike className="h-4 w-4" />
+                        Glovo
+                      </Link>
+                    </SheetClose>
+                  </div>
                 </div>
               </div>
             </SheetContent>

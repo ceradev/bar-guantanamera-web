@@ -22,21 +22,5 @@ const features = [
 ]
 
 export default function WhyChooseUsSection() {
-  return (
-    <section className="w-full bg-white py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-12 md:grid-cols-3">
-          {features.map((feature) => (
-            <div key={feature.title} className="flex flex-col items-center text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-bold text-black">{feature.title}</h3>
-              <p className="mt-2 text-gray-700">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+  return null
 }
