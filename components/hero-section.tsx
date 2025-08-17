@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowDown } from "lucide-react"
+import { ArrowDown, Phone } from "lucide-react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
@@ -30,7 +30,7 @@ const itemVariants = {
 
 export default function HeroSection() {
   return (
-    <section className="w-full bg-white">
+    <section id="home" className="w-full bg-white">
       <motion.div
         className="container mx-auto grid items-center gap-8 px-4 py-12 md:grid-cols-2 md:gap-12 md:py-24 lg:py-32"
         variants={containerVariants}
@@ -44,14 +44,26 @@ export default function HeroSection() {
           <p className="mx-auto max-w-xl text-lg text-gray-700 md:mx-0">
             Especialistas en pollos asados, costillas y patatas con la receta tradicional que nos define.
           </p>
-          <div className="flex items-center justify-center md:justify-start">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
             <Button
-              size="lg"
+              size="default"
               asChild
-              className="w-full bg-red-600 text-white shadow-lg shadow-red-500/30 hover:bg-red-700 md:w-auto"
+              className="w-full bg-red-600 text-white shadow-lg shadow-red-500/30 hover:bg-red-700 sm:w-auto sm:size-lg"
             >
               <a href="#menu">
-                Ver el Menú <ArrowDown className="ml-2 h-5 w-5" />
+                Ver el Menú <ArrowDown className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+              </a>
+            </Button>
+            <div className="text-gray-400 font-medium">o</div>
+            <Button
+              size="default"
+              asChild
+              variant="outline"
+              className="w-full border-red-600 text-red-600 hover:bg-red-50 sm:w-auto bg-transparent sm:size-lg"
+            >
+              <a href="tel:912345678">
+                <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                Llamar Ahora
               </a>
             </Button>
           </div>

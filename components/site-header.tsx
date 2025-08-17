@@ -1,12 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Flame, Menu, X, ShoppingBag, Bike } from "lucide-react"
 import { motion } from "framer-motion"
-import { useActiveSection } from "@/hooks/use-active-section"
 import { cn } from "@/lib/utils"
 
 const headerVariants = {
@@ -23,7 +22,47 @@ const headerVariants = {
 
 export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const activeSection = useActiveSection()
+  const [activeSection, setActiveSection] = useState("")
+
+  useEffect(() => {
+    const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id
+            // If we're in the hero/home section, clear active state
+            if (sectionId === "home") {
+              setActiveSection("")
+            } else {
+              setActiveSection(sectionId)
+            }
+          }
+        })
+      },
+      {
+        rootMargin: "-20% 0px -70% 0px",
+        threshold: 0.1,
+      },
+    )
+
+    sections.forEach((id) => {
+      const element = document.getElementById(id)
+      if (element) {
+        observer.observe(element)
+      }
+    })
+
+    return () => {
+      sections.forEach((id) => {
+        const element = document.getElementById(id)
+        if (element) {
+          observer.unobserve(element)
+        }
+      })
+    }
+  }, [])
 
   const navLinks = [
     { href: "#menu", label: "Menú", id: "menu" },
@@ -39,25 +78,27 @@ export default function SiteHeader() {
       initial="hidden"
       animate="visible"
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
+      <div className="container mx-auto flex h-16 items-center px-4 md:px-6">
+        <Link href="#home" className="flex items-center gap-2" prefetch={false}>
           <Flame className="h-6 w-6 text-red-600" />
           <span className="text-xl font-bold text-black">Guantanamera</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
                 "relative px-3 py-2 transition-colors duration-200",
-                activeSection === link.id ? "text-red-600 font-semibold" : "text-gray-700 hover:text-red-600",
+                activeSection === link.id && link.id !== "home"
+                  ? "text-red-600 font-semibold"
+                  : "text-gray-700 hover:text-red-600",
               )}
               prefetch={false}
             >
               {link.label}
-              {activeSection === link.id && (
+              {activeSection === link.id && link.id !== "home" && (
                 <motion.div
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
                   layoutId="activeSection"
@@ -71,7 +112,9 @@ export default function SiteHeader() {
               )}
             </Link>
           ))}
+        </nav>
 
+        <div className="hidden items-center gap-4 md:flex">
           {/* Delivery Icons */}
           <div className="flex items-center gap-2">
             <Link
@@ -97,9 +140,29 @@ export default function SiteHeader() {
           <Button asChild size="sm" className="bg-red-600 text-white shadow-md shadow-red-500/20 hover:bg-red-700">
             <a href="#pedir">Pedir Ahora</a>
           </Button>
-        </nav>
+        </div>
 
-        <div className="md:hidden">
+        <div className="flex items-center gap-1 ml-auto md:hidden">
+          {/* Delivery Icons for mobile */}
+          <Link
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1 text-gray-700 hover:text-red-600 transition-colors"
+            title="Pedir en Uber Eats"
+          >
+            <ShoppingBag className="h-4 w-4" />
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1 text-gray-700 hover:text-red-600 transition-colors"
+            title="Pedir en Glovo"
+          >
+            <Bike className="h-4 w-4" />
+          </Link>
+
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -111,7 +174,7 @@ export default function SiteHeader() {
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between border-b pb-4">
                   <Link
-                    href="#"
+                    href="#home"
                     className="flex items-center gap-2"
                     prefetch={false}
                     onClick={() => setIsMenuOpen(false)}
@@ -132,7 +195,7 @@ export default function SiteHeader() {
                         href={link.href}
                         className={cn(
                           "rounded-lg px-3 py-3 text-base font-semibold transition-colors text-center",
-                          activeSection === link.id
+                          activeSection === link.id && link.id !== "home"
                             ? "bg-red-50 text-red-600 border-2 border-red-600"
                             : "text-gray-800 hover:bg-gray-100 border-2 border-gray-200",
                         )}
@@ -142,34 +205,6 @@ export default function SiteHeader() {
                       </Link>
                     </SheetClose>
                   ))}
-                </div>
-                {/* Add delivery options below in mobile */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3 text-center">Pedir a Domicilio</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <SheetClose asChild>
-                      <Link
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 border-2 border-gray-200 transition-colors"
-                      >
-                        <ShoppingBag className="h-4 w-4" />
-                        Uber Eats
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 border-2 border-gray-200 transition-colors"
-                      >
-                        <Bike className="h-4 w-4" />
-                        Glovo
-                      </Link>
-                    </SheetClose>
-                  </div>
                 </div>
               </div>
             </SheetContent>

@@ -420,7 +420,7 @@ export default function MenuSection() {
     <motion.div key={item.name} variants={itemVariants}>
       <Card className="group overflow-hidden rounded-xl border-gray-200 bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1 h-full">
         <CardHeader className="p-0 relative">
-          <div className="relative h-48 w-full overflow-hidden">
+          <div className="relative h-40 w-full overflow-hidden">
             <Image
               src={item.image || "/placeholder.svg"}
               alt={item.name}
@@ -439,38 +439,32 @@ export default function MenuSection() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-3 md:p-4 flex flex-col h-full">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
-            <h4 className="text-base md:text-lg font-bold text-black leading-tight">{item.name}</h4>
-            <span className="text-lg md:text-xl font-bold text-red-600 sm:ml-2">{item.price}</span>
+        <CardContent className="p-2 flex flex-col">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
+            <h4 className="text-sm font-bold text-black leading-tight">{item.name}</h4>
+            <span className="text-lg font-bold text-red-600 sm:ml-2">{item.price}</span>
           </div>
-          <p className="text-gray-700 text-xs md:text-sm mb-3 flex-grow">{item.description}</p>
+          <p className="text-gray-700 text-xs mb-2 flex-grow line-clamp-2">{item.description}</p>
 
           {/* Nutritional Info */}
-          <div className="bg-gray-50 rounded-lg p-3 mb-3">
-            <div className="flex items-center gap-1 mb-2">
-              <Info className="w-4 h-4 text-gray-600" />
-              <span className="text-xs font-semibold text-gray-700">Información Nutricional</span>
+          <div className="bg-gray-50 rounded-lg p-2 mb-2">
+            <div className="flex items-center gap-1 mb-1">
+              <Info className="w-3 h-3 text-gray-600" />
+              <span className="text-xs font-semibold text-gray-700">Nutrición</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+            <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
               <div>
                 Proteínas: <span className="font-semibold">{item.protein}</span>
               </div>
               <div>
                 Grasas: <span className="font-semibold">{item.nutritional.fat}</span>
               </div>
-              <div>
-                Carbohidratos: <span className="font-semibold">{item.nutritional.carbs}</span>
-              </div>
-              <div>
-                Sodio: <span className="font-semibold">{item.nutritional.sodium}</span>
-              </div>
             </div>
           </div>
 
           {/* Allergens */}
           {item.allergens.length > 0 && (
-            <div className="flex items-center gap-2 mt-auto">
+            <div className="flex items-center gap-1 mt-auto">
               <span className="text-xs text-gray-600">Alérgenos:</span>
               <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
             </div>
