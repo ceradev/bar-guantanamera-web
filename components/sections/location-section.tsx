@@ -2,8 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { MapPin } from "lucide-react"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, easeOut, useInView } from "framer-motion"
 import { useRef } from "react"
 
 const headerVariants = {
@@ -13,7 +12,7 @@ const headerVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }
@@ -26,7 +25,7 @@ const mapVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: "easeOut",
+      ease: easeOut,
       delay: 0.2,
     },
   },
@@ -39,7 +38,7 @@ const addressVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
       delay: 0.4,
     },
   },
@@ -50,7 +49,7 @@ export default function LocationSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="ubicacion" className="w-full scroll-mt-16 bg-gray-50 py-16 md:py-24" ref={ref}>
+    <section id="ubicacion" className="w-full scroll-mt-16 bg-white py-16 md:py-24" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="mb-12 text-center"

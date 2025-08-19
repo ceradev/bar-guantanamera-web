@@ -1,8 +1,7 @@
 "use client"
 
 import { Flame } from "lucide-react"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, easeOut, useInView } from "framer-motion"
 import { useRef } from "react"
 
 const footerVariants = {
@@ -12,7 +11,7 @@ const footerVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
       staggerChildren: 0.2,
     },
   },
@@ -25,7 +24,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }

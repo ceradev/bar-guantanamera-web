@@ -1,24 +1,34 @@
-import type React from "react"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import { cn } from "@/lib/utils"
+import type React from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata = {
-  title: "Bar Restaurante Guantanamera",
-  description: "Especialistas en pollos asados, costillas y patatas asadas. El sabor que te hace sentir en casa.",
-    generator: 'v0.dev'
-}
+  title: "Bar Cafeteria Guantanamera",
+  description:
+    "Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas asadas con la receta casera que nos define.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={cn("bg-white font-sans text-gray-800 antialiased", inter.variable)}>{children}</body>
+      <body
+        className={cn(
+          "bg-white font-sans text-gray-800 antialiased",
+          inter.variable
+        )}
+      >
+        {children}
+      </body>
     </html>
-  )
+  );
 }

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Phone } from "lucide-react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, easeOut } from "framer-motion"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,7 +23,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }
@@ -39,10 +39,10 @@ export default function HeroSection() {
       >
         <motion.div className="space-y-6 text-center md:text-left" variants={itemVariants}>
           <h1 className="text-4xl font-extrabold tracking-tight text-black sm:text-5xl md:text-6xl">
-            El Sabor que te Hace Sentir en Casa
+            Crujiente por fuera, jugoso por dentro
           </h1>
           <p className="mx-auto max-w-xl text-lg text-gray-700 md:mx-0">
-            Especialistas en pollos asados, costillas y patatas con la receta tradicional que nos define.
+            Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas asadas con la receta casera que nos define.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
             <Button
@@ -61,7 +61,7 @@ export default function HeroSection() {
               variant="outline"
               className="w-full border-red-600 text-red-600 hover:bg-red-50 sm:w-auto bg-transparent sm:size-lg"
             >
-              <a href="tel:912345678">
+              <a href="tel:922173039">
                 <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Llamar Ahora
               </a>

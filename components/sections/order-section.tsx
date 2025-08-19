@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Phone, ShoppingBag, Bike } from "lucide-react"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, easeOut, useInView, backOut } from "framer-motion"
 import { useRef } from "react"
 
 const containerVariants = {
@@ -25,7 +24,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }
@@ -37,7 +36,7 @@ const buttonVariants = {
     scale: 1,
     transition: {
       duration: 0.5,
-      ease: "backOut",
+      ease: backOut,
     },
   },
 }
@@ -50,7 +49,7 @@ const phoneVariants = {
     rotate: 0,
     transition: {
       duration: 0.6,
-      ease: "backOut",
+      ease: backOut,
       delay: 0.4,
     },
   },
@@ -61,7 +60,7 @@ export default function OrderSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="pedir" className="w-full scroll-mt-16 bg-white py-16 md:py-24" ref={ref}>
+    <section id="pedir" className="w-full scroll-mt-16 bg-gray-50 py-16 md:py-24" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="mb-12 text-center"

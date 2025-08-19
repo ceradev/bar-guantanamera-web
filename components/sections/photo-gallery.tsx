@@ -1,8 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, easeOut, useInView } from "framer-motion"
 import { useRef } from "react"
 
 const images = [
@@ -29,7 +28,7 @@ const imageVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }
@@ -39,7 +38,7 @@ export default function PhotoGallery() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="galeria" className="w-full scroll-mt-16 bg-gray-50 py-16 md:py-24" ref={ref}>
+    <section id="galeria" className="w-full scroll-mt-16 bg-white py-16 md:py-24" ref={ref}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Un Vistazo a Guantanamera</h2>
