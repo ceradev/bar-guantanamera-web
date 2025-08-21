@@ -12,6 +12,7 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+    generator: 'v0.app'
 };
 
 export default function RootLayout({

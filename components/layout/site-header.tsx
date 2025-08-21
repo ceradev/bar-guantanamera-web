@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
-import { Flame, Menu, X, ShoppingBag, Bike } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Flame, Menu, ShoppingBag, Bike } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -144,25 +144,6 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-1 ml-auto md:hidden">
           {/* Delivery Icons for mobile */}
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1 text-gray-700 hover:text-red-600 transition-colors"
-            title="Pedir en Uber Eats"
-          >
-            <ShoppingBag className="h-4 w-4" />
-          </Link>
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1 text-gray-700 hover:text-red-600 transition-colors"
-            title="Pedir en Glovo"
-          >
-            <Bike className="h-4 w-4" />
-          </Link>
-
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -172,7 +153,7 @@ export default function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-full bg-white">
               <div className="flex h-full flex-col">
-                <div className="flex items-center justify-between border-b pb-4">
+                <div className="flex items-center justify-start border-b pb-4">
                   <Link
                     href="#home"
                     className="flex items-center gap-2"
@@ -182,29 +163,70 @@ export default function SiteHeader() {
                     <Flame className="h-6 w-6 text-red-600" />
                     <span className="text-xl font-bold text-black">Guantanamera</span>
                   </Link>
-                  <SheetClose asChild>
-                    <Button variant="ghost" size="icon">
-                      <X className="h-6 w-6" />
-                    </Button>
-                  </SheetClose>
                 </div>
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  {[...navLinks, { href: "#pedir", label: "Pedir Ahora", id: "pedir" }].map((link) => (
-                    <SheetClose asChild key={link.href}>
+
+                <div className="mt-6 space-y-6">
+                  {/* Navigation Links */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Navegación</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {navLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={cn(
+                            "rounded-lg px-4 py-3 text-sm font-semibold transition-colors text-center border-2",
+                            activeSection === link.id && link.id !== "home"
+                              ? "bg-red-50 text-red-600 border-red-600"
+                              : "text-gray-800 hover:bg-gray-100 border-gray-200",
+                          )}
+                          prefetch={false}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Delivery Apps */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Pedir Online</h3>
+                    <div className="space-y-3">
                       <Link
-                        href={link.href}
-                        className={cn(
-                          "rounded-lg px-3 py-3 text-base font-semibold transition-colors text-center",
-                          activeSection === link.id && link.id !== "home"
-                            ? "bg-red-50 text-red-600 border-2 border-red-600"
-                            : "text-gray-800 hover:bg-gray-100 border-2 border-gray-200",
-                        )}
-                        prefetch={false}
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
                       >
-                        {link.label}
+                        <ShoppingBag className="h-5 w-5 text-gray-600" />
+                        <span className="font-semibold">Pedir en Uber Eats</span>
                       </Link>
-                    </SheetClose>
-                  ))}
+                      <Link
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Bike className="h-5 w-5 text-gray-600" />
+                        <span className="font-semibold">Pedir en Glovo</span>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Call to Action */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Acción Rápida</h3>
+                    <Link
+                      href="#pedir"
+                      className="block rounded-lg bg-red-600 px-4 py-3 text-center font-semibold text-white hover:bg-red-700 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Pedir Ahora
+                    </Link>
+                  </div>
                 </div>
               </div>
             </SheetContent>
