@@ -23,6 +23,7 @@ const headerVariants = {
 export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
+  const [isClosingFromResize, setIsClosingFromResize] = useState(false)
 
   useEffect(() => {
     const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
@@ -68,7 +69,12 @@ export default function SiteHeader() {
     const handleResize = () => {
       // Close mobile menu when viewport becomes desktop size (768px and above)
       if (window.innerWidth >= 768 && isMenuOpen) {
-        setIsMenuOpen(false)
+        setIsClosingFromResize(true)
+        // Add a small delay to allow for smooth transition
+        setTimeout(() => {
+          setIsMenuOpen(false)
+          setIsClosingFromResize(false)
+        }, 150)
       }
     }
 
@@ -171,7 +177,13 @@ export default function SiteHeader() {
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full bg-white">
+            <SheetContent
+              side="right"
+              className={cn(
+                "w-full bg-white transition-all duration-300 ease-in-out",
+                isClosingFromResize && "animate-out slide-out-to-right",
+              )}
+            >
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-start border-b pb-4">
                   <Link
