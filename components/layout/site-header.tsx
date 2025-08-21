@@ -64,6 +64,26 @@ export default function SiteHeader() {
     }
   }, [])
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Close mobile menu when viewport becomes desktop size (768px and above)
+      if (window.innerWidth >= 768 && isMenuOpen) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize)
+
+    // Call once on mount to handle initial state
+    handleResize()
+
+    // Cleanup event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [isMenuOpen])
+
   const navLinks = [
     { href: "#menu", label: "Menú", id: "menu" },
     { href: "#galeria", label: "Galería", id: "galeria" },
