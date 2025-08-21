@@ -24,6 +24,20 @@ export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
   const [isClosingFromResize, setIsClosingFromResize] = useState(false)
+  const [isOpening, setIsOpening] = useState(false)
+
+  const handleMenuOpen = (open: boolean) => {
+    if (open && !isMenuOpen) {
+      setIsOpening(true)
+      setIsMenuOpen(true)
+      // Reset opening state after animation completes
+      setTimeout(() => {
+        setIsOpening(false)
+      }, 300)
+    } else if (!open) {
+      setIsMenuOpen(false)
+    }
+  }
 
   useEffect(() => {
     const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
@@ -170,7 +184,7 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-1 ml-auto md:hidden">
           {/* Delivery Icons for mobile */}
-          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <Sheet open={isMenuOpen} onOpenChange={handleMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
@@ -182,6 +196,7 @@ export default function SiteHeader() {
               className={cn(
                 "w-full bg-white transition-all duration-300 ease-in-out",
                 isClosingFromResize && "animate-out slide-out-to-right",
+                isOpening && "animate-in slide-in-from-right",
               )}
             >
               <div className="flex h-full flex-col">
@@ -197,7 +212,12 @@ export default function SiteHeader() {
                   </Link>
                 </div>
 
-                <div className="mt-6 space-y-6">
+                <div
+                  className={cn(
+                    "mt-6 space-y-6 transition-all duration-200",
+                    isOpening ? "animate-in fade-in-50 slide-in-from-right-2" : "",
+                  )}
+                >
                   {/* Navigation Links */}
                   <div className="space-y-2">
                     <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Navegación</h3>
