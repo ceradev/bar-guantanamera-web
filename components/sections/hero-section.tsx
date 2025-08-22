@@ -63,7 +63,7 @@ export default function HeroSection() {
               asadas con la receta casera que nos define.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 items-start">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
               <Button
                 asChild
                 size="lg"
@@ -74,6 +74,13 @@ export default function HeroSection() {
                   <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform duration-300" />
                 </a>
               </Button>
+
+              {/* Visual Separator */}
+              <div className="flex items-center gap-4 text-gray-400">
+                <div className="w-8 h-px bg-gray-300 hidden sm:block"></div>
+                <span className="text-sm font-light hidden sm:block">o</span>
+                <div className="w-8 h-px bg-gray-300 hidden sm:block"></div>
+              </div>
 
               <Button
                 asChild
