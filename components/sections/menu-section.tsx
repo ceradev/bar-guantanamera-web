@@ -418,55 +418,60 @@ export default function MenuSection() {
 
   const renderMenuItem = (item, index) => (
     <motion.div key={item.name} variants={itemVariants}>
-      <Card className="group overflow-hidden rounded-xl border-gray-200 bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1 h-full">
+      <Card className="group overflow-hidden rounded-2xl border-0 bg-white shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 h-full">
         <CardHeader className="p-0 relative">
-          <div className="relative h-40 w-full overflow-hidden">
+          <div className="relative h-48 w-full overflow-hidden">
             <Image
               src={item.image || "/placeholder.svg"}
               alt={item.name}
               layout="fill"
               objectFit="cover"
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="transition-transform duration-700 group-hover:scale-110"
             />
             {item.popular && (
-              <Badge className="absolute top-3 right-3 bg-red-600 text-white">
+              <Badge className="absolute top-4 right-4 bg-red-600 text-white shadow-lg border-0 px-3 py-1">
                 <Star className="w-3 h-3 mr-1 fill-current" />
                 Popular
               </Badge>
             )}
-            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1">
-              <span className="text-xs font-semibold text-gray-700">{item.calories} kcal</span>
+            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-sm">
+              <span className="text-sm font-semibold text-gray-700">{item.calories} kcal</span>
             </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         </CardHeader>
-        <CardContent className="p-2 flex flex-col">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
-            <h4 className="text-sm font-bold text-black leading-tight">{item.name}</h4>
-            <span className="text-lg font-bold text-red-600 sm:ml-2">{item.price}</span>
+        <CardContent className="p-6 flex flex-col">
+          <div className="flex justify-between items-start mb-3">
+            <h4 className="text-lg font-bold text-black leading-tight group-hover:text-red-600 transition-colors duration-200">
+              {item.name}
+            </h4>
+            <span className="text-2xl font-bold text-red-600 ml-3">{item.price}</span>
           </div>
-          <p className="text-gray-700 text-xs mb-2 flex-grow line-clamp-2">{item.description}</p>
+          <p className="text-gray-600 text-sm mb-4 flex-grow leading-relaxed">{item.description}</p>
 
-          {/* Nutritional Info */}
-          <div className="bg-gray-50 rounded-lg p-2 mb-2">
-            <div className="flex items-center gap-1 mb-1">
-              <Info className="w-3 h-3 text-gray-600" />
-              <span className="text-xs font-semibold text-gray-700">Nutrición</span>
+          {/* Enhanced Nutritional Info */}
+          <div className="bg-gray-50 rounded-xl p-4 mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Info className="w-4 h-4 text-red-600" />
+              <span className="text-sm font-semibold text-gray-700">Información Nutricional</span>
             </div>
-            <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
-              <div>
-                Proteínas: <span className="font-semibold">{item.protein}</span>
+            <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
+              <div className="flex justify-between">
+                <span>Proteínas:</span>
+                <span className="font-semibold text-gray-800">{item.protein}</span>
               </div>
-              <div>
-                Grasas: <span className="font-semibold">{item.nutritional.fat}</span>
+              <div className="flex justify-between">
+                <span>Grasas:</span>
+                <span className="font-semibold text-gray-800">{item.nutritional.fat}</span>
               </div>
             </div>
           </div>
 
-          {/* Allergens */}
+          {/* Enhanced Allergens */}
           {item.allergens.length > 0 && (
-            <div className="flex items-center gap-1 mt-auto">
-              <span className="text-xs text-gray-600">Alérgenos:</span>
-              <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
+            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+              <span className="text-sm text-gray-600 font-medium">Alérgenos:</span>
+              <div className="flex gap-2">{renderAllergenIcons(item.allergens)}</div>
             </div>
           )}
         </CardContent>
@@ -475,85 +480,96 @@ export default function MenuSection() {
   )
 
   return (
-    <section id="menu" className="w-full scroll-mt-16 bg-gray-50 py-16 md:py-24" ref={ref}>
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="menu" className="w-full scroll-mt-16 bg-white py-20 md:py-28" ref={ref}>
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         <motion.div
-          className="mb-12 text-center"
+          className="mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Nuestra Carta</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-700">
-            Descubre nuestras especialidades preparadas con ingredientes frescos y técnicas tradicionales
+          <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-6">
+            <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+            <span className="text-red-600 text-sm font-medium tracking-wide">NUESTRA ESPECIALIDAD</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black mb-6">
+            Carta <span className="text-red-600">Guantanamera</span>
+          </h2>
+          <p className="mx-auto max-w-3xl text-lg text-gray-600 leading-relaxed">
+            Descubre nuestras especialidades preparadas con ingredientes frescos y técnicas tradicionales que han pasado
+            de generación en generación
           </p>
 
-          {/* Global Search Bar */}
-          {/* <motion.div
+          <motion.div
             className="mt-8"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <GlobalSearch />
-          </motion.div> */}
-
-          <motion.div
-            className="mt-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Button onClick={handleDownloadMenu} className="bg-red-600 text-white hover:bg-red-700" size="lg">
-              <Download className="mr-2 h-5 w-5" />
-              Descargar Carta Completa (PDF)
+            <Button
+              onClick={handleDownloadMenu}
+              className="bg-red-600 text-white hover:bg-red-700 shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 rounded-full group"
+              size="lg"
+            >
+              <Download className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+              Descargar Carta Completa
             </Button>
           </motion.div>
         </motion.div>
 
-        {/* Main Menu Categories */}
+        {/* Enhanced Menu Categories */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            className="mb-12"
           >
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8 bg-white border border-gray-200 h-auto">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-gray-50 border-0 rounded-2xl p-2 h-auto shadow-sm">
               <TabsTrigger
                 value="pollos"
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white py-3 px-4 text-sm font-semibold"
+                className="data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-md py-4 px-6 text-sm font-semibold rounded-xl transition-all duration-300 hover:bg-white/50"
               >
-                🍗 Pollos Asados
+                <span className="mr-2 text-lg">🍗</span>
+                <span className="hidden sm:inline">Pollos Asados</span>
+                <span className="sm:hidden">Pollos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="costillasYPatas"
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white py-3 px-4 text-sm font-semibold"
+                className="data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-md py-4 px-6 text-sm font-semibold rounded-xl transition-all duration-300 hover:bg-white/50"
               >
-                🥩 Costillas y Patas
+                <span className="mr-2 text-lg">🥩</span>
+                <span className="hidden sm:inline">Costillas y Patas</span>
+                <span className="sm:hidden">Costillas</span>
               </TabsTrigger>
               <TabsTrigger
                 value="guarniciones"
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white py-3 px-4 text-sm font-semibold"
+                className="data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-md py-4 px-6 text-sm font-semibold rounded-xl transition-all duration-300 hover:bg-white/50"
               >
-                🥗 Guarniciones
+                <span className="mr-2 text-lg">🥗</span>
+                <span className="hidden sm:inline">Guarniciones</span>
+                <span className="sm:hidden">Guarniciones</span>
               </TabsTrigger>
               <TabsTrigger
                 value="quesadillasYBurritos"
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white py-3 px-4 text-sm font-semibold"
+                className="data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-md py-4 px-6 text-sm font-semibold rounded-xl transition-all duration-300 hover:bg-white/50"
               >
-                🌯 Quesadillas y Burritos
+                <span className="mr-2 text-lg">🌯</span>
+                <span className="hidden sm:inline">Quesadillas</span>
+                <span className="sm:hidden">Mexicano</span>
               </TabsTrigger>
             </TabsList>
           </motion.div>
 
           {Object.entries(menuCategories).map(([key, category]) => (
-            <TabsContent key={key} value={key}>
+            <TabsContent key={key} value={key} className="mt-0">
               <motion.div variants={containerVariants} initial="hidden" animate={isInView ? "visible" : "hidden"}>
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-black mb-2">{category.title}</h3>
-                  <p className="text-gray-600 italic">{category.subtitle}</p>
+                <div className="text-center mb-12">
+                  <h3 className="text-3xl font-bold text-black mb-3">{category.title}</h3>
+                  <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full"></div>
+                  <p className="text-gray-600 text-lg italic max-w-2xl mx-auto">{category.subtitle}</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {category.items.map((item, index) => renderMenuItem(item, index))}
                 </div>
               </motion.div>
@@ -561,120 +577,149 @@ export default function MenuSection() {
           ))}
         </Tabs>
 
-        {/* Combo Meals */}
+        {/* Enhanced Combo Meals Section */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl p-8 shadow-md border border-red-100 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-black mb-6">🍽️ Menús Combinados</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <h4 className="font-bold text-gray-800 mb-2">Menú Pollo</h4>
-                <p className="text-sm text-gray-600 mb-3">Medio pollo + Patatas + Bebida</p>
-                <span className="text-2xl font-bold text-red-600">9.90€</span>
-                <p className="text-xs text-gray-500 mt-1">~650 kcal</p>
+          <div className="bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 rounded-3xl p-10 shadow-lg border border-red-100 max-w-6xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full mb-6 shadow-sm">
+              <span className="text-2xl">🍽️</span>
+              <span className="text-red-600 font-semibold">MENÚS COMBINADOS</span>
+            </div>
+            <h3 className="text-3xl font-bold text-black mb-8">Nuestros Menús Especiales</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-200 transition-colors">
+                  <span className="text-2xl">🍗</span>
+                </div>
+                <h4 className="font-bold text-gray-800 mb-2 text-xl">Menú Pollo</h4>
+                <p className="text-gray-600 mb-4">Medio pollo + Patatas + Bebida</p>
+                <span className="text-3xl font-bold text-red-600">9.90€</span>
+                <p className="text-sm text-gray-500 mt-2">~650 kcal</p>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <h4 className="font-bold text-gray-800 mb-2">Menú Costillas</h4>
-                <p className="text-sm text-gray-600 mb-3">Media ración + Ensalada + Bebida</p>
-                <span className="text-2xl font-bold text-red-600">16.50€</span>
-                <p className="text-xs text-gray-500 mt-1">~550 kcal</p>
+              <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-200 transition-colors">
+                  <span className="text-2xl">🥩</span>
+                </div>
+                <h4 className="font-bold text-gray-800 mb-2 text-xl">Menú Costillas</h4>
+                <p className="text-gray-600 mb-4">Media ración + Ensalada + Bebida</p>
+                <span className="text-3xl font-bold text-red-600">16.50€</span>
+                <p className="text-sm text-gray-500 mt-2">~550 kcal</p>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <h4 className="font-bold text-gray-800 mb-2">Menú Familiar</h4>
-                <p className="text-sm text-gray-600 mb-3">Pollo entero + 2 acompañamientos</p>
-                <span className="text-2xl font-bold text-red-600">18.90€</span>
-                <p className="text-xs text-gray-500 mt-1">~1200 kcal</p>
+              <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-200 transition-colors">
+                  <span className="text-2xl">👨‍👩‍👧‍👦</span>
+                </div>
+                <h4 className="font-bold text-gray-800 mb-2 text-xl">Menú Familiar</h4>
+                <p className="text-gray-600 mb-4">Pollo entero + 2 acompañamientos</p>
+                <span className="text-3xl font-bold text-red-600">18.90€</span>
+                <p className="text-sm text-gray-500 mt-2">~1200 kcal</p>
               </div>
             </div>
 
-            {/* Allergen Legend */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Leyenda de Alérgenos:</h4>
-              <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-600">
-                <div className="flex items-center gap-1">
+            {/* Enhanced Allergen Legend */}
+            <div className="mt-10 pt-8 border-t border-red-200">
+              <h4 className="text-lg font-semibold text-gray-700 mb-6">Información de Alérgenos</h4>
+              <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
+                <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow-sm">
                   <Wheat className="w-4 h-4 text-orange-600" />
                   <span>Gluten</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow-sm">
                   <Milk className="w-4 h-4 text-orange-600" />
                   <span>Lácteos</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow-sm">
                   <Egg className="w-4 h-4 text-orange-600" />
                   <span>Huevos</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow-sm">
                   <Nut className="w-4 h-4 text-orange-600" />
                   <span>Frutos Secos</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full shadow-sm">
                   <Bean className="w-4 h-4 text-orange-600" />
                   <span>Soja</span>
                 </div>
               </div>
-              <p className="text-xs text-gray-500 mt-4 italic">
-                * Todos los precios incluyen IVA. Consulta disponibilidad de platos del día.
-                <br />
-                ** Si tienes alguna alergia alimentaria, por favor informa a nuestro personal.
-              </p>
+              <div className="mt-6 text-center">
+                <p className="text-sm text-gray-500 italic leading-relaxed">
+                  * Todos los precios incluyen IVA. Consulta disponibilidad de platos del día.
+                  <br />
+                  ** Si tienes alguna alergia alimentaria, por favor informa a nuestro personal.
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Mojos and Beverages Section */}
+        {/* Enhanced Mojos and Beverages Section */}
         <motion.div
-          className="mt-12 space-y-8"
+          className="mt-16 space-y-10"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {/* Mojos */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-            <h3 className="text-2xl font-bold text-black mb-6 text-center flex items-center justify-center">
-              🥄 Mojos Caseros
-            </h3>
-            <div className="space-y-3">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-4">
+                <span className="text-2xl">🥄</span>
+                <span className="text-red-600 font-semibold">MOJOS CASEROS</span>
+              </div>
+              <h3 className="text-2xl font-bold text-black">Salsas Tradicionales</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
               {bebidasYMojos.mojos.map((item) => (
-                <div key={item.name} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
-                    <h5 className="font-semibold text-gray-800">{item.name}</h5>
-                    <p className="text-sm text-gray-600">{item.description}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-gray-500">{item.calories} kcal</span>
-                      {item.allergens.length > 0 && (
-                        <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
-                      )}
-                    </div>
+                <div
+                  key={item.name}
+                  className="bg-gray-50 rounded-2xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h5 className="font-semibold text-gray-800 text-lg">{item.name}</h5>
+                    <span className="text-xl font-bold text-red-600">{item.price}</span>
                   </div>
-                  <span className="text-lg font-bold text-red-600 ml-4">{item.price}</span>
+                  <p className="text-gray-600 text-sm mb-3">{item.description}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{item.calories} kcal</span>
+                    {item.allergens.length > 0 && (
+                      <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Beverages */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-            <h3 className="text-2xl font-bold text-black mb-6 text-center flex items-center justify-center">
-              🍺 Bebidas
-            </h3>
-            <div className="space-y-3">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-4">
+                <span className="text-2xl">🍺</span>
+                <span className="text-red-600 font-semibold">BEBIDAS</span>
+              </div>
+              <h3 className="text-2xl font-bold text-black">Selección de Bebidas</h3>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {bebidasYMojos.bebidas.map((item) => (
-                <div key={item.name} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
+                <div
+                  key={item.name}
+                  className="bg-gray-50 rounded-2xl p-4 hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <div className="flex justify-between items-start mb-2">
                     <h5 className="font-semibold text-gray-800">{item.name}</h5>
-                    <p className="text-sm text-gray-600">{item.description}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-gray-500">{item.calories} kcal</span>
-                      {item.allergens.length > 0 && (
-                        <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
-                      )}
-                    </div>
+                    <span className="text-lg font-bold text-red-600">{item.price}</span>
                   </div>
-                  <span className="text-lg font-bold text-red-600 ml-4">{item.price}</span>
+                  <p className="text-gray-600 text-sm mb-3">{item.description}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{item.calories} kcal</span>
+                    {item.allergens.length > 0 && (
+                      <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
