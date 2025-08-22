@@ -46,7 +46,10 @@ export default function SiteFooter() {
           <motion.div whileHover={{ rotate: 360, scale: 1.2 }} transition={{ duration: 0.6, ease: "easeInOut" }}>
             <Flame className="h-5 w-5 text-red-500" />
           </motion.div>
-          <p className="text-sm font-semibold">Bar Restaurante Guantanamera</p>
+          <div className="flex flex-col">
+            <p className="text-sm font-semibold">Bar Restaurante Guantanamera</p>
+            <p className="text-xs text-gray-300 font-medium -mt-0.5">23 años a su servicio</p>
+          </div>
         </motion.div>
         <motion.p className="text-center text-sm text-gray-400 sm:text-right" variants={itemVariants}>
           © {new Date().getFullYear()} Guantanamera. Todos los derechos reservados.

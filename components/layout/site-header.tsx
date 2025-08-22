@@ -23,21 +23,6 @@ const headerVariants = {
 export default function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
-  const [isClosingFromResize, setIsClosingFromResize] = useState(false)
-  const [isOpening, setIsOpening] = useState(false)
-
-  const handleMenuOpen = (open: boolean) => {
-    if (open && !isMenuOpen) {
-      setIsOpening(true)
-      setIsMenuOpen(true)
-      // Reset opening state after animation completes
-      setTimeout(() => {
-        setIsOpening(false)
-      }, 300)
-    } else if (!open) {
-      setIsMenuOpen(false)
-    }
-  }
 
   useEffect(() => {
     const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
@@ -83,12 +68,7 @@ export default function SiteHeader() {
     const handleResize = () => {
       // Close mobile menu when viewport becomes desktop size (768px and above)
       if (window.innerWidth >= 768 && isMenuOpen) {
-        setIsClosingFromResize(true)
-        // Add a small delay to allow for smooth transition
-        setTimeout(() => {
-          setIsMenuOpen(false)
-          setIsClosingFromResize(false)
-        }, 150)
+        setIsMenuOpen(false)
       }
     }
 
@@ -121,7 +101,10 @@ export default function SiteHeader() {
       <div className="container mx-auto flex h-16 items-center px-4 md:px-6">
         <Link href="#home" className="flex items-center gap-2" prefetch={false}>
           <Flame className="h-6 w-6 text-red-600" />
-          <span className="text-xl font-bold text-black">Guantanamera</span>
+          <div className="flex flex-col">
+            <span className="text-xl font-bold text-black">Guantanamera</span>
+            <span className="text-xs text-gray-500 font-medium -mt-1">23 años a su servicio</span>
+          </div>
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium md:flex">
@@ -184,21 +167,14 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-1 ml-auto md:hidden">
           {/* Delivery Icons for mobile */}
-          <Sheet open={isMenuOpen} onOpenChange={handleMenuOpen}>
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
-            <SheetContent
-              side="right"
-              className={cn(
-                "w-full bg-white transition-all duration-300 ease-in-out",
-                isClosingFromResize && "animate-out slide-out-to-right",
-                isOpening && "animate-in slide-in-from-right",
-              )}
-            >
+            <SheetContent side="right" className="w-full bg-white">
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-start border-b pb-4">
                   <Link
@@ -208,16 +184,14 @@ export default function SiteHeader() {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Flame className="h-6 w-6 text-red-600" />
-                    <span className="text-xl font-bold text-black">Guantanamera</span>
+                    <div className="flex flex-col">
+                      <span className="text-xl font-bold text-black">Guantanamera</span>
+                      <span className="text-xs text-gray-500 font-medium -mt-1">23 años a su servicio</span>
+                    </div>
                   </Link>
                 </div>
 
-                <div
-                  className={cn(
-                    "mt-6 space-y-6 transition-all duration-200",
-                    isOpening ? "animate-in fade-in-50 slide-in-from-right-2" : "",
-                  )}
-                >
+                <div className="mt-6 space-y-6">
                   {/* Navigation Links */}
                   <div className="space-y-2">
                     <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Navegación</h3>
