@@ -50,7 +50,7 @@ export default function HeroSection() {
 
         <motion.h1
           variants={itemVariants}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-8 leading-tight"
         >
           Bienvenidos a{" "}
           <span className="text-red-600 relative">
@@ -66,7 +66,7 @@ export default function HeroSection() {
 
         <motion.p
           variants={itemVariants}
-          className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed"
         >
           Descubre los auténticos sabores de Cuba en cada bocado. Especialistas en comida criolla con ingredientes
           frescos y recetas tradicionales.
@@ -74,48 +74,47 @@ export default function HeroSection() {
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
         >
           <Button
             asChild
             size="lg"
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="bg-red-600 hover:bg-red-700 text-white px-12 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 group rounded-full"
           >
-            <a href="#menu" className="flex items-center gap-2">
+            <a href="#menu" className="flex items-center gap-3">
               Ver el Menú
-              <ChevronDown className="h-5 w-5 group-hover:translate-y-1 transition-transform duration-300" />
+              <ChevronDown className="h-6 w-6 group-hover:translate-y-1 transition-transform duration-300" />
             </a>
           </Button>
 
-          <div className="flex items-center gap-2 text-gray-600">
-            <span className="text-lg font-medium">o</span>
+          <div className="flex items-center gap-3 text-gray-500">
+            <div className="w-8 h-px bg-gray-300"></div>
+            <span className="text-xl font-light">o</span>
+            <div className="w-8 h-px bg-gray-300"></div>
           </div>
 
           <Button
             asChild
             variant="outline"
             size="lg"
-            className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-8 py-4 text-lg font-semibold transition-all duration-300 group bg-transparent"
+            className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-12 py-6 text-xl font-semibold transition-all duration-300 group bg-transparent rounded-full"
           >
-            <a href="tel:+1234567890" className="flex items-center gap-2">
-              <Phone className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+            <a href="tel:+1234567890" className="flex items-center gap-3">
+              <Phone className="h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
               Llamar Ahora
             </a>
           </Button>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-600 mb-2">23+</div>
-            <div className="text-gray-600">Años de Experiencia</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-600 mb-2">100%</div>
-            <div className="text-gray-600">Ingredientes Frescos</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-600 mb-2">5★</div>
-            <div className="text-gray-600">Calificación Promedio</div>
+        <motion.div variants={itemVariants} className="max-w-5xl mx-auto">
+          <div className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-orange-600/20"></div>
+            <img
+              src="/placeholder.svg?height=500&width=800&text=Deliciosa+Comida+Cubana"
+              alt="Platos tradicionales cubanos del restaurante Guantanamera"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/10"></div>
           </div>
         </motion.div>
       </motion.div>
