@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, Phone, Navigation, Car, Train, Bus, Copy, ExternalLink } from "lucide-react"
+import { MapPin, Clock, Phone, Navigation, Copy, ExternalLink } from "lucide-react"
 import { motion, easeOut, useInView } from "framer-motion"
 import { useRef, useState } from "react"
 
@@ -46,27 +46,6 @@ const infoVariants = {
   },
 }
 
-const transportOptions = [
-  {
-    icon: <Train className="w-5 h-5" />,
-    name: "Metro",
-    details: "Línea 1 - Estación Gran Vía (5 min a pie)",
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    icon: <Bus className="w-5 h-5" />,
-    name: "Autobús",
-    details: "Líneas 1, 2, 46, 74, 146 - Parada Gran Vía",
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    icon: <Car className="w-5 h-5" />,
-    name: "Parking",
-    details: "Parking público a 100m - Plaza del Carmen",
-    color: "bg-purple-100 text-purple-600",
-  },
-]
-
 const businessHours = [
   { day: "Lunes - Viernes", hours: "11:00 - 23:00", isToday: false },
   { day: "Sábados", hours: "12:00 - 24:00", isToday: false },
@@ -96,7 +75,7 @@ export default function LocationSection() {
   }
 
   return (
-    <section id="ubicacion" className="w-full scroll-mt-16 bg-gray-50 py-20 md:py-28" ref={ref}>
+    <section id="ubicacion" className="w-full scroll-mt-16 bg-white py-20 md:py-28" ref={ref}>
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Enhanced Header */}
         <motion.div
@@ -118,10 +97,10 @@ export default function LocationSection() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-2 gap-8">
           {/* Enhanced Map */}
           <motion.div
-            className="lg:col-span-2"
+            className="lg:col-span-1"
             variants={mapVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -171,7 +150,7 @@ export default function LocationSection() {
 
           {/* Enhanced Location Info */}
           <motion.div
-            className="space-y-6"
+            className="space-y-6 lg:col-span-1"
             variants={infoVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -260,54 +239,13 @@ export default function LocationSection() {
                       922 173 039
                     </a>
                   </Button>
-                  <Button asChild className="w-full bg-red-600 text-white hover:bg-red-700 rounded-xl">
-                    <a href="#pedir">Hacer Pedido</a>
-                  </Button>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
-        {/* Enhanced Transport Options */}
-        <motion.div
-          className="mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-black mb-4">Cómo Llegar</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Múltiples opciones de transporte para que llegues fácilmente a nuestro restaurante
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {transportOptions.map((option, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
-              >
-                <Card className="rounded-2xl border-0 shadow-md hover:shadow-lg transition-all duration-300 h-full">
-                  <CardContent className="p-6 text-center">
-                    <div
-                      className={`w-16 h-16 ${option.color} rounded-full flex items-center justify-center mx-auto mb-4`}
-                    >
-                      {option.icon}
-                    </div>
-                    <h4 className="font-bold text-gray-900 mb-2">{option.name}</h4>
-                    <p className="text-gray-600 text-sm leading-relaxed">{option.details}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Call to Action */}
+        {/* Simplified Call to Action */}
         <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -315,25 +253,13 @@ export default function LocationSection() {
           transition={{ duration: 0.6, delay: 0.9 }}
         >
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-black mb-4">¿Necesitas más información?</h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Reserva tu mesa</h3>
             <p className="text-gray-600 mb-6">
-              Si tienes alguna duda sobre cómo llegar o necesitas indicaciones específicas, no dudes en contactarnos.
+              No pierdas la oportunidad de disfrutar de nuestra gastronomía en un ambiente acogedor.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-full border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent"
-              >
-                <a href="tel:922173039">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Llamar
-                </a>
-              </Button>
-              <Button asChild className="bg-red-600 text-white hover:bg-red-700 rounded-full">
-                <a href="#pedir">Hacer Reserva</a>
-              </Button>
-            </div>
+            <Button asChild className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full">
+              <a href="#pedir">Hacer Reserva</a>
+            </Button>
           </div>
         </motion.div>
       </div>
