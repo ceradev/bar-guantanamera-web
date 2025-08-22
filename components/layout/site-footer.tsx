@@ -1,60 +1,62 @@
-"use client"
+import type React from "react"
+import { Link } from "react-router-dom"
 
-import { Flame } from "lucide-react"
-import { motion, easeOut, useInView } from "framer-motion"
-import { useRef } from "react"
-
-const footerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: easeOut,
-      staggerChildren: 0.2,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: easeOut,
-    },
-  },
-}
-
-export default function SiteFooter() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
-
+const SiteFooter: React.FC = () => {
   return (
-    <motion.footer
-      className="bg-black"
-      ref={ref}
-      variants={footerVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-6 py-5 sm:flex-row">
-        <motion.div className="flex items-center gap-2 text-white" variants={itemVariants}>
-          <motion.div whileHover={{ rotate: 360, scale: 1.2 }} transition={{ duration: 0.6, ease: "easeInOut" }}>
-            <Flame className="h-5 w-5 text-red-500" />
-          </motion.div>
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Bar Restaurante Guantanamera</p>
-            <p className="text-xs text-gray-300 font-medium -mt-0.5">23 años a su servicio</p>
+    <footer className="bg-gray-800 text-white py-8 px-4">
+      <div className="container mx-auto flex flex-wrap justify-between">
+        <div className="w-full md:w-1/4 mb-8 md:mb-0">
+          <div className="text-center md:text-left">
+            <h3 className="text-lg font-semibold text-white mb-2">Bar Cafeteria Guantanamera</h3>
+            <p className="text-sm text-gray-300 mb-4 font-medium">23 años a su servicio</p>
           </div>
-        </motion.div>
-        <motion.p className="text-center text-sm text-gray-400 sm:text-right" variants={itemVariants}>
-          © {new Date().getFullYear()} Guantanamera. Todos los derechos reservados.
-        </motion.p>
+        </div>
+        <div className="w-full md:w-1/4 mb-8 md:mb-0">
+          <h3 className="text-lg font-semibold text-white mb-4">Links</h3>
+          <ul className="list-none">
+            <li className="mb-2">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/menu">Menu</Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/about">About</Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </div>
+        <div className="w-full md:w-1/4 mb-8 md:mb-0">
+          <h3 className="text-lg font-semibold text-white mb-4">Contact Information</h3>
+          <p className="mb-2">Address: 123 Main St, Anytown, USA</p>
+          <p className="mb-2">Phone: (123) 456-7890</p>
+          <p>Email: info@barcafeteria.com</p>
+        </div>
+        <div className="w-full md:w-1/4 mb-8 md:mb-0">
+          <h3 className="text-lg font-semibold text-white mb-4">Social Media</h3>
+          <ul className="list-none">
+            <li className="mb-2">
+              <a href="https://facebook.com/barcafeteria" target="_blank" rel="noopener noreferrer">
+                Facebook
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="https://instagram.com/barcafeteria" target="_blank" rel="noopener noreferrer">
+                Instagram
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="https://twitter.com/barcafeteria" target="_blank" rel="noopener noreferrer">
+                Twitter
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </motion.footer>
+    </footer>
   )
 }
+
+export default SiteFooter
