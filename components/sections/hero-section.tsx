@@ -40,7 +40,7 @@ export default function HeroSection() {
       </div>
 
       <motion.div
-        className="container mx-auto px-6 md:px-8 text-center relative z-10 max-w-5xl"
+        className="container mx-auto px-8 md:px-12 lg:px-16 text-center relative z-10 max-w-7xl"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -60,13 +60,13 @@ export default function HeroSection() {
 
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-xl text-white/90 mb-16 max-w-3xl mx-auto leading-relaxed font-light"
+          className="text-lg md:text-xl text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
         >
           Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas
           asadas con la receta casera que nos define.
         </motion.p>
 
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-10 justify-center items-center">
           <Button
             asChild
             size="lg"
