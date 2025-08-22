@@ -29,79 +29,79 @@ const itemVariants = {
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Video */}
-      <div className="absolute inset-0 z-0">
-        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-          <source src="/placeholder-video.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40"></div>
-      </div>
+    <section id="home" className="relative min-h-screen overflow-hidden pt-20">
+      {/* Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-red-50 to-orange-50"></div>
 
       <motion.div
-        className="container mx-auto px-8 md:px-12 lg:px-16 text-center relative z-10 max-w-7xl"
+        className="container mx-auto px-8 md:px-12 lg:px-16 relative z-10 max-w-7xl h-full flex items-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="mb-6">
-          <span className="inline-block text-sm font-medium text-red-400 tracking-[0.2em] uppercase bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-            23 años a su servicio
-          </span>
-        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
+          {/* Left Column - Content */}
+          <div className="text-left">
+            <motion.div variants={itemVariants} className="mb-6">
+              <span className="inline-block text-sm font-medium text-red-600 tracking-[0.2em] uppercase bg-red-50 px-4 py-2 rounded-full border border-red-200">
+                23 años a su servicio
+              </span>
+            </motion.div>
 
-        <motion.h1
-          variants={itemVariants}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[0.9] tracking-tight"
-        >
-          Crujiente por fuera, <span className="text-red-400 block mt-2">jugoso por dentro</span>
-        </motion.h1>
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-[0.9] tracking-tight"
+            >
+              Crujiente por fuera, <span className="text-red-600 block mt-2">jugoso por dentro</span>
+            </motion.h1>
 
-        <motion.div variants={itemVariants} className="block md:hidden mb-6">
-          <span className="inline-block text-base font-medium text-red-300 tracking-wide bg-white/5 backdrop-blur-sm px-6 py-3 rounded-lg border border-white/10 shadow-lg">
-            23 años de servicios
-          </span>
-        </motion.div>
+            <motion.p
+              variants={itemVariants}
+              className="text-lg md:text-xl text-gray-700 mb-16 leading-relaxed font-light"
+            >
+              Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas
+              asadas con la receta casera que nos define.
+            </motion.p>
 
-        <motion.p
-          variants={itemVariants}
-          className="text-lg md:text-xl text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
-        >
-          Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas
-          asadas con la receta casera que nos define.
-        </motion.p>
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 items-start">
+              <Button
+                asChild
+                size="lg"
+                className="bg-red-600 hover:bg-red-700 text-white px-10 py-6 text-base font-semibold shadow-xl hover:shadow-red-600/25 transition-all duration-300 group rounded-full"
+              >
+                <a href="#menu" className="flex items-center gap-3">
+                  Ver el Menú
+                  <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform duration-300" />
+                </a>
+              </Button>
 
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-10 justify-center items-center">
-          <Button
-            asChild
-            size="lg"
-            className="bg-red-600 hover:bg-red-700 text-white px-10 py-6 text-base font-semibold shadow-2xl hover:shadow-red-600/25 transition-all duration-300 group rounded-full border-2 border-transparent hover:border-red-400"
-          >
-            <a href="#menu" className="flex items-center gap-3">
-              Ver el Menú
-              <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform duration-300" />
-            </a>
-          </Button>
-
-          <div className="flex items-center gap-4 text-white/60">
-            <div className="w-12 h-px bg-white/30"></div>
-            <span className="text-lg font-light">o</span>
-            <div className="w-12 h-px bg-white/30"></div>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-10 py-6 text-base font-semibold transition-all duration-300 group rounded-full bg-transparent"
+              >
+                <a href="tel:922173039" className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                  Llamar Ahora
+                </a>
+              </Button>
+            </motion.div>
           </div>
 
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="border-2 border-white/30 text-white hover:bg-white hover:text-gray-900 px-10 py-6 text-base font-semibold transition-all duration-300 group bg-white/10 backdrop-blur-sm rounded-full hover:border-white"
+          {/* Right Column - Image */}
+          <motion.div
+            variants={itemVariants}
+            className="relative h-96 lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl"
           >
-            <a href="tel:922173039" className="flex items-center gap-3">
-              <Phone className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              Llamar Ahora
-            </a>
-          </Button>
-        </motion.div>
+            <img
+              src="/placeholder.svg?width=600&height=600&text=Bar+Guantanamera"
+              alt="Interior del Bar Guantanamera"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   )
