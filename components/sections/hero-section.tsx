@@ -58,6 +58,12 @@ export default function HeroSection() {
           Crujiente por fuera, <span className="text-red-400 block mt-2">jugoso por dentro</span>
         </motion.h1>
 
+        <motion.div variants={itemVariants} className="block md:hidden mb-6">
+          <span className="inline-block text-base font-medium text-red-300 tracking-wide bg-white/5 backdrop-blur-sm px-6 py-3 rounded-lg border border-white/10 shadow-lg">
+            23 años de servicios
+          </span>
+        </motion.div>
+
         <motion.p
           variants={itemVariants}
           className="text-lg md:text-xl text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
