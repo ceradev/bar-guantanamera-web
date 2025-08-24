@@ -31,6 +31,7 @@ const itemVariants = {
 export default function HeroSection() {
   return (
     <motion.div
+      id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       variants={containerVariants}
       initial="hidden"
@@ -74,8 +75,8 @@ export default function HeroSection() {
               className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-2xl mx-auto lg:mx-0"
               variants={itemVariants}
             >
-              Crujiente por fuera, jugoso por dentro. Especialidad en pollos, costillas y patas asadas con la
-              <span className="text-red-600 font-semibold"> receta casera</span> que nos define.
+              Crujiente por fuera, jugoso por dentro. Especialidad en pollos, costillas y patas asadas con la{" "}
+              <span className="text-red-600 font-semibold">receta casera</span> que nos define.
             </motion.p>
 
             {/* Stats */}
@@ -85,11 +86,11 @@ export default function HeroSection() {
                 <div className="text-sm text-gray-600 font-medium">Años de experiencia</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-red-600">10k+</div>
+                <div className="text-3xl font-bold text-red-600">30k+</div>
                 <div className="text-sm text-gray-600 font-medium">Clientes satisfechos</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-red-600">4.8</div>
+                <div className="text-3xl font-bold text-red-600">4.3</div>
                 <div className="text-sm text-gray-600 font-medium">Valoración media</div>
               </div>
             </motion.div>
@@ -149,7 +150,7 @@ export default function HeroSection() {
                 <div className="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center">
                   <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
                 </div>
-                <span>Receta tradicional</span>
+                <span>Receta casera</span>
               </div>
             </motion.div>
           </motion.div>
@@ -178,15 +179,15 @@ export default function HeroSection() {
                 <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-lg">
                   <div className="flex items-center gap-2">
                     <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <div key={i} className="w-4 h-4 text-yellow-400 fill-current">
+                      {[...Array(4)].map((_, i) => (
+                        <div key={i + 1} className="w-4 h-4 text-yellow-400 fill-current">
                           ⭐
                         </div>
                       ))}
                     </div>
-                    <span className="text-sm font-bold text-gray-800">4.8</span>
+                    <span className="text-sm font-bold text-gray-800">4.3</span>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">+1,200 reseñas</p>
+                  <p className="text-xs text-gray-600 mt-1">+100 reseñas</p>
                 </div>
 
                 <div className="absolute bottom-6 left-6 bg-red-600 text-white rounded-2xl px-4 py-3 shadow-lg">
@@ -204,14 +205,20 @@ export default function HeroSection() {
       </div>
 
       {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 right-0">
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-20">
           <path
             d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
             fill="white"
           />
         </svg>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

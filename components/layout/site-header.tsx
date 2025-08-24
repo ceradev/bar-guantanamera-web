@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Flame, Menu, ShoppingBag, Bike } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion, easeOut } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const headerVariants = {
@@ -14,7 +14,7 @@ const headerVariants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 }
@@ -24,25 +24,62 @@ const SiteHeader = () => {
   const [activeSection, setActiveSection] = useState("")
 
   useEffect(() => {
+    // Set initial active section based on scroll position
+    const setInitialActiveSection = () => {
+      const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
+      const scrollPosition = window.scrollY + 100 // Add offset for header height
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i])
+        if (element) {
+          const elementTop = element.offsetTop
+          if (scrollPosition >= elementTop) {
+            setActiveSection(sections[i])
+            break
+          }
+        }
+      }
+    }
+
+    // Call once on mount
+    setInitialActiveSection()
+    
+    // Also call on scroll to handle cases where user scrolls before observer is set up
+    window.addEventListener('scroll', setInitialActiveSection)
+    
+    return () => {
+      window.removeEventListener('scroll', setInitialActiveSection)
+    }
+  }, [])
+
+  useEffect(() => {
     const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
 
     const observer = new IntersectionObserver(
       (entries) => {
+        // Find the section that is most visible in the viewport
+        let mostVisibleSection = ""
+        let maxVisibility = 0
+
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const sectionId = entry.target.id
-            // If we're in the hero/home section, clear active state
-            if (sectionId === "home") {
-              setActiveSection("")
-            } else {
-              setActiveSection(sectionId)
+            // Calculate visibility based on intersection ratio and position
+            const visibility = entry.intersectionRatio
+            if (visibility > maxVisibility) {
+              maxVisibility = visibility
+              mostVisibleSection = entry.target.id
             }
           }
         })
+
+        // Only update if we found a visible section
+        if (mostVisibleSection && mostVisibleSection !== activeSection) {
+          setActiveSection(mostVisibleSection)
+        }
       },
       {
-        rootMargin: "-20% 0px -70% 0px",
-        threshold: 0.1,
+        rootMargin: "-10% 0px -10% 0px",
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
       },
     )
 
@@ -60,6 +97,34 @@ const SiteHeader = () => {
           observer.unobserve(element)
         }
       })
+    }
+  }, [activeSection])
+
+  useEffect(() => {
+    // Smooth scroll behavior for navigation links
+    const handleSmoothScroll = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a[href^="#"]') as HTMLAnchorElement
+      
+      if (link) {
+        e.preventDefault()
+        const targetId = link.getAttribute('href')?.substring(1)
+        if (targetId) {
+          const targetElement = document.getElementById(targetId)
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            })
+          }
+        }
+      }
+    }
+
+    document.addEventListener('click', handleSmoothScroll)
+    
+    return () => {
+      document.removeEventListener('click', handleSmoothScroll)
     }
   }, [])
 
@@ -113,14 +178,14 @@ const SiteHeader = () => {
               href={link.href}
               className={cn(
                 "relative px-3 py-2 transition-colors duration-200",
-                activeSection === link.id && link.id !== "home"
+                activeSection === link.id
                   ? "text-red-600 font-semibold"
                   : "text-gray-700 hover:text-red-600",
               )}
               prefetch={false}
             >
               {link.label}
-              {activeSection === link.id && link.id !== "home" && (
+              {activeSection === link.id && (
                 <motion.div
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
                   layoutId="activeSection"
@@ -201,7 +266,7 @@ const SiteHeader = () => {
                           href={link.href}
                           className={cn(
                             "rounded-lg px-4 py-3 text-sm font-semibold transition-colors text-center border-2",
-                            activeSection === link.id && link.id !== "home"
+                            activeSection === link.id
                               ? "bg-red-50 text-red-600 border-red-600"
                               : "text-gray-800 hover:bg-gray-100 border-gray-200",
                           )}

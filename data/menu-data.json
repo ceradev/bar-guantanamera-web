@@ -1,0 +1,404 @@
+{
+  "allergenIcons": {
+    "gluten": "Wheat",
+    "dairy": "Milk",
+    "eggs": "Egg",
+    "nuts": "Nut",
+    "peanuts": "Nut",
+    "soy": "Bean"
+  },
+  "menuCategories": {
+    "pollos": {
+      "title": "Pollos Asados",
+      "subtitle": "Nuestras especialidades de pollo, jugosos y dorados",
+      "items": [
+        {
+          "name": "Pollo Asado Entero",
+          "description": "Pollo entero asado con nuestra mezcla secreta de especias mediterráneas",
+          "price": "8.50€",
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name": "Pollo Asado Entero con Papas",
+          "description": "Pollo entero asado con acompañamiento de papas fritas para compartir dos personas",
+          "price": "11.80€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "popular": true,
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name": "Pollo Asado Entero con Papas Familiar",
+          "description": "Pollo entero asado con acompañamiento de papas fritas para compartir cuatro personas",
+          "price": "15.80€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "popular": true,
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name": "Medio Pollo",
+          "description": "Media ración de pollo asado con nuestra mezcla secreta de especias mediterráneas",
+          "price": "4.40€",
+          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png",
+          "calories": 425,
+          "protein": "32g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "22g",
+            "carbs": "1g",
+            "fiber": "0g",
+            "sodium": "600mg"
+          }
+        },
+        {
+          "name": "Medio Pollo con Patatas Fritas",
+          "description": "Medio pollo asado con acompañamiento de patatas fritas para compartir dos personas",
+          "price": "8.00€",
+          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png",
+          "calories": 380,
+          "protein": "28g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "18g",
+            "carbs": "25g",
+            "fiber": "3g",
+            "sodium": "450mg"
+          }
+        }
+      ]
+    },
+    "costillasYPatas": {
+      "title": "Costillas y Patas",
+      "subtitle": "Costillas y patas asadas tiernas y jugosas a la perfección",
+      "items": [
+        {
+          "name" : "Medio Costillar",
+          "description": "Medio costillar asado con nuestra mezcla secreta de especias mediterráneas",
+          "price": "13.50€",
+          "image": "/images/menu/ribs-and-legs/costilla-asada-1.jpg",
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name" : "Costillar Entero",
+          "description": "Costillar entero asado con nuestra mezcla secreta de especias mediterráneas",
+          "price": "26.00€",
+          "image": "/images/menu/ribs-and-legs/costilla_asada_4.jpg",
+          "popular": true,
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name" : "Pata Asada",
+          "description": "Pata asada con nuestra mezcla secreta de especias mediterráneas",
+          "price": "20.00€/KG",
+          "image": "/images/menu/ribs-and-legs/pata_asada_1.jpg",
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        },
+        {
+          "name" : "Pata Asada Entera",
+          "description": "Pata asada entera con nuestra mezcla secreta de especias mediterráneas",
+          "price": "Preguntar por el precio",
+          "image": "/images/menu/ribs-and-legs/pata_asada_4.jpg",
+          "calories": 850,
+          "protein": "65g",
+          "allergens": ["gluten"],
+          "nutritional": {
+            "fat": "45g",
+            "carbs": "2g",
+            "fiber": "0g",
+            "sodium": "1200mg"
+          }
+        }
+      ]
+    },
+    "guarniciones": {
+      "title": "Guarniciones",
+      "subtitle": "Acompañamientos perfectos para completar tu comida",
+      "items": [
+        {
+          "name": "Papas Fritas 'Guantanamera'",
+          "description": "Papas fritas para compartir dos personas hechas a la francesa",
+          "price": "3.50€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Papas Fritas Familiar",
+          "description": "Papas fritas para compartir cuatro personas hechas a la francesa",
+          "price": "4.90€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "popular": true,
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Papas Campesinas",
+          "description": "Papas campesinas para compartir dos personas",
+          "price": "3.90€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Croquetas de Pollo",
+          "description": "Croquetas de pollo con nuestra mezcla secreta de especias mediterráneas",
+          "price": "5.00€",
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "popular": true,
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Pan Horneado",
+          "description": "Pan horneado para disfrutar de tus platos",
+          "price": "0.80€",
+          "image": "/images/menu/side-dishes/pan-horneado.jpg",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        }
+      ]
+    },
+    "quesadillasYBurritos": {
+      "title": "Quesadillas y Burritos",
+      "subtitle": "Sabores mexicanos con ingredientes frescos y caseros al estilo de la casa",
+      "items": [
+        {
+          "name" : "Quesadilla de Pollo",
+          "description": "Quesadilla de pollo y queso con nuestra mezcla secreta de especias mediterráneas",
+          "price": "6.00€",
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        { 
+          "name" : "Quesadilla de pollo con refresco",
+          "description": "Quesadilla de pollo y queso con refresco (coca-cola, fanta, sprite)",
+          "price": "6.80€",
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "popular": true,
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Burrito de Pollo",
+          "description": "Burrito de pollo con nuestra mezcla secreta de especias mediterráneas",
+          "price": "5.00€",
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        },
+        {
+          "name" : "Burrito de Pollo con refresco",
+          "description": "Burrito de pollo con refresco (coca-cola, fanta, sprite)",
+          "price": "5.80€",
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "calories": 220,
+          "protein": "4g",
+          "allergens": [],
+          "nutritional": {
+            "fat": "8g",
+            "carbs": "35g",
+            "fiber": "4g",
+            "sodium": "320mg"
+          }
+        }
+      ]
+    }
+  },
+  "bebidasYMojos": {
+    "bebidas": [
+      {
+        "name": "Coca-Cola | Fanta (33cl)",
+        "description": "Coca-Cola Original o Zero y Fanta Naranja",
+        "price": "1.50€",
+        "calories": 85,
+        "allergens": ["gluten"]
+      },
+      {
+        "name": "Coca-Cola | Fanta (1,5L)",
+        "description": "Coca-Cola Original o Zero y Fanta Naranja",
+        "price": "3.00€",
+        "calories": 85,
+        "allergens": ["gluten"]
+      },
+      {
+        "name": "Agua Mineral",
+        "description": "Agua mineral natural (33cl)",
+        "price": "1.00€",
+        "calories": 0,
+        "allergens": []
+      },
+      {
+        "name": "Nestea | Aquarius (33cl)",
+        "description": "Nestea de Mango Piña o Aquarius de Naranja",
+        "price": "1.80€",
+        "calories": 100,
+        "allergens": []
+      },
+      {
+        "name": "Nestea | Aquarius (1,5L)",
+        "description": "Nestea de Mango Piña o Aquarius de Naranja",
+        "price": "3.50€",
+        "calories": 100,
+        "allergens": []
+      },
+      {
+        "name" : "Clipper | Seven Up (50cl)",
+        "description": "Clipper de Fresa o Seven Up de Limón",
+        "price": "1.80€",
+        "calories": 100,
+        "allergens": []
+      }
+    ],
+    "mojos": [
+      {
+        "name": "Mojo Rojo Picante",
+        "description": "Mojo canario tradicional con pimientos rojos y especias",
+        "price": "1.00€",
+        "calories": 45,
+        "allergens": []
+      },
+      {
+        "name": "Mojo Verde",
+        "description": "Mojo verde con cilantro, perejil y ajo",
+        "price": "1.00€",
+        "calories": 35,
+        "allergens": []
+      },
+      {
+        "name": "Alioli Tradicional",
+        "description": "Alioli casero con ajo y aceite de oliva",
+        "price": "1.00€",
+        "calories": "95",
+        "allergens": ["eggs"]
+      }
+    ]
+  },
+  "comboMeals": [
+    {
+      "name": "Menú Pollo",
+      "description": "Pollo + Papas Fritas + Refresco",
+      "price": "14.50€",
+      "calories": "1200 kcal",
+      "icon": "🐔"
+    },
+    {
+      "name": "Menú Medio Pollo",
+      "description": "Medio pollo + Papas Fritas + Refresco",
+      "price": "8.80€",
+      "calories": "1000 kcal",
+      "icon": "🍗"
+    },
+    {
+      "name": "Menú Burrito",
+      "description": "Burrito + Papas Fritas + Refresco",
+      "price": "7.50€",
+      "calories": "1000 kcal",
+      "icon": "🌯"
+    }
+  ]
+}
