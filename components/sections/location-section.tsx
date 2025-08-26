@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, Phone, Navigation, Copy, ExternalLink } from "lucide-react"
-import { motion, easeOut, useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  MapPin,
+  Clock,
+  Navigation,
+  Copy,
+  ExternalLink,
+} from "lucide-react";
+import { motion, easeOut, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 
 const headerVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -17,7 +23,7 @@ const headerVariants = {
       ease: easeOut,
     },
   },
-}
+};
 
 const mapVariants = {
   hidden: { opacity: 0, scale: 0.9, y: 50 },
@@ -31,7 +37,7 @@ const mapVariants = {
       delay: 0.2,
     },
   },
-}
+};
 
 const infoVariants = {
   hidden: { opacity: 0, x: -30 },
@@ -44,38 +50,85 @@ const infoVariants = {
       delay: 0.4,
     },
   },
-}
+};
 
 const businessHours = [
-  { day: "Lunes - Viernes", hours: "11:00 - 23:00", isToday: false },
-  { day: "Sábados", hours: "12:00 - 24:00", isToday: false },
-  { day: "Domingos", hours: "12:00 - 23:00", isToday: true },
-]
+  { day: "Lunes y Viernes", hours: "09:00 - 18:00", days: [1, 5] },
+  { day: "Sábados y Domingos", hours: "09:00 - 17:00", days: [6, 0] },
+  {
+    day: "Martes, Miércoles y Jueves",
+    hours: "Estamos cerrados",
+    days: [2, 3, 4],
+  },
+];
 
 export default function LocationSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [copiedAddress, setCopiedAddress] = useState(false)
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [copiedAddress, setCopiedAddress] = useState(false);
 
-  const address = "Calle Falsa, 123, 28080 Madrid, España"
+  const address = "C. Castro, 7, 38611 San Isidro, Santa Cruz de Tenerife";
+
+  // Función para obtener el día actual (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
+  const getCurrentDay = () => {
+    console.log(new Date().getDay());
+    return new Date().getDay();
+  };
+
+  // Función para verificar si un horario es para hoy
+  const isToday = (days: number[]) => days.includes(getCurrentDay());
+
+  const isClosed = (days: number[]) => {
+    const currentDay = getCurrentDay();
+    return days.includes(currentDay);
+  };
+
+  // Función para obtener el color del texto basado en el estado del horario
+  const getTextColor = (schedule: any, weight: "medium" | "semibold") => {
+    if (isToday(schedule.days)) {
+      return weight === "medium" ? "text-green-800" : "text-green-600";
+    }
+    if (isClosed(schedule.days)) {
+      return weight === "medium" ? "text-red-800" : "text-red-600";
+    }
+    return weight === "medium" ? "text-gray-700" : "text-gray-900";
+  };
+
+  // Función para obtener las clases CSS del contenedor del horario
+  const getScheduleContainerClasses = (schedule: any) => {
+    if (isToday(schedule.days)) {
+      return "bg-green-50 border border-green-200";
+    }
+    if (isClosed(schedule.days)) {
+      return "bg-red-50 border border-red-200";
+    }
+    return "bg-gray-50";
+  };
 
   const copyAddress = async () => {
     try {
-      await navigator.clipboard.writeText(address)
-      setCopiedAddress(true)
-      setTimeout(() => setCopiedAddress(false), 2000)
+      await navigator.clipboard.writeText(address);
+      setCopiedAddress(true);
+      setTimeout(() => setCopiedAddress(false), 2000);
     } catch (err) {
-      console.error("Failed to copy address:", err)
+      console.error("Failed to copy address:", err);
     }
-  }
+  };
 
   const openInMaps = () => {
-    const encodedAddress = encodeURIComponent(address)
-    window.open(`https://www.google.com/maps/search/${encodedAddress}`, "_blank")
-  }
+    const encodedAddress = encodeURIComponent(address);
+    window.open(
+      `https://www.google.com/maps/search/${encodedAddress}`,
+      "_blank"
+    );
+  };
 
   return (
-    <section id="ubicacion" className="w-full scroll-mt-16 bg-white py-20 md:py-28" ref={ref}>
+    <section
+      id="ubicacion"
+      className="w-full scroll-mt-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 py-20 md:py-28"
+      ref={ref}
+    >
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Enhanced Header */}
         <motion.div
@@ -86,14 +139,18 @@ export default function LocationSection() {
         >
           <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-6">
             <MapPin className="w-4 h-4 text-red-600" />
-            <span className="text-red-600 text-sm font-medium tracking-wide">UBICACIÓN</span>
+            <span className="text-red-600 text-sm font-medium tracking-wide">
+              UBICACIÓN
+            </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black mb-6">
             Ven a <span className="text-red-600">Visitarnos</span>
           </h2>
           <p className="mx-auto max-w-3xl text-lg text-gray-600 leading-relaxed">
-            Estamos ubicados en el corazón de Madrid, fácilmente accesible en transporte público y con opciones de
-            aparcamiento cercanas. Te esperamos con los brazos abiertos.
+            Estamos ubicados en el corazón de San Isidro, Tenerife, en la calle
+            Castro número 7. Fácilmente accesible en transporte público y con
+            opciones de aparcamiento cercanas. Te esperamos con los brazos
+            abiertos.
           </p>
         </motion.div>
 
@@ -109,14 +166,14 @@ export default function LocationSection() {
               <CardContent className="p-0 relative">
                 <div className="relative">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.649499513813!2d-3.705789184604108!3d40.41677537936505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422880a0b0b0b1%3A0x4a4b0b0b0b0b0b0b!2sPlaza%20Mayor!5e0!3m2!1ses!2ses!4v1678886543210!5m2!1ses!2ses"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1800.1234567890123!2d-16.5589!3d28.0789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc5e5e5e5e5e5e5e%3A0x1234567890abcdef!2sC.%20Castro%2C%207%2C%2038611%20San%20Isidro%2C%20Santa%20Cruz%20de%20Tenerife!5e0!3m2!1ses!2ses!4v1234567890!5m2!1ses!2ses"
                     width="100%"
                     height="500"
                     style={{ border: 0 }}
                     allowFullScreen={true}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Mapa de ubicación del Restaurante Guantanamera"
+                    title="Mapa de ubicación del Restaurante Guantanamera en San Isidro, Tenerife"
                     className="rounded-3xl"
                   />
 
@@ -130,18 +187,6 @@ export default function LocationSection() {
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Abrir en Maps
                     </Button>
-                  </div>
-
-                  {/* Custom Map Legend */}
-                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-800">Guantanamera</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                      <span className="text-sm text-gray-600">Parking público</span>
-                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -191,54 +236,49 @@ export default function LocationSection() {
 
             {/* Business Hours Card */}
             <Card className="rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardContent className="p-6">
+              <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-green-600" />
+                    <Clock className="w-6 h-6 text-green-600" />
                   </div>
                   <h3 className="font-bold text-gray-900">Horarios</h3>
                 </div>
                 <div className="space-y-3">
                   {businessHours.map((schedule, index) => (
                     <div
-                      key={index}
-                      className={`flex justify-between items-center p-3 rounded-xl transition-colors ${
-                        schedule.isToday ? "bg-green-50 border border-green-200" : "bg-gray-50"
-                      }`}
+                      key={index + schedule.day}
+                      className={`flex justify-between items-center p-4 rounded-xl transition-colors ${getScheduleContainerClasses(
+                        schedule
+                      )}`}
                     >
-                      <span className={`font-medium ${schedule.isToday ? "text-green-800" : "text-gray-700"}`}>
+                      <span
+                        className={`font-medium ${getTextColor(
+                          schedule,
+                          "medium"
+                        )}`}
+                      >
                         {schedule.day}
                       </span>
-                      <span className={`font-semibold ${schedule.isToday ? "text-green-600" : "text-gray-900"}`}>
+                      <span
+                        className={`font-semibold ${getTextColor(
+                          schedule,
+                          "semibold"
+                        )}`}
+                      >
                         {schedule.hours}
                       </span>
-                      {schedule.isToday && <Badge className="bg-green-600 text-white text-xs ml-2">Hoy</Badge>}
+                                             {isToday(schedule.days) && (
+                         <Badge className="bg-green-600 text-white text-xs ml-2">
+                           Hoy
+                         </Badge>
+                       )}
+                       {isClosed(schedule.days) && (
+                         <Badge className="bg-gray-600 text-white text-xs ml-2">
+                           Cerrado
+                         </Badge>
+                       )}
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Contact Card */}
-            <Card className="rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h3 className="font-bold text-gray-900">Contacto</h3>
-                </div>
-                <div className="space-y-3">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full justify-start rounded-xl border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent"
-                  >
-                    <a href="tel:922173039">
-                      <Phone className="w-4 h-4 mr-3" />
-                      922 173 039
-                    </a>
-                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -246,23 +286,29 @@ export default function LocationSection() {
         </div>
 
         {/* Simplified Call to Action */}
-        <motion.div
+        {/* <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.9 }}
         >
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-black mb-4">Reserva tu mesa</h3>
+            <h3 className="text-2xl font-bold text-black mb-4">
+              Reserva tu pedido
+            </h3>
             <p className="text-gray-600 mb-6">
-              No pierdas la oportunidad de disfrutar de nuestra gastronomía en un ambiente acogedor.
+              No pierdas la oportunidad de disfrutar de nuestros productos
+              frescos y deliciosos.
             </p>
-            <Button asChild className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full">
-              <a href="#pedir">Hacer Reserva</a>
+            <Button
+              asChild
+              className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full"
+            >
+              <a href="#pedir">Pedir ahora</a>
             </Button>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
-  )
+  );
 }

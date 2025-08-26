@@ -5,51 +5,10 @@ import { motion, easeOut, useInView, AnimatePresence } from "framer-motion"
 import { useRef, useState } from "react"
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import galleryData from "@/data/gallery-data.json"
+import { GalleryImage } from "@/types/gallery"
 
-const images = [
-  {
-    src: "/placeholder.svg?width=800&height=600",
-    alt: "Pollo asado jugoso y dorado",
-    category: "Especialidades",
-    className: "md:col-span-2 md:row-span-2",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Interior acogedor del restaurante",
-    category: "Ambiente",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Clientes disfrutando en familia",
-    category: "Experiencia",
-  },
-  {
-    src: "/placeholder.svg?width=800&height=600",
-    alt: "Costillas BBQ con salsa casera",
-    category: "Especialidades",
-    className: "md:col-span-2",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Chef preparando especialidades",
-    category: "Cocina",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Mesa familiar con nuestros platos",
-    category: "Experiencia",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Ingredientes frescos y naturales",
-    category: "Calidad",
-  },
-  {
-    src: "/placeholder.svg?width=600&height=400",
-    alt: "Terraza exterior del restaurante",
-    category: "Ambiente",
-  },
-]
+const images: GalleryImage[] = galleryData.images
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -87,7 +46,7 @@ const imageModalVariants = {
     scale: 1,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 30,
     },
@@ -98,10 +57,10 @@ const imageModalVariants = {
 export default function PhotoGallery() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const openLightbox = (image, index) => {
+  const openLightbox = (image: GalleryImage, index: number) => {
     setSelectedImage(image)
     setCurrentIndex(index)
   }
@@ -122,14 +81,14 @@ export default function PhotoGallery() {
     setSelectedImage(images[prevIndex])
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") closeLightbox()
     if (e.key === "ArrowRight") nextImage()
     if (e.key === "ArrowLeft") prevImage()
   }
 
   return (
-    <section id="galeria" className="w-full scroll-mt-16 bg-gray-50 py-20 md:py-28" ref={ref}>
+    <section id="galeria" className="w-full scroll-mt-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 py-20 md:py-28" ref={ref}>
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Enhanced Header */}
         <motion.div
@@ -160,7 +119,7 @@ export default function PhotoGallery() {
         >
           {images.map((image, index) => (
             <motion.div
-              key={index}
+              key={index + image.alt}
               className={`group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${
                 image.className || "aspect-square"
               }`}

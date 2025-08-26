@@ -29,68 +29,22 @@ const { menuCategories, bebidasYMojos, comboMeals } = menuData as MenuData
 const revealVariants = {
   hidden: { 
     opacity: 0,
-    y: 150,
-    scale: 0.8,
-    filter: "blur(10px)"
+    y: 30,
+    scale: 0.98,
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 1.2,
-      staggerChildren: 0.2,
-      delayChildren: 0.4,
-    },
-  },
-}
-
-const containerVariants = {
-  hidden: { 
-    opacity: 0,
-    y: 100
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
     transition: {
       duration: 0.8,
-      staggerChildren: 0.15,
+      staggerChildren: 0.1,
       delayChildren: 0.2,
     },
   },
 }
 
-const itemVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 50
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-    },
-  },
-}
-
-const headerVariants = {
-  hidden: { 
-    opacity: 0,
-    y: -30
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-    },
-  },
-}
-
-const tabsVariants = {
+const containerVariants = {
   hidden: { 
     opacity: 0,
     y: 20
@@ -100,7 +54,51 @@ const tabsVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      delay: 0.3,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 15
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+    },
+  },
+}
+
+const headerVariants = {
+  hidden: { 
+    opacity: 0,
+    y: -15
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
+
+const tabsVariants = {
+  hidden: { 
+    opacity: 0,
+    y: 10
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
     },
   },
 }
@@ -206,28 +204,28 @@ export default function MenuSection() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      {/* Transition overlay effect */}
+      {/* Subtle transition overlay effect */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white pointer-events-none"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
       />
       
-      {/* Wave transition effect */}
+      {/* Subtle wave transition effect */}
       <motion.div
-        className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-red-50/80 via-orange-50/60 to-transparent pointer-events-none"
-        initial={{ y: -100, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
+        className="absolute top-0 left-0 right-0 h-20 pointer-events-none"
+        initial={{ y: -30, opacity: 0 }}
+        animate={isInView ? { y: 0, opacity: 1 } : { y: -30, opacity: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
       />
       
-      {/* Smooth entrance overlay */}
+      {/* Subtle entrance overlay */}
       <motion.div
         className="absolute inset-0 bg-white pointer-events-none"
         initial={{ opacity: 1 }}
         animate={isInView ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.1 }}
+        transition={{ duration: 0.8, delay: 0.1 }}
       />
       
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">

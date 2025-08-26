@@ -208,9 +208,8 @@ export default function HeroSection() {
       <motion.div 
         className="absolute bottom-0 left-0 right-0"
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        viewport={{ once: true, margin: "-100px" }}
       >
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-20">
           <path

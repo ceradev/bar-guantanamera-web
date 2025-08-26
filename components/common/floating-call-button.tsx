@@ -19,10 +19,10 @@ export default function FloatingCallButton() {
   }, [])
 
   const handleCall = () => {
-    window.location.href = "tel:912345678"
+    window.location.href = "tel:922173039"
   }
 
-  const handleClose = (e) => {
+  const handleClose = (e: { stopPropagation: () => void }) => {
     e.stopPropagation()
     setIsClosed(true)
   }

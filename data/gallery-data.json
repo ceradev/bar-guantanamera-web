@@ -1,0 +1,46 @@
+{
+  "images": [
+    {
+      "src": "/placeholder.svg?width=800&height=600",
+      "alt": "Pollo asado jugoso y dorado",
+      "category": "Especialidades",
+      "className": "md:col-span-2 md:row-span-2"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Interior acogedor del restaurante",
+      "category": "Ambiente"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Clientes disfrutando en familia",
+      "category": "Experiencia"
+    },
+    {
+      "src": "/placeholder.svg?width=800&height=600",
+      "alt": "Costillas BBQ con salsa casera",
+      "category": "Especialidades",
+      "className": "md:col-span-2"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Chef preparando especialidades",
+      "category": "Cocina"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Mesa familiar con nuestros platos",
+      "category": "Experiencia"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Ingredientes frescos y naturales",
+      "category": "Calidad"
+    },
+    {
+      "src": "/placeholder.svg?width=600&height=400",
+      "alt": "Terraza exterior del restaurante",
+      "category": "Ambiente"
+    }
+  ]
+}
