@@ -114,11 +114,11 @@ const cardVariants = {
   },
 }
 
-const StarRating = ({ rating, size = "w-4 h-4" }) => (
+const StarRating = ({ rating, size = "w-4 h-4" }: { rating: number; size?: string }) => (
   <div className="flex items-center gap-1">
     {[...Array(5)].map((_, i) => (
       <Star
-        key={i}
+        key={i + rating}
         className={`${size} ${
           i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
         } transition-colors duration-200`}
@@ -137,7 +137,7 @@ export default function TestimonialsSection() {
 
   const filteredTestimonials = testimonials.filter((testimonial) => {
     const categoryMatch = selectedCategory === "Todas" || testimonial.category === selectedCategory
-    const ratingMatch = selectedRating === "all" || testimonial.rating === selectedRating
+    const ratingMatch = selectedRating === "all" || testimonial.rating === Number(selectedRating)
     return categoryMatch && ratingMatch
   })
 
@@ -238,7 +238,7 @@ export default function TestimonialsSection() {
                     <button
                       key={rating.value}
                       onClick={() => {
-                        setSelectedRating(rating.value)
+                        setSelectedRating(rating.value.toString())
                         setShowFilters(false)
                       }}
                       className={`w-full text-left px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors ${

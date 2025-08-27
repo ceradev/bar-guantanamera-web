@@ -5,7 +5,6 @@ import FloatingCallButton from "@/components/common/floating-call-button"
 import CookieBanner from "@/components/common/cookie-banner"
 import HeroSection from "@/components/sections/hero-section"
 import MenuSection from "@/components/sections/menu-section"
-import WhyChooseUsSection from "@/components/sections/why-choose-us-section"
 import TestimonialsSection from "@/components/sections/testimonials-section"
 import LocationSection from "@/components/sections/location-section"
 import OrderSection from "@/components/sections/order-section"
@@ -19,7 +18,6 @@ export default function GuantanameraPage() {
       <main className="flex-1">
         <HeroSection />
         <MenuSection />
-        <WhyChooseUsSection />
         <PhotoGallery />
         <TestimonialsSection />
         <LocationSection />

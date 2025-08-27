@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Download, Star, Wheat, Milk, Egg, Fish, Nut, Bean, Info } from "lucide-react"
+import { Download, Star, Wheat, Milk, Egg, Fish, Nut, Bean } from "lucide-react"
 import Image from "next/image"
 import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
@@ -110,7 +110,7 @@ export default function MenuSection() {
 
   const handleDownloadMenu = () => {
     const link = document.createElement("a")
-    link.href = "/menu-guantanamera.pdf"
+    link.href = "/docs/menu-guantanamera.pdf"
     link.download = "Menu-Guantanamera.pdf"
     document.body.appendChild(link)
     link.click()
@@ -150,9 +150,7 @@ export default function MenuSection() {
                 Popular
               </Badge>
             )}
-            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-sm">
-              <span className="text-sm font-semibold text-gray-700">{item.calories} kcal</span>
-            </div>
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         </CardHeader>
@@ -165,23 +163,7 @@ export default function MenuSection() {
           </div>
           <p className="text-gray-600 text-sm mb-4 flex-grow leading-relaxed">{item.description}</p>
 
-          {/* Enhanced Nutritional Info */}
-          <div className="bg-gray-50 rounded-xl p-4 mb-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Info className="w-4 h-4 text-red-600" />
-              <span className="text-sm font-semibold text-gray-700">Información Nutricional</span>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
-              <div className="flex justify-between">
-                <span>Proteínas:</span>
-                <span className="font-semibold text-gray-800">{item.protein}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Grasas:</span>
-                <span className="font-semibold text-gray-800">{item.nutritional.fat}</span>
-              </div>
-            </div>
-          </div>
+
 
           {/* Enhanced Allergens */}
           {item.allergens.length > 0 && (
@@ -331,12 +313,12 @@ export default function MenuSection() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 rounded-3xl p-10 shadow-lg border border-red-100 max-w-6xl mx-auto">
+          <div className="relative bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 rounded-3xl p-10 shadow-lg border border-red-100 max-w-6xl mx-auto">
             <motion.div variants={headerVariants} className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full mb-6 shadow-sm">
               <span className="text-2xl">🍽️</span>
-              <span className="text-red-600 font-semibold">MENÚS COMBINADOS</span>
+              <span className="text-red-600 font-semibold">OFERTAS</span>
             </motion.div>
-            <motion.h3 variants={itemVariants} className="text-3xl font-bold text-black mb-8">Nuestros Menús Especiales</motion.h3>
+            <motion.h3 variants={itemVariants} className="text-3xl font-bold text-black mb-8">Ofertas Especiales para nuestros clientes</motion.h3>
             <div className="grid md:grid-cols-3 gap-8">
               {comboMeals.map((combo, index) => (
                 <motion.div 
@@ -350,7 +332,6 @@ export default function MenuSection() {
                   <h4 className="font-bold text-gray-800 mb-2 text-xl">{combo.name}</h4>
                   <p className="text-gray-600 mb-4">{combo.description}</p>
                   <span className="text-3xl font-bold text-red-600">{combo.price}</span>
-                  <p className="text-sm text-gray-500 mt-2">{combo.calories}</p>
                 </motion.div>
               ))}
             </div>
@@ -419,9 +400,7 @@ export default function MenuSection() {
                     <span className="text-xl font-bold text-red-600">{item.price}</span>
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{item.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{item.calories} kcal</span>
-                  </div>
+
                 </motion.div>
               ))}
             </div>
@@ -448,7 +427,6 @@ export default function MenuSection() {
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{item.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{item.calories} kcal</span>
                     {item.allergens.length > 0 && (
                       <div className="flex gap-1">{renderAllergenIcons(item.allergens)}</div>
                     )}

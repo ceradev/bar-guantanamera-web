@@ -205,7 +205,7 @@ const SiteHeader = () => {
           {/* Delivery Icons */}
           <div className="flex items-center gap-2">
             <Link
-              href="#"
+              href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-700 hover:text-red-600 transition-colors"
@@ -214,7 +214,7 @@ const SiteHeader = () => {
               <ShoppingBag className="h-5 w-5" />
             </Link>
             <Link
-              href="#"
+              href="https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-700 hover:text-red-600 transition-colors"

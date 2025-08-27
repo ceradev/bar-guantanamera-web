@@ -3,13 +3,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  MapPin,
-  Clock,
-  Navigation,
-  Copy,
-  ExternalLink,
-} from "lucide-react";
+import { Wave } from "@/components/ui/wave";
+import { MapPin, Clock, Navigation, Copy, ExternalLink } from "lucide-react";
 import { motion, easeOut, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
@@ -78,18 +73,22 @@ export default function LocationSection() {
   // Función para verificar si un horario es para hoy
   const isToday = (days: number[]) => days.includes(getCurrentDay());
 
-  const isClosed = (days: number[]) => {
+  // Función para verificar si estamos cerrados hoy
+  const isClosed = () => {
     const currentDay = getCurrentDay();
-    return days.includes(currentDay);
+    // Martes (2), Miércoles (3), Jueves (4) están cerrados
+    return [2, 3, 4].includes(currentDay);
   };
 
   // Función para obtener el color del texto basado en el estado del horario
   const getTextColor = (schedule: any, weight: "medium" | "semibold") => {
     if (isToday(schedule.days)) {
-      return weight === "medium" ? "text-green-800" : "text-green-600";
-    }
-    if (isClosed(schedule.days)) {
-      return weight === "medium" ? "text-red-800" : "text-red-600";
+      // Si es hoy, verificar si está cerrado o abierto
+      if (isClosed()) {
+        return weight === "medium" ? "text-red-800" : "text-red-600";
+      } else {
+        return weight === "medium" ? "text-green-800" : "text-green-600";
+      }
     }
     return weight === "medium" ? "text-gray-700" : "text-gray-900";
   };
@@ -97,10 +96,12 @@ export default function LocationSection() {
   // Función para obtener las clases CSS del contenedor del horario
   const getScheduleContainerClasses = (schedule: any) => {
     if (isToday(schedule.days)) {
-      return "bg-green-50 border border-green-200";
-    }
-    if (isClosed(schedule.days)) {
-      return "bg-red-50 border border-red-200";
+      // Si es hoy, verificar si está cerrado o abierto
+      if (isClosed()) {
+        return "bg-red-50 border border-red-200";
+      } else {
+        return "bg-green-50 border border-green-200";
+      }
     }
     return "bg-gray-50";
   };
@@ -126,9 +127,14 @@ export default function LocationSection() {
   return (
     <section
       id="ubicacion"
-      className="w-full scroll-mt-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 py-20 md:py-28"
+      className="relative w-full scroll-mt-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 py-20 md:py-28"
       ref={ref}
     >
+      {/* Top Wave */}
+      <Wave position="top" />
+
+      {/* Bottom Wave */}
+      <Wave position="bottom" />
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Enhanced Header */}
         <motion.div
@@ -137,7 +143,7 @@ export default function LocationSection() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full mb-6">
             <MapPin className="w-4 h-4 text-red-600" />
             <span className="text-red-600 text-sm font-medium tracking-wide">
               UBICACIÓN
@@ -267,16 +273,16 @@ export default function LocationSection() {
                       >
                         {schedule.hours}
                       </span>
-                                             {isToday(schedule.days) && (
-                         <Badge className="bg-green-600 text-white text-xs ml-2">
-                           Hoy
-                         </Badge>
-                       )}
-                       {isClosed(schedule.days) && (
-                         <Badge className="bg-gray-600 text-white text-xs ml-2">
-                           Cerrado
-                         </Badge>
-                       )}
+                      {isToday(schedule.days) && !isClosed() && (
+                        <Badge className="bg-green-600 text-white text-xs ml-2">
+                          Hoy
+                        </Badge>
+                      )}
+                      {isClosed() && isToday(schedule.days) && (
+                        <Badge className="bg-red-600 text-white text-xs ml-2">
+                          Cerrado
+                        </Badge>
+                      )}
                     </div>
                   ))}
                 </div>

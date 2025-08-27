@@ -61,7 +61,7 @@ const deliveryOptions = [
     fee: "2.99€",
     rating: "4.8",
     color: "bg-black hover:bg-gray-800",
-    link: "#",
+    link: "https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw",
   },
   {
     platform: "Glovo",
@@ -70,7 +70,7 @@ const deliveryOptions = [
     fee: "1.99€",
     rating: "4.9",
     color: "bg-orange-500 hover:bg-orange-600",
-    link: "#",
+    link: "https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras",
   },
 ];
 

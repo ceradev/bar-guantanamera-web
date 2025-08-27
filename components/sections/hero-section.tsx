@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowDown, Phone } from "lucide-react"
 import Image from "next/image"
 import { motion, easeOut } from "framer-motion"
+import { Wave } from "@/components/ui/wave";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -165,7 +166,7 @@ export default function HeroSection() {
               {/* Main Image */}
               <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-2xl group">
                 <Image
-                  src="/placeholder.svg?width=800&height=600"
+                  src="images/hero-image.jpg"
                   alt="Plato de pollo asado y costillas - Especialidad Guantanamera"
                   layout="fill"
                   objectFit="cover"
@@ -205,19 +206,7 @@ export default function HeroSection() {
       </div>
 
       {/* Bottom Wave */}
-      <motion.div 
-        className="absolute bottom-0 left-0 right-0"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-      >
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-20">
-          <path
-            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-            fill="white"
-          />
-        </svg>
-      </motion.div>
+      <Wave position="bottom" />
     </motion.div>
   )
 }
