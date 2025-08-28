@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Home, Utensils, MapPin, Phone, ArrowLeft, ChefHat, Flame } from "lucide-react"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, easeInOut, easeOut } from "framer-motion"
 import { useEffect, useState } from "react"
 
 export default function NotFound() {
@@ -40,7 +40,7 @@ export default function NotFound() {
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
+        ease: easeOut,
       },
     },
   }
@@ -52,7 +52,7 @@ export default function NotFound() {
       transition: {
         duration: 3,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: easeInOut,
       },
     },
   }
@@ -64,7 +64,7 @@ export default function NotFound() {
       transition: {
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: easeInOut,
       },
     },
   }
@@ -229,7 +229,7 @@ export default function NotFound() {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Especialidades</h3>
                 <p className="text-gray-600 text-sm">
-                  Pollos asados, costillas y platos caseros con recetas mediterráneas
+                  Pollos asados, costillas y platos con recetas caseras
                 </p>
               </CardContent>
             </Card>
@@ -246,7 +246,7 @@ export default function NotFound() {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Reserva</h3>
                 <p className="text-gray-600 text-sm">
-                  Llámanos para hacer tu reserva y asegurar tu mesa
+                  Llámanos para hacer tu reserva y asegurar tu pedido
                 </p>
               </CardContent>
             </Card>

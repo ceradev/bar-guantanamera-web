@@ -1,47 +1,193 @@
 {
   "images": [
     {
-      "src": "/placeholder.svg?width=800&height=600",
+      "src": "/images/gallery/IMG-20250828-WA0012.jpg",
       "alt": "Pollo asado jugoso y dorado",
       "category": "Especialidades",
-      "className": "md:col-span-2 md:row-span-2"
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 3
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0021.jpg",
       "alt": "Interior acogedor del restaurante",
       "category": "Ambiente",
-      "className": "md:col-span-6 aspect-[2/1]"
+      "x": 2,
+      "y": 0,
+      "w": 1,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0022.jpg",
       "alt": "Clientes disfrutando en familia",
-      "category": "Experiencia"
+      "category": "Experiencia",
+      "x": 3,
+      "y": 0,
+      "w": 2,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=800&height=600",
+      "src": "/images/gallery/IMG-20250828-WA0034.jpg",
       "alt": "Costillas BBQ con salsa casera",
       "category": "Especialidades",
-      "className": "md:col-span-2"
+      "x": 2,
+      "y": 2,
+      "w": 1,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0035.jpg",
       "alt": "Chef preparando especialidades",
-      "category": "Cocina"
+      "category": "Cocina",
+      "x": 0,
+      "y": 3,
+      "w": 1,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0042.jpg",
       "alt": "Mesa familiar con nuestros platos",
-      "category": "Experiencia"
+      "category": "Experiencia",
+      "x": 1,
+      "y": 3,
+      "w": 1,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0043.jpg",
       "alt": "Ingredientes frescos y naturales",
-      "category": "Calidad"
+      "category": "Calidad",
+      "x": 3,
+      "y": 2,
+      "w": 1,
+      "h": 2
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
+      "src": "/images/gallery/IMG-20250828-WA0050.jpg",
       "alt": "Terraza exterior del restaurante",
-      "category": "Ambiente"
+      "category": "Ambiente",
+      "x": 4,
+      "y": 2,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0055.jpg",
+      "alt": "Platos tradicionales cubanos",
+      "category": "Especialidades",
+      "x": 2,
+      "y": 4,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0057.jpg",
+      "alt": "Celebración de cumpleaños",
+      "category": "Experiencia",
+      "x": 4,
+      "y": 4,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/pata_asada_2.jpg",
+      "alt": "Pata asada especial",
+      "category": "Especialidades",
+      "x": 0,
+      "y": 5,
+      "w": 2,
+      "h": 3
+    },
+    {
+      "src": "/images/gallery/pata_asada_6.jpg",
+      "alt": "Pata asada con guarnición",
+      "category": "Especialidades",
+      "x": 5,
+      "y": 0,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0012.jpg",
+      "alt": "Especialidad del día",
+      "category": "Especialidades",
+      "x": 5,
+      "y": 4,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0021.jpg",
+      "alt": "Momentos especiales",
+      "category": "Experiencia",
+      "x": 6,
+      "y": 2,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0022.jpg",
+      "alt": "Ambiente familiar",
+      "category": "Experiencia",
+      "x": 2,
+      "y": 6,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0034.jpg",
+      "alt": "Cocina tradicional",
+      "category": "Cocina",
+      "x": 3,
+      "y": 6,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0035.jpg",
+      "alt": "Servicio al cliente",
+      "category": "Experiencia",
+      "x": 5,
+      "y": 6,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0042.jpg",
+      "alt": "Calidad garantizada",
+      "category": "Calidad",
+      "x": 6,
+      "y": 6,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0043.jpg",
+      "alt": "Vista panorámica",
+      "category": "Ambiente",
+      "x": 7,
+      "y": 0,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0050.jpg",
+      "alt": "Detalles especiales",
+      "category": "Especialidades",
+      "x": 7,
+      "y": 4,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "src": "/images/gallery/IMG-20250828-WA0055.jpg",
+      "alt": "Experiencia única",
+      "category": "Experiencia",
+      "x": 7,
+      "y": 2,
+      "w": 1,
+      "h": 2
     }
   ]
 }
