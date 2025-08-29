@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata = {
   title: "Bar Cafeteria Guantanamera",
   description:
-    "Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas asadas con la receta casera que nos define.",
+    "Bar Cafetería Guantanamera - Los mejores pollos asados de Tenerife. Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas asadas con la receta casera que nos define. Más de 20 años de tradición culinaria, donde cada plato cuenta una historia de pasión y autenticidad. Ven y descubre por qué somos el lugar favorito para los amantes de la buena comida asada.",
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
@@ -26,8 +26,7 @@ export const metadata = {
       { rel: "android-chrome", url: "/android-chrome-512x512.png", sizes: "512x512" }
     ]
   },
-  manifest: "/site.webmanifest",
-  generator: 'v0.app'
+  manifest: "/site.webmanifest"
 };
 
 export default function RootLayout({

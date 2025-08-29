@@ -112,22 +112,25 @@ export default function HeroSection() {
                 </a>
               </Button>
 
-              <div className="flex items-center gap-4">
-                <div className="hidden sm:block w-px h-8 bg-gray-300"></div>
-                <div className="sm:hidden text-gray-400 font-medium">o</div>
-
-                <Button
-                  size="lg"
-                  asChild
-                  variant="outline"
-                  className="w-full sm:w-auto border-2 border-red-600 text-red-600 hover:bg-red-50 hover:border-red-700 bg-white/80 backdrop-blur-sm rounded-full px-8 py-4 text-lg font-semibold group transition-all duration-300"
-                >
-                  <a href="tel:922173039">
-                    <Phone className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                    Llamar Ahora
-                  </a>
-                </Button>
+              {/* Separator for mobile */}
+              <div className="sm:hidden flex items-center justify-center w-full">
+                <div className="text-gray-400 font-medium text-sm">o</div>
               </div>
+
+              {/* Separator for desktop */}
+              <div className="hidden sm:block w-px h-8 bg-gray-300"></div>
+
+              <Button
+                size="lg"
+                asChild
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-red-600 text-red-600 hover:bg-red-50 hover:border-red-700 bg-white/80 backdrop-blur-sm rounded-full px-8 py-4 text-lg font-semibold group transition-all duration-300"
+              >
+                <a href="tel:922173039">
+                  <Phone className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                  Llamar Ahora
+                </a>
+              </Button>
             </motion.div>
 
             {/* Trust Indicators */}
