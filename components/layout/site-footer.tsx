@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Flame,
   MapPin,
   Phone,
   Mail,
@@ -20,7 +19,11 @@ export default function SiteFooter() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Flame className="h-8 w-8 text-red-500" />
+              <img
+                src="/bar-icono.svg"
+                alt="Logo Guantanamera"
+                className="h-8 w-8"
+              />
               <div className="flex flex-col">
                 <span className="text-2xl font-bold">Guantanamera</span>
                 <span className="text-sm text-gray-400">
