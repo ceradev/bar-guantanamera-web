@@ -354,7 +354,8 @@ export default function OrderSection() {
                 </p>
                 <Button
                   variant="outline"
-                  className="rounded-full border-red-300 text-red-600 hover:bg-red-50 bg-transparent"
+                  disabled
+                  className="rounded-full border-gray-300 text-gray-400 bg-transparent cursor-not-allowed opacity-50"
                 >
                   Notificarme cuando esté listo
                 </Button>

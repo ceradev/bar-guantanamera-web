@@ -188,6 +188,14 @@ export default function SiteFooter() {
               >
                 Términos de Servicio
               </Link>
+              <Link
+                href="https://ceradev.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-red-500 transition-colors"
+              >
+                Creado por ceradev
+              </Link>
             </div>
           </div>
         </div>
