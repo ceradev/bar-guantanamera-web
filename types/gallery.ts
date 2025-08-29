@@ -6,4 +6,5 @@ export interface GalleryImage {
   y: number;
   w: number;
   h: number;
+  isVideo?: boolean;
 }

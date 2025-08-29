@@ -3,84 +3,14 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Star, Quote, Filter, ChevronDown, User, Calendar, ThumbsUp } from "lucide-react"
+import { Star, Quote, Filter, ChevronDown, User, Calendar, ThumbsUp, ExternalLink } from "lucide-react"
 import { motion, easeOut, useInView } from "framer-motion"
 import { useRef, useState } from "react"
+import testimonialsData from "@/data/testimonials-data.json"
+import { Testimonial, TestimonialStats } from "@/types/testimonials"
+import { getReviewUrl, getPlaceUrl } from "@/lib/google-maps"
 
-const testimonials = [
-  {
-    quote:
-      "¡El mejor pollo asado que he probado en años! Jugoso, sabroso y con ese toque casero inconfundible. Las costillas también son espectaculares. ¡Repetiremos sin duda!",
-    name: "Carlos García",
-    location: "Madrid Centro",
-    rating: 5,
-    date: "Hace 2 días",
-    verified: true,
-    helpful: 24,
-    category: "Comida",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-  {
-    quote:
-      "Un sitio familiar y acogedor. La comida es deliciosa y el trato es excelente. Perfecto para una comida de fin de semana. Las patatas asadas son un vicio.",
-    name: "Laura Martínez",
-    location: "Chamberí",
-    rating: 5,
-    date: "Hace 1 semana",
-    verified: true,
-    helpful: 18,
-    category: "Servicio",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-  {
-    quote:
-      "Pedimos a domicilio y llegó todo caliente y en perfecto estado. Las raciones son generosas y la calidad es de primera. Muy recomendable para pedidos online.",
-    name: "Javier Fernández",
-    location: "Malasaña",
-    rating: 4,
-    date: "Hace 3 días",
-    verified: true,
-    helpful: 12,
-    category: "Delivery",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-  {
-    quote:
-      "Ambiente perfecto para celebraciones familiares. El personal es muy atento y la comida llega rápido. Los precios son muy justos para la calidad que ofrecen.",
-    name: "María José López",
-    location: "Retiro",
-    rating: 5,
-    date: "Hace 5 días",
-    verified: true,
-    helpful: 31,
-    category: "Ambiente",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-  {
-    quote:
-      "Las costillas BBQ están increíbles, tiernas y con mucho sabor. El local está muy limpio y el servicio es rápido. Ideal para ir con amigos.",
-    name: "David Ruiz",
-    location: "Chueca",
-    rating: 4,
-    date: "Hace 1 semana",
-    verified: false,
-    helpful: 8,
-    category: "Comida",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-  {
-    quote:
-      "Excelente relación calidad-precio. Los menús combinados están muy bien y son abundantes. El pollo está siempre en su punto perfecto.",
-    name: "Ana Rodríguez",
-    location: "Salamanca",
-    rating: 5,
-    date: "Hace 4 días",
-    verified: true,
-    helpful: 15,
-    category: "Precio",
-    avatar: "/placeholder.svg?width=60&height=60",
-  },
-]
+const { testimonials, stats }: { testimonials: Testimonial[]; stats: TestimonialStats } = testimonialsData
 
 const categories = ["Todas", "Comida", "Servicio", "Delivery", "Ambiente", "Precio"]
 const ratings = [
@@ -141,8 +71,10 @@ export default function TestimonialsSection() {
     return categoryMatch && ratingMatch
   })
 
-  const averageRating = (testimonials.reduce((acc, t) => acc + t.rating, 0) / testimonials.length).toFixed(1)
-  const totalReviews = testimonials.length
+  // Estadísticas de la base de datos local
+  const { averageRating, totalReviews } = stats
+  const googleMapsUrl = getPlaceUrl()
+  const reviewUrl = getReviewUrl()
 
   const loadMore = () => {
     setVisibleCount((prev) => Math.min(prev + 3, filteredTestimonials.length))
@@ -160,7 +92,7 @@ export default function TestimonialsSection() {
         >
           <div className="inline-flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-full mb-6">
             <Star className="w-4 h-4 text-yellow-500 fill-current" />
-            <span className="text-yellow-600 text-sm font-medium tracking-wide">OPINIONES VERIFICADAS</span>
+            <span className="text-yellow-600 text-sm font-medium tracking-wide">RESEÑAS VERIFICADAS</span>
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black mb-6">
@@ -169,14 +101,14 @@ export default function TestimonialsSection() {
 
           <p className="mx-auto max-w-3xl text-lg text-gray-600 leading-relaxed mb-8">
             La satisfacción de nuestros clientes es nuestro mayor orgullo. Lee las experiencias reales de quienes ya han
-            disfrutado de nuestra cocina tradicional.
+            disfrutado de nuestra cocina tradicional, incluyendo reseñas de Google Maps y nuestro sitio web.
           </p>
 
           {/* Rating Summary */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 bg-gray-50 rounded-2xl p-6 max-w-2xl mx-auto">
             <div className="text-center">
               <div className="text-4xl font-bold text-black mb-2">{averageRating}</div>
-              <StarRating rating={Math.round(Number.parseFloat(averageRating))} size="w-5 h-5" />
+              <StarRating rating={Math.round(averageRating)} size="w-5 h-5" />
               <p className="text-sm text-gray-600 mt-1">Valoración media</p>
             </div>
             <div className="w-px h-12 bg-gray-300 hidden sm:block"></div>
@@ -186,8 +118,8 @@ export default function TestimonialsSection() {
             </div>
             <div className="w-px h-12 bg-gray-300 hidden sm:block"></div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-green-600 mb-2">98%</div>
-              <p className="text-sm text-gray-600">Recomiendan</p>
+              <div className="text-4xl font-bold text-green-600 mb-2">{Math.round((stats.ratingDistribution[5] / totalReviews) * 100)}%</div>
+              <p className="text-sm text-gray-600">5 estrellas</p>
             </div>
           </div>
         </motion.div>
@@ -262,7 +194,7 @@ export default function TestimonialsSection() {
           animate={isInView ? "visible" : "hidden"}
         >
           {filteredTestimonials.slice(0, visibleCount).map((testimonial, index) => (
-            <motion.div key={`${testimonial.name}-${index}`} variants={cardVariants}>
+            <motion.div key={`${testimonial.id}-${index}`} variants={cardVariants}>
               <Card className="group h-full overflow-hidden rounded-2xl border-0 bg-white shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
                 <div className="p-6">
                   {/* Header with Avatar and Info */}
@@ -305,7 +237,7 @@ export default function TestimonialsSection() {
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Calendar className="w-4 h-4" />
-                      <span>Verificada</span>
+                      <span>{testimonial.source}</span>
                     </div>
                     <div className="flex items-center gap-1 text-sm text-gray-500">
                       <ThumbsUp className="w-4 h-4" />
@@ -348,12 +280,24 @@ export default function TestimonialsSection() {
             <p className="text-gray-600 mb-6">
               Comparte tu experiencia y ayuda a otros clientes a descubrir los sabores de Guantanamera.
             </p>
-            <Button
-              asChild
-              className="bg-red-600 text-white hover:bg-red-700 px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <a href="#pedir">Deja tu reseña</a>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                asChild
+                className="bg-red-600 text-white hover:bg-red-700 px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <a href={reviewUrl} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Deja tu reseña en Google Maps
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-full"
+              >
+                <a href="#pedir">Hacer pedido</a>
+              </Button>
+            </div>
           </div>
         </motion.div>
       </div>

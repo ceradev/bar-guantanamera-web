@@ -1,193 +1,141 @@
 {
   "images": [
     {
-      "src": "/images/gallery/IMG-20250828-WA0012.jpg",
-      "alt": "Pollo asado jugoso y dorado",
+      "src": "/images/gallery/pollos-asados-1.jpg",
+      "alt": "Pollos asados jugosos y dorados",
       "category": "Especialidades",
       "x": 0,
       "y": 0,
       "w": 2,
-      "h": 3
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0021.jpg",
-      "alt": "Interior acogedor del restaurante",
+      "src": "/images/gallery/bar-entrada-1.jpg",
+      "alt": "Entrada acogedora del restaurante",
       "category": "Ambiente",
       "x": 2,
       "y": 0,
       "w": 1,
-      "h": 2
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0022.jpg",
-      "alt": "Clientes disfrutando en familia",
-      "category": "Experiencia",
+      "src": "/images/gallery/bar-escaparate-1.jpg",
+      "alt": "Escaparate con especialidades del día",
+      "category": "Especialidades",
       "x": 3,
       "y": 0,
       "w": 2,
-      "h": 2
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0034.jpg",
-      "alt": "Costillas BBQ con salsa casera",
+      "src": "/images/gallery/bar-barra.jpg",
+      "alt": "Bar principal del restaurante",
+      "category": "Ambiente",
+      "x": 5,
+      "y": 0,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/bar-cocina-1.jpg",
+      "alt": "Cocina profesional con equipamiento",
+      "category": "Cocina",
+      "x": 6,
+      "y": 0,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/bar-cocina-2.jpg",
+      "alt": "Área de preparación de especialidades",
+      "category": "Cocina",
+      "x": 7,
+      "y": 0,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/pata-asada-1.jpg",
+      "alt": "Pata asada especial con guarnición",
+      "category": "Especialidades",
+      "x": 0,
+      "y": 1,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/costilla-asada-1.jpg",
+      "alt": "Costillas asadas con salsa casera",
       "category": "Especialidades",
       "x": 2,
-      "y": 2,
-      "w": 1,
-      "h": 2
+      "y": 1,
+      "w": 2,
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0035.jpg",
-      "alt": "Chef preparando especialidades",
-      "category": "Cocina",
-      "x": 0,
-      "y": 3,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0042.jpg",
-      "alt": "Mesa familiar con nuestros platos",
-      "category": "Experiencia",
-      "x": 1,
-      "y": 3,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0043.jpg",
-      "alt": "Ingredientes frescos y naturales",
-      "category": "Calidad",
-      "x": 3,
-      "y": 2,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0050.jpg",
-      "alt": "Terraza exterior del restaurante",
+      "src": "/images/gallery/bar-terraza.jpg",
+      "alt": "Terraza exterior con ambiente acogedor",
       "category": "Ambiente",
       "x": 4,
-      "y": 2,
+      "y": 1,
       "w": 2,
-      "h": 2
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0055.jpg",
-      "alt": "Platos tradicionales cubanos",
-      "category": "Especialidades",
-      "x": 2,
-      "y": 4,
-      "w": 2,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0057.jpg",
-      "alt": "Celebración de cumpleaños",
+      "src": "/images/gallery/propietario-pata-asada.jpg",
+      "alt": "Propietario preparando especialidades",
       "category": "Experiencia",
-      "x": 4,
-      "y": 4,
-      "w": 1,
-      "h": 2
+      "x": 6,
+      "y": 1,
+      "w": 2,
+      "h": 1
     },
     {
-      "src": "/images/gallery/pata_asada_2.jpg",
-      "alt": "Pata asada especial",
-      "category": "Especialidades",
+      "src": "/images/gallery/bar-guantanamera-antiguo.jpg",
+      "alt": "Historia y tradición del restaurante",
+      "category": "Historia",
       "x": 0,
-      "y": 5,
-      "w": 2,
-      "h": 3
-    },
-    {
-      "src": "/images/gallery/pata_asada_6.jpg",
-      "alt": "Pata asada con guarnición",
-      "category": "Especialidades",
-      "x": 5,
-      "y": 0,
-      "w": 2,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0012.jpg",
-      "alt": "Especialidad del día",
-      "category": "Especialidades",
-      "x": 5,
-      "y": 4,
-      "w": 2,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0021.jpg",
-      "alt": "Momentos especiales",
-      "category": "Experiencia",
-      "x": 6,
       "y": 2,
-      "w": 1,
-      "h": 2
+      "w": 2,
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0022.jpg",
-      "alt": "Ambiente familiar",
-      "category": "Experiencia",
+      "src": "/images/gallery/bar-escaparate-1.jpg",
+      "alt": "Especialidades del día en escaparate",
+      "category": "Especialidades",
       "x": 2,
-      "y": 6,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0034.jpg",
-      "alt": "Cocina tradicional",
-      "category": "Cocina",
-      "x": 3,
-      "y": 6,
+      "y": 2,
       "w": 2,
-      "h": 2
+      "h": 1
     },
     {
-      "src": "/images/gallery/IMG-20250828-WA0035.jpg",
-      "alt": "Servicio al cliente",
-      "category": "Experiencia",
-      "x": 5,
-      "y": 6,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0042.jpg",
-      "alt": "Calidad garantizada",
-      "category": "Calidad",
-      "x": 6,
-      "y": 6,
-      "w": 2,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0043.jpg",
-      "alt": "Vista panorámica",
-      "category": "Ambiente",
-      "x": 7,
-      "y": 0,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0050.jpg",
-      "alt": "Detalles especiales",
-      "category": "Especialidades",
-      "x": 7,
-      "y": 4,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "src": "/images/gallery/IMG-20250828-WA0055.jpg",
-      "alt": "Experiencia única",
-      "category": "Experiencia",
-      "x": 7,
+      "src": "/images/gallery/video-pollo.mp4",
+      "alt": "Video de pollos asados en rotisserie",
+      "category": "Video",
+      "x": 4,
       "y": 2,
       "w": 1,
-      "h": 2
+      "h": 1,
+      "isVideo": true
+    },
+    {
+      "src": "/images/gallery/video-pollo-2.mp4",
+      "alt": "Video adicional de pollos asados",
+      "category": "Video",
+      "x": 5,
+      "y": 2,
+      "w": 1,
+      "h": 1,
+      "isVideo": true
+    },
+    {
+      "src": "/images/gallery/pollo-asado.jpg",
+      "alt": "Pollo asado perfecto en rotisserie",
+      "category": "Especialidades",
+      "x": 6,
+      "y": 2,
+      "w": 2,
+      "h": 1
     }
   ]
 }

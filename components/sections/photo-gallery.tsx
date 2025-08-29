@@ -2,13 +2,12 @@
 
 import Image from "next/image";
 import { motion, easeOut, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { useRef, useState } from "react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Wave } from "@/components/ui/wave";
 import galleryData from "@/data/gallery-data.json";
 import { GalleryImage } from "@/types/gallery";
-import { GridStack, GridStackNode, GridItemHTMLElement } from 'gridstack';
 
 const images: GalleryImage[] = galleryData.images;
 
@@ -58,84 +57,9 @@ const imageModalVariants = {
 
 export default function PhotoGallery() {
   const ref = useRef(null);
-  const gridRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [grid, setGrid] = useState<GridStack | null>(null);
-
-  useEffect(() => {
-    if (gridRef.current && isInView) {
-      // Initialize GridStack with responsive options
-      const gridStack = GridStack.init({
-        column: 8,
-        cellHeight: 80,
-        animate: true,
-        float: false,
-        margin: '8px',
-        acceptWidgets: false,
-        disableDrag: true,
-        disableResize: true,
-        alwaysShowResizeHandle: false
-      });
-
-      setGrid(gridStack);
-
-      // Add images to grid using the new API
-      images.forEach((image, index) => {
-        const gridItem = document.createElement('div');
-        gridItem.className = 'grid-stack-item';
-        gridItem.setAttribute('gs-x', image.x.toString());
-        gridItem.setAttribute('gs-y', image.y.toString());
-        gridItem.setAttribute('gs-w', image.w.toString());
-        gridItem.setAttribute('gs-h', image.h.toString());
-        gridItem.setAttribute('data-index', index.toString());
-
-
-
-        gridItem.innerHTML = `
-          <div class="grid-stack-item-content group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer bg-white">
-            <div class="relative w-full h-full min-h-[200px]">
-              <img src="${image.src}" alt="${image.alt}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <div class="absolute bottom-4 left-4 right-4">
-                  <span class="inline-block bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                    ${image.category}
-                  </span>
-                  <p class="text-white text-sm font-medium leading-tight mb-2">
-                    ${image.alt}
-                  </p>
-                </div>
-                <div class="absolute top-4 right-4">
-                  <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div class="absolute inset-0 border-2 border-red-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-          </div>
-        `;
-
-        // Add click event for lightbox
-        gridItem.addEventListener('click', (e) => {
-          openLightbox(image, index);
-        });
-
-        // Use makeWidget for GridStack v11+
-        gridStack.makeWidget(gridItem);
-      });
-
-      // Cleanup function
-      return () => {
-        if (gridStack) {
-          gridStack.destroy();
-        }
-      };
-    }
-  }, [isInView]);
 
   const openLightbox = (image: GalleryImage, index: number) => {
     setSelectedImage(image);
@@ -200,19 +124,130 @@ export default function PhotoGallery() {
           </p>
         </motion.div>
 
-        {/* GridStack Gallery */}
+        {/* Responsive Grid Gallery */}
         <motion.div
           className="mb-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div 
-            ref={gridRef}
-            className="grid-stack"
-            style={{ minHeight: '600px' }}
-          >
-            {/* GridStack will populate this */}
+          {/* Mobile Grid - Simple layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-6">
+            {images.map((image, index) => (
+              <motion.div
+                key={index + image.alt}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer bg-white"
+                variants={imageVariants}
+                onClick={() => openLightbox(image, index)}
+              >
+                <div className="relative w-full aspect-square">
+                  {image.isVideo ? (
+                    <video
+                      src={image.src}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                    />
+                  ) : (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="inline-block bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                        {image.category}
+                      </span>
+                      <p className="text-white text-sm font-medium leading-tight mb-2">
+                        {image.alt}
+                      </p>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        {image.isVideo ? (
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        ) : (
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 border-2 border-red-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desktop Grid - Original layout with specific positions */}
+          <div className="hidden lg:grid grid-cols-8 gap-3" style={{ minHeight: '350px' }}>
+            {images.map((image, index) => (
+              <motion.div
+                key={index + image.alt}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer bg-white"
+                style={{
+                  gridColumn: `${image.x + 1} / span ${image.w}`,
+                  gridRow: `${image.y + 1} / span ${image.h}`,
+                }}
+                variants={imageVariants}
+                onClick={() => openLightbox(image, index)}
+              >
+                <div className="relative w-full h-full">
+                  {image.isVideo ? (
+                    <video
+                      src={image.src}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                    />
+                  ) : (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      style={{ aspectRatio: '1 / 1' }}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="inline-block bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                        {image.category}
+                      </span>
+                      <p className="text-white text-sm font-medium leading-tight mb-2">
+                        {image.alt}
+                      </p>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        {image.isVideo ? (
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        ) : (
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 border-2 border-red-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
@@ -299,13 +334,25 @@ export default function PhotoGallery() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative w-full h-full">
-                <Image
-                  src={selectedImage.src || "/placeholder.svg"}
-                  alt={selectedImage.alt}
-                  width={800}
-                  height={600}
-                  className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl"
-                />
+                {selectedImage.isVideo ? (
+                  <video
+                    src={selectedImage.src}
+                    className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl"
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <Image
+                    src={selectedImage.src || "/placeholder.svg"}
+                    alt={selectedImage.alt}
+                    width={800}
+                    height={600}
+                    className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl"
+                  />
+                )}
               </div>
 
               {/* Image Info */}
@@ -317,7 +364,7 @@ export default function PhotoGallery() {
                   {selectedImage.alt}
                 </h3>
                 <p className="text-white/80 text-sm">
-                  Imagen {currentIndex + 1} de {images.length}
+                  {selectedImage.isVideo ? 'Video' : 'Imagen'} {currentIndex + 1} de {images.length}
                 </p>
               </div>
             </motion.div>
