@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Flame, Menu, ShoppingBag, Bike } from "lucide-react"
+import { Menu, ShoppingBag, Bike } from "lucide-react"
 import { motion, easeOut } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -35,6 +35,12 @@ const SiteHeader = () => {
           const elementTop = element.offsetTop
           if (scrollPosition >= elementTop) {
             setActiveSection(sections[i])
+            
+            // Update URL to reflect current section
+            const newUrl = `#${sections[i]}`
+            if (window.location.hash !== newUrl) {
+              window.history.replaceState(null, '', newUrl)
+            }
             break
           }
         }
@@ -75,6 +81,13 @@ const SiteHeader = () => {
         // Only update if we found a visible section
         if (mostVisibleSection && mostVisibleSection !== activeSection) {
           setActiveSection(mostVisibleSection)
+          
+          // Update URL to reflect current section
+          const newUrl = `#${mostVisibleSection}`
+          if (window.location.hash !== newUrl) {
+            // Use replaceState to avoid adding to browser history
+            window.history.replaceState(null, '', newUrl)
+          }
         }
       },
       {
@@ -164,10 +177,10 @@ const SiteHeader = () => {
     >
       <div className="container mx-auto flex h-16 items-center px-4 md:px-6">
         <Link href="#home" className="flex items-center gap-2" prefetch={false}>
-          <Flame className="h-6 w-6 text-red-600" />
+          <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-8 w-8" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-black">Guantanamera</span>
-            <span className="text-xs text-gray-500 font-medium -mt-1 hidden sm:block">23 años a su servicio</span>
+            <span className="text-xs text-gray-500 font-medium -mt-1 sm:block">23 años a su servicio</span>
           </div>
         </Link>
 
@@ -247,7 +260,7 @@ const SiteHeader = () => {
                     prefetch={false}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Flame className="h-6 w-6 text-red-600" />
+                    <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-6 w-6" />
                     <div className="flex flex-col">
                       <span className="text-xl font-bold text-black">Guantanamera</span>
                       <span className="text-xs text-gray-500 font-medium -mt-1">23 años a su servicio</span>
@@ -284,7 +297,7 @@ const SiteHeader = () => {
                     <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Pedir Online</h3>
                     <div className="space-y-3">
                       <Link
-                        href="#"
+                        href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"
@@ -294,7 +307,7 @@ const SiteHeader = () => {
                         <span className="font-semibold">Pedir en Uber Eats</span>
                       </Link>
                       <Link
-                        href="#"
+                        href="https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"

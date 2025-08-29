@@ -140,9 +140,8 @@ export default function MenuSection() {
             <Image
               src={item.image || "/placeholder.svg"}
               alt={item.name}
-              layout="fill"
-              objectFit="cover"
-              className="transition-transform duration-700 group-hover:scale-110"
+              fill
+              className="transition-transform duration-700 group-hover:scale-110 object-cover"
             />
             {item.popular && (
               <Badge className="absolute top-4 right-4 bg-red-600 text-white shadow-lg border-0 px-3 py-1">

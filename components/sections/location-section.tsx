@@ -66,7 +66,6 @@ export default function LocationSection() {
 
   // Función para obtener el día actual (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
   const getCurrentDay = () => {
-    console.log(new Date().getDay());
     return new Date().getDay();
   };
 

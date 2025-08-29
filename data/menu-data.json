@@ -30,7 +30,7 @@
         {
           "name": "Pollo Asado Entero con Papas Familiar",
           "description": "Pollo entero asado con guarnición de papas fritas para compartir cuatro personas",
-          "price": "14.80€",
+          "price": "14.00€",
           "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
           "popular": true,
           "allergens": ["gluten"]
@@ -39,7 +39,7 @@
           "name": "Medio Pollo",
           "description": "Media ración de pollo asado con nuestra mezcla secreta de especias mediterráneas",
           "price": "4.40€",
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "image": "/images/menu/roast-chickens/medio-pollo.png",
           "allergens": []
         },
         {
@@ -73,14 +73,14 @@
         {
           "name" : "Pata Asada",
           "description": "Pata asada con nuestra mezcla secreta de especias mediterráneas",
-          "price": "20.00€ / Kg",
+          "price": "20.00€ / 1Kg",
           "image": "/images/menu/ribs-and-legs/pata-asada.png",
           "allergens": ["gluten"]
         },
         {
           "name" : "Pata Asada Entera",
           "description": "Pata asada entera con nuestra mezcla secreta de especias mediterráneas",
-          "price": "Preguntar",
+          "price": "130€",
           "image": "/images/menu/ribs-and-legs/pata-asada-entera.png",
           "allergens": ["gluten"]
         }
@@ -137,14 +137,14 @@
           "name" : "Quesadilla de Pollo",
           "description": "Quesadilla de pollo y queso con nuestra mezcla secreta de especias mediterráneas",
           "price": "6.00€",
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png",
           "allergens": []
         },
         { 
           "name" : "Quesadilla de pollo con refresco",
           "description": "Quesadilla de pollo y queso con refresco (coca-cola, fanta, sprite)",
           "price": "6.80€",
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png",
           "popular": true,
           "allergens": []
         },
@@ -152,14 +152,14 @@
           "name" : "Burrito de Pollo",
           "description": "Burrito de pollo con nuestra mezcla secreta de especias mediterráneas",
           "price": "5.00€",
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "image": "/images/menu/quesadillas-and-burritos/burritos-de-pollo.png",
           "allergens": []
         },
         {
           "name" : "Burrito de Pollo con refresco",
           "description": "Burrito de pollo con refresco (coca-cola, fanta, sprite)",
           "price": "5.80€",
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "image": "/images/menu/quesadillas-and-burritos/burritos-de-pollo.png",
           "allergens": []
         }
       ]

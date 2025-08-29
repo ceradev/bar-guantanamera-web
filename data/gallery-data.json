@@ -1,47 +1,141 @@
 {
   "images": [
     {
-      "src": "/placeholder.svg?width=800&height=600",
-      "alt": "Pollo asado jugoso y dorado",
+      "src": "/images/gallery/pollos-asados-1.jpg",
+      "alt": "Pollos asados jugosos y dorados",
       "category": "Especialidades",
-      "className": "md:col-span-2 md:row-span-2"
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Interior acogedor del restaurante",
+      "src": "/images/gallery/bar-entrada-1.jpg",
+      "alt": "Entrada acogedora del restaurante",
       "category": "Ambiente",
-      "className": "md:col-span-6 aspect-[2/1]"
+      "x": 2,
+      "y": 0,
+      "w": 1,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Clientes disfrutando en familia",
-      "category": "Experiencia"
-    },
-    {
-      "src": "/placeholder.svg?width=800&height=600",
-      "alt": "Costillas BBQ con salsa casera",
+      "src": "/images/gallery/bar-escaparate-1.jpg",
+      "alt": "Escaparate con especialidades del día",
       "category": "Especialidades",
-      "className": "md:col-span-2"
+      "x": 3,
+      "y": 0,
+      "w": 2,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Chef preparando especialidades",
-      "category": "Cocina"
+      "src": "/images/gallery/bar-barra.jpg",
+      "alt": "Bar principal del restaurante",
+      "category": "Ambiente",
+      "x": 5,
+      "y": 0,
+      "w": 1,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Mesa familiar con nuestros platos",
-      "category": "Experiencia"
+      "src": "/images/gallery/bar-cocina-1.jpg",
+      "alt": "Cocina profesional con equipamiento",
+      "category": "Cocina",
+      "x": 6,
+      "y": 0,
+      "w": 1,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Ingredientes frescos y naturales",
-      "category": "Calidad"
+      "src": "/images/gallery/bar-cocina-2.jpg",
+      "alt": "Área de preparación de especialidades",
+      "category": "Cocina",
+      "x": 7,
+      "y": 0,
+      "w": 1,
+      "h": 1
     },
     {
-      "src": "/placeholder.svg?width=600&height=400",
-      "alt": "Terraza exterior del restaurante",
-      "category": "Ambiente"
+      "src": "/images/gallery/pata-asada-1.jpg",
+      "alt": "Pata asada especial con guarnición",
+      "category": "Especialidades",
+      "x": 0,
+      "y": 1,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/costilla-asada-1.jpg",
+      "alt": "Costillas asadas con salsa casera",
+      "category": "Especialidades",
+      "x": 2,
+      "y": 1,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/bar-terraza.jpg",
+      "alt": "Terraza exterior con ambiente acogedor",
+      "category": "Ambiente",
+      "x": 4,
+      "y": 1,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/propietario-pata-asada.jpg",
+      "alt": "Propietario preparando especialidades",
+      "category": "Experiencia",
+      "x": 6,
+      "y": 1,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/bar-guantanamera-antiguo.jpg",
+      "alt": "Historia y tradición del restaurante",
+      "category": "Historia",
+      "x": 0,
+      "y": 2,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/bar-escaparate-1.jpg",
+      "alt": "Especialidades del día en escaparate",
+      "category": "Especialidades",
+      "x": 2,
+      "y": 2,
+      "w": 2,
+      "h": 1
+    },
+    {
+      "src": "/images/gallery/video-pollo.mp4",
+      "alt": "Video de pollos asados en rotisserie",
+      "category": "Video",
+      "x": 4,
+      "y": 2,
+      "w": 1,
+      "h": 1,
+      "isVideo": true
+    },
+    {
+      "src": "/images/gallery/video-pollo-2.mp4",
+      "alt": "Video adicional de pollos asados",
+      "category": "Video",
+      "x": 5,
+      "y": 2,
+      "w": 1,
+      "h": 1,
+      "isVideo": true
+    },
+    {
+      "src": "/images/gallery/pollo-asado.jpg",
+      "alt": "Pollo asado perfecto en rotisserie",
+      "category": "Especialidades",
+      "x": 6,
+      "y": 2,
+      "w": 2,
+      "h": 1
     }
   ]
 }

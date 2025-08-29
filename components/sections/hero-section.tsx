@@ -168,9 +168,8 @@ export default function HeroSection() {
                 <Image
                   src="images/hero-image.jpg"
                   alt="Plato de pollo asado y costillas - Especialidad Guantanamera"
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="transition-transform duration-700 group-hover:scale-105 object-cover"
                 />
 
                 {/* Image Overlay */}
