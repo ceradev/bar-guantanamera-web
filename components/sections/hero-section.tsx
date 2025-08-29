@@ -195,7 +195,7 @@ export default function HeroSection() {
 
                 <div className="absolute bottom-6 left-6 bg-red-600 text-white rounded-2xl px-4 py-3 shadow-lg">
                   <p className="text-sm font-bold">🔥 Más pedido</p>
-                  <p className="text-xs opacity-90">Pollo entero + patatas</p>
+                  <p className="text-xs opacity-90">Pollo entero + papas fritas</p>
                 </div>
               </div>
 
