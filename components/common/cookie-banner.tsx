@@ -72,10 +72,7 @@ export default function CookieBanner() {
     }))
   }
 
-  const closeBanner = () => {
-    // If user closes without choosing, assume necessary only
-    acceptNecessaryOnly()
-  }
+
 
   if (!showBanner) return null
 
@@ -132,13 +129,7 @@ export default function CookieBanner() {
                   </Button>
                 </div>
 
-                <button
-                  onClick={closeBanner}
-                  className="absolute top-2 right-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
-                  aria-label="Cerrar banner de cookies"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+
               </div>
             ) : (
               // Cookie Settings Panel

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Phone } from "lucide-react"
 import Image from "next/image"
-import { motion, easeOut } from "framer-motion"
+import { motion, easeOut, easeInOut } from "framer-motion"
 import { Wave } from "@/components/ui/wave";
 
 const containerVariants = {
@@ -29,6 +29,18 @@ const itemVariants = {
   },
 }
 
+const floatingVariants = {
+  initial: { y: 0 },
+  float: {
+    y: [-10, 10, -10],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: easeInOut,
+    },
+  },
+}
+
 export default function HeroSection() {
   return (
     <motion.div
@@ -40,6 +52,117 @@ export default function HeroSection() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50"></div>
+
+      {/* Background decorative elements - Floating food icons */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-20 left-10 text-6xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+        >
+          🍗
+        </motion.div>
+        <motion.div
+          className="absolute top-40 right-20 text-5xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "1s" }}
+        >
+          🥩
+        </motion.div>
+        <motion.div
+          className="absolute bottom-40 left-20 text-4xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "2s" }}
+        >
+          🌯
+        </motion.div>
+        <motion.div
+          className="absolute bottom-20 right-10 text-5xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "0.5s" }}
+        >
+          🍺
+        </motion.div>
+        <motion.div
+          className="absolute top-1/3 left-1/4 text-4xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "1.5s" }}
+        >
+          🍖
+        </motion.div>
+        <motion.div
+          className="absolute top-2/3 right-1/3 text-5xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "0.8s" }}
+        >
+          🍟
+        </motion.div>
+        <motion.div
+          className="absolute top-1/4 right-1/4 text-3xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "2.2s" }}
+        >
+          🥘
+        </motion.div>
+        <motion.div
+          className="absolute bottom-1/3 left-1/3 text-4xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "1.2s" }}
+        >
+          🥖
+        </motion.div>
+        <motion.div
+          className="absolute top-3/4 left-1/2 text-3xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "0.3s" }}
+        >
+          🥤
+        </motion.div>
+        <motion.div
+          className="absolute top-1/2 right-1/6 text-4xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "1.8s" }}
+        >
+          🧀
+        </motion.div>
+        <motion.div
+          className="absolute bottom-1/4 right-1/2 text-3xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "0.7s" }}
+        >
+          🍔
+        </motion.div>
+        <motion.div
+          className="absolute top-1/6 left-1/2 text-4xl opacity-10"
+          variants={floatingVariants}
+          initial="initial"
+          animate="float"
+          style={{ animationDelay: "2.5s" }}
+        >
+          🔥
+        </motion.div>
+      </div>
 
       {/* Decorative Elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-red-100 rounded-full opacity-20 blur-xl"></div>
