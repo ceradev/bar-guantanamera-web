@@ -1,7 +1,6 @@
 import type React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "gridstack/dist/gridstack.css";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
