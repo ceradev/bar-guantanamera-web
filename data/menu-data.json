@@ -13,15 +13,15 @@
       "subtitle": "Nuestras especialidades de pollo, jugosos y dorados",
       "items": [
         {
-          "name": "Pollo Asado Entero",
-          "description": "Pollo entero asado con nuestra mezcla secreta de especias mediterráneas",
+          "name": "Pollo Entero",
+          "description": "Pollo asado entero a la perfección con nuestra mezcla secreta de especias caseras, jugoso por dentro y dorado por fuera",
           "price": "8.50€",
           "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
           "allergens": ["gluten"]
         },
         {
           "name": "Pollo Asado Entero con Papas",
-          "description": "Pollo entero asado con guarnición de papas fritas para compartir dos personas",
+          "description": "Pollo asado entero con guarnición de papas fritas caseras para compartir dos personas, perfecto para una comida completa",
           "price": "11.80€",
           "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
           "popular": true,
@@ -29,7 +29,7 @@
         },
         {
           "name": "Pollo Asado Entero con Papas Familiar",
-          "description": "Pollo entero asado con guarnición de papas fritas para compartir cuatro personas",
+          "description": "Pollo asado entero acompañado de papas fritas caseras para compartir cuatro personas, ideal para familias",
           "price": "14.00€",
           "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
           "popular": true,
@@ -37,14 +37,14 @@
         },
         {
           "name": "Medio Pollo",
-          "description": "Media ración de pollo asado con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Media ración de pollo asado con nuestra mezcla secreta de especias caseras, perfecto para una comida individual",
           "price": "4.40€",
           "image": "/images/menu/roast-chickens/medio-pollo.png",
           "allergens": []
         },
         {
           "name": "Medio Pollo con Patatas Fritas",
-          "description": "Medio pollo asado con guarnición de patatas fritas para compartir dos personas",
+          "description": "Medio pollo asado acompañado de patatas fritas caseras para compartir dos personas, opción económica y deliciosa",
           "price": "8.00€",
           "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png",
           "allergens": []
@@ -52,19 +52,19 @@
       ]
     },
     "costillasYPatas": {
-      "title": "Costillas y Patas",
+      "title": "Costillas y Patas Asadas",
       "subtitle": "Costillas y patas asadas tiernas y jugosas a la perfección",
       "items": [
         {
           "name" : "Medio Costillar",
-          "description": "Medio costillar asado con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Medio costillar asado a la perfección con nuestra mezcla secreta de especias caseras, tierno y jugoso",
           "price": "13.50€",
           "image": "/images/menu/ribs-and-legs/medio-costillar.png",
           "allergens": ["gluten"]
         },
         {
           "name" : "Costillar Entero",
-          "description": "Costillar entero asado con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Costillar entero asado con nuestra mezcla secreta de especias caseras, perfecto para compartir en familia",
           "price": "26.00€",
           "image": "/images/menu/ribs-and-legs/costilla-asada-entera.png",
           "popular": true,
@@ -72,14 +72,14 @@
         },
         {
           "name" : "Pata Asada",
-          "description": "Pata asada con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Pata asada con nuestra mezcla secreta de especias caseras, tierna y llena de sabor auténtico",
           "price": "20.00€ / 1Kg",
           "image": "/images/menu/ribs-and-legs/pata-asada.png",
           "allergens": ["gluten"]
         },
         {
           "name" : "Pata Asada Entera",
-          "description": "Pata asada entera con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Pata asada entera con nuestra mezcla secreta de especias caseras, especialidad de la casa para eventos",
           "price": "130€",
           "image": "/images/menu/ribs-and-legs/pata-asada-entera.png",
           "allergens": ["gluten"]
@@ -92,14 +92,14 @@
       "items": [
         {
           "name": "Papas Fritas 'Guantanamera'",
-          "description": "Papas fritas para compartir dos personas hechas a la francesa",
+          "description": "Papas fritas caseras para compartir dos personas, crujientes por fuera y tiernas por dentro",
           "price": "3.50€",
           "image": "/images/menu/side-dishes/papas-fritas.png",
           "allergens": []
         },
         {
           "name" : "Papas Fritas Familiar",
-          "description": "Papas fritas para compartir cuatro personas hechas a la francesa",
+          "description": "Papas fritas caseras para compartir cuatro personas, perfectas para familias grandes",
           "price": "4.90€",
           "image": "/images/menu/side-dishes/papas-fritas.png",
           "popular": true,
@@ -107,14 +107,14 @@
         },
         {
           "name" : "Papas Campesinas",
-          "description": "Papas campesinas para compartir dos personas",
+          "description": "Papas campesinas caseras para compartir dos personas, con piel crujiente y sabor auténtico",
           "price": "3.90€",
           "image": "/images/menu/side-dishes/papas-campesinas.png",
           "allergens": []
         },
         {
           "name" : "Croquetas de Pollo",
-          "description": "Croquetas de pollo con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Croquetas de pollo caseras con nuestra mezcla secreta de especias, cremosas y deliciosas",
           "price": "5.00€",
           "image": "/images/menu/side-dishes/croquetas-de-pollo.png",
           "popular": true,
@@ -122,7 +122,7 @@
         },
         {
           "name" : "Pan Horneado",
-          "description": "Pan horneado para disfrutar de tus platos",
+          "description": "Pan horneado casero para acompañar tus platos, fresco y aromático",
           "price": "0.80€",
           "image": "/images/menu/side-dishes/pan-horneado.png",
           "allergens": []
@@ -135,14 +135,14 @@
       "items": [
         {
           "name" : "Quesadilla de Pollo",
-          "description": "Quesadilla de pollo y queso con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Quesadilla de pollo y queso asado con nuestra mezcla secreta de especias caseras, rellena de sabor auténtico",
           "price": "6.00€",
           "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png",
           "allergens": []
         },
         { 
           "name" : "Quesadilla de pollo con refresco",
-          "description": "Quesadilla de pollo y queso con refresco (coca-cola, fanta, sprite)",
+          "description": "Quesadilla de pollo y queso asado con refresco (coca-cola, fanta, sprite), perfecta para una comida rápida",
           "price": "6.80€",
           "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png",
           "popular": true,
@@ -150,14 +150,14 @@
         },
         {
           "name" : "Burrito de Pollo",
-          "description": "Burrito de pollo con nuestra mezcla secreta de especias mediterráneas",
+          "description": "Burrito de pollo asado con nuestra mezcla secreta de especias caseras, envuelto en tortilla fresca",
           "price": "5.00€",
           "image": "/images/menu/quesadillas-and-burritos/burritos-de-pollo.png",
           "allergens": []
         },
         {
           "name" : "Burrito de Pollo con refresco",
-          "description": "Burrito de pollo con refresco (coca-cola, fanta, sprite)",
+          "description": "Burrito de pollo asado con refresco (coca-cola, fanta, sprite), ideal para llevar",
           "price": "5.80€",
           "image": "/images/menu/quesadillas-and-burritos/burritos-de-pollo.png",
           "allergens": []
@@ -207,19 +207,19 @@
     "mojos": [
       {
         "name": "Mojo Rojo Picante",
-        "description": "Mojo canario tradicional con pimientos rojos y especias",
+        "description": "Mojo canario tradicional casero con pimientos rojos asados y especias, perfecto para carnes",
         "price": "1.00€",
         "allergens": []
       },
       {
         "name": "Mojo Verde",
-        "description": "Mojo verde con cilantro, perejil y ajo",
+        "description": "Mojo verde casero con cilantro, perejil y ajo, ideal para pescados y verduras",
         "price": "1.00€",
         "allergens": []
       },
       {
         "name": "Alioli Tradicional",
-        "description": "Alioli casero con ajo y aceite de oliva",
+        "description": "Alioli casero con ajo asado y aceite de oliva virgen, cremoso y aromático",
         "price": "1.00€",
         "allergens": ["eggs"]
       }

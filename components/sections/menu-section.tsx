@@ -362,7 +362,7 @@ export default function MenuSection() {
               </div>
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-500 italic leading-relaxed">
-                  * Todos los precios incluyen IVA. Consulta disponibilidad de platos del día.
+                  * Todos los precios incluyen IGIC. Consulta disponibilidad de platos del día.
                   <br />
                   ** Si tienes alguna alergia alimentaria, por favor informa a nuestro personal.
                 </p>
