@@ -177,7 +177,7 @@ const SiteHeader = () => {
     >
       <div className="container mx-auto flex h-16 items-center px-4 md:px-6">
         <Link href="#home" className="flex items-center gap-2" prefetch={false}>
-          <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-8 w-8" />
+          <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-10 w-10" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-black">Guantanamera</span>
             <span className="text-xs text-gray-500 font-medium -mt-1 sm:block">23 años a su servicio</span>

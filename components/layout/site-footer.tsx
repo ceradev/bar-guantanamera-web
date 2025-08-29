@@ -22,7 +22,7 @@ export default function SiteFooter() {
               <img
                 src="/bar-icono.svg"
                 alt="Logo Guantanamera"
-                className="h-8 w-8"
+                className="h-10 w-10"
               />
               <div className="flex flex-col">
                 <span className="text-2xl font-bold">Guantanamera</span>
@@ -173,17 +173,17 @@ export default function SiteFooter() {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-gray-400 text-sm">
-              © 2024 Restaurante Guantanamera. Todos los derechos reservados.
+              © 2025 Restaurante Guantanamera. Todos los derechos reservados.
             </div>
             <div className="flex gap-6 text-sm">
               <Link
-                href="#"
+                href="/privacy-policy"
                 className="text-gray-400 hover:text-red-500 transition-colors"
               >
                 Política de Privacidad
               </Link>
               <Link
-                href="#"
+                href="/terms-and-conditions"
                 className="text-gray-400 hover:text-red-500 transition-colors"
               >
                 Términos de Servicio
