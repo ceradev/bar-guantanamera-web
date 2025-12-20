@@ -97,6 +97,14 @@ export default function MenuSection() {
               <DrinksSection beverages={bebidas} />
             </div>
           </div>
+
+          {/* Footer Info: IGIC */}
+          <div className="mt-12 pt-8 border-t border-dashed border-gray-200 text-center max-w-3xl mx-auto">
+            <p className="text-gray-400 text-sm uppercase tracking-wider font-medium">
+              * Todos los precios incluyen IGIC
+            </p>
+          </div>
+
         </motion.div>
       </div>
     </section>
