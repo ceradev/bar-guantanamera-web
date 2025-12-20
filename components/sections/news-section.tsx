@@ -129,7 +129,7 @@ export default function NewsSection() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[90%] bg-gradient-to-r from-red-100/50 via-orange-50/30 to-red-50/50 blur-3xl rounded-[100%] -z-10" />
 
           <div
-            className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-white group aspect-[4/3] md:aspect-[21/9] ring-1 ring-gray-100"
+            className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-white group aspect-[4/5] md:aspect-[21/9] ring-1 ring-gray-100"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
@@ -173,39 +173,39 @@ export default function NewsSection() {
                 </div>
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8 md:p-16 text-white pointer-events-none">
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6 md:p-16 text-white pointer-events-none">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                     className="max-w-3xl"
                   >
-                    <div className="flex justify-center mb-4">
-                      <Badge className="bg-white/10 text-white border border-white/20 px-4 py-1.5 text-sm font-medium backdrop-blur-md shadow-sm flex items-center gap-2 rounded-full">
+                    <div className="flex justify-center mb-2 md:mb-4">
+                      <Badge className="bg-white/10 text-white border border-white/20 px-3 py-1 md:px-4 md:py-1.5 text-xs md:text-sm font-medium backdrop-blur-md shadow-sm flex items-center gap-2 rounded-full">
                         {currentItem.icon}
                         {currentItem.tag}
                       </Badge>
                     </div>
 
-                    <h3 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 leading-tight tracking-tight drop-shadow-lg font-heading">
+                    <h3 className="text-2xl md:text-5xl lg:text-6xl font-black mb-2 md:mb-4 leading-tight tracking-tight drop-shadow-lg font-heading">
                       {currentItem.title}
                     </h3>
 
-                    <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-8 drop-shadow-md mx-auto max-w-2xl font-medium">
+                    <p className="text-white/90 text-sm md:text-xl leading-relaxed mb-6 md:mb-8 drop-shadow-md mx-auto max-w-2xl font-medium line-clamp-3 md:line-clamp-none">
                       {currentItem.shortDescription}
                     </p>
 
                     <div className="flex justify-center">
                       <Button
                         size="lg"
-                        className="bg-red-600 text-white hover:bg-red-700 transition-all duration-300 font-bold text-base px-8 py-6 rounded-xl shadow-lg hover:shadow-red-600/30 group/btn pointer-events-auto transform hover:-translate-y-0.5"
+                        className="bg-red-600 text-white hover:bg-red-700 transition-all duration-300 font-bold text-sm md:text-base px-6 py-4 md:px-8 md:py-6 rounded-xl shadow-lg hover:shadow-red-600/30 group/btn pointer-events-auto transform hover:-translate-y-0.5"
                         onClick={(e) => {
                           e.stopPropagation()
                           setSelectedItem(currentItem)
                         }}
                       >
                         {currentItem.cta}
-                        <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-1" />
+                        <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-transform group-hover/btn:translate-x-1" />
                       </Button>
                     </div>
                   </motion.div>
@@ -238,7 +238,7 @@ export default function NewsSection() {
 
         {/* Info Modal */}
         <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-          <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-white border-0 rounded-2xl">
+          <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
             {selectedItem && (
               <>
                 <div className="relative h-64 w-full">
@@ -275,9 +275,6 @@ export default function NewsSection() {
                   <div className="flex justify-end gap-3">
                     <Button variant="outline" onClick={() => setSelectedItem(null)} className="rounded-full px-6">
                       Cerrar
-                    </Button>
-                    <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-6">
-                      ¡Entendido!
                     </Button>
                   </div>
                 </div>

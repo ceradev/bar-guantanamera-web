@@ -47,22 +47,22 @@ export const DrinksSection = ({ beverages }: DrinksSectionProps) => {
         </div>
 
         <Tabs defaultValue="refrescos" className="w-full">
-          <TabsList className="flex flex-wrap h-auto bg-gray-50/50 rounded-full p-1 mb-8 justify-center gap-1 w-fit mx-auto border border-gray-100">
+          <TabsList className="flex flex-wrap h-auto bg-gray-50/50 rounded-full p-1 mb-6 md:mb-8 justify-center gap-1 w-fit mx-auto border border-gray-100">
             <TabsTrigger
               value="refrescos"
-              className="rounded-full px-5 py-1.5 text-sm data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-sm transition-all text-gray-500"
+              className="rounded-full px-3 py-1 md:px-5 md:py-1.5 text-xs md:text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-sm transition-all text-gray-500"
             >
               Refrescos
             </TabsTrigger>
             <TabsTrigger
               value="cervezas"
-              className="rounded-full px-5 py-1.5 text-sm data-[state=active]:bg-white data-[state=active]:text-amber-600 data-[state=active]:shadow-sm transition-all text-gray-500"
+              className="rounded-full px-3 py-1 md:px-5 md:py-1.5 text-xs md:text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-amber-600 data-[state=active]:shadow-sm transition-all text-gray-500"
             >
               Cervezas
             </TabsTrigger>
             <TabsTrigger
               value="agua"
-              className="rounded-full px-5 py-1.5 text-sm data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all text-gray-500"
+              className="rounded-full px-3 py-1 md:px-5 md:py-1.5 text-xs md:text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all text-gray-500"
             >
               Agua
             </TabsTrigger>
