@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Clock, Utensils, ShoppingBag, ChevronLeft, ChevronRight, X, Calendar, Laptop, Truck } from "lucide-react"
+import { ArrowRight, Clock, Utensils, ShoppingBag, ChevronLeft, ChevronRight, X, Calendar, Laptop, Truck, Bell } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -108,11 +108,8 @@ export default function NewsSection() {
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
         {/* Header - Styled like MenuHeader */}
         <div className="text-center mb-16">
-          <Badge className="bg-red-600 hover:bg-red-700 text-white mb-4 px-4 py-1 text-sm uppercase tracking-wider">
-            <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-            </span>
+          <Badge className="bg-red-50 hover:bg-red-100 text-red-600 mb-4 px-4 py-1 text-sm uppercase tracking-wider">
+            <Bell className="w-3.5 h-3.5 mr-2" />
             Actualidad
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight mt-2">
@@ -238,47 +235,47 @@ export default function NewsSection() {
 
         {/* Info Modal */}
         <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-          <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
+          <DialogContent className="max-w-[90vw] md:max-w-4xl p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
             {selectedItem && (
-              <>
-                <div className="relative h-64 w-full">
+              <div className="flex flex-col md:flex-row h-[80vh] md:h-auto">
+                <div className="relative h-48 md:h-auto w-full md:w-1/2 shrink-0">
                   <Image
                     src={selectedItem.detailsImage || selectedItem.image}
                     alt={selectedItem.title}
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full"
+                    className="absolute top-4 right-4 text-white md:text-gray-900 hover:bg-white/20 md:hover:bg-gray-100 rounded-full z-10"
                     onClick={() => setSelectedItem(null)}
                   >
                     <X className="w-6 h-6" />
                   </Button>
-                  <div className="absolute bottom-4 left-6">
-                    <Badge className="bg-red-600 text-white border-0 mb-2">
-                      {selectedItem.tag}
-                    </Badge>
-                    <DialogTitle className="text-3xl font-bold text-white leading-tight">
-                      {selectedItem.title}
-                    </DialogTitle>
-                  </div>
                 </div>
 
-                <div className="p-6 md:p-8">
-                  <DialogDescription className="text-gray-600 text-lg leading-relaxed mb-6">
-                    {selectedItem.fullDescription}
-                  </DialogDescription>
+                <div className="p-6 md:p-10 flex flex-col justify-between overflow-y-auto md:w-1/2">
+                  <div>
+                    <Badge className="bg-red-600 text-white border-0 mb-4 w-fit">
+                      {selectedItem.tag}
+                    </Badge>
+                    <DialogTitle className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">
+                      {selectedItem.title}
+                    </DialogTitle>
+                    <DialogDescription className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
+                      {selectedItem.fullDescription}
+                    </DialogDescription>
+                  </div>
 
-                  <div className="flex justify-end gap-3">
-                    <Button variant="outline" onClick={() => setSelectedItem(null)} className="rounded-full px-6">
+                  <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
+                    <Button variant="outline" onClick={() => setSelectedItem(null)} className="rounded-full px-6 w-full md:w-auto">
                       Cerrar
                     </Button>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </DialogContent>
         </Dialog>
