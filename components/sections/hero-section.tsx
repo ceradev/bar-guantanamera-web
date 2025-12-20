@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowDown, Phone, Sparkles, Utensils } from "lucide-react"
+import { ArrowDown, Utensils } from "lucide-react"
 import Image from "next/image"
 import { motion, easeOut } from "framer-motion"
 import { Wave } from "@/components/ui/wave"
