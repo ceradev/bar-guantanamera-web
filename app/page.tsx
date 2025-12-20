@@ -6,6 +6,11 @@ import HeroSection from "@/components/sections/hero-section"
 import SiteFooter from "@/components/layout/site-footer"
 
 // Lazy load sections que no están en el viewport inicial
+
+const NewsSection = dynamic(() => import("@/components/sections/news-section"), {
+  loading: () => <div className="h-96 w-full bg-gray-50 animate-pulse" />,
+})
+
 const MenuSection = dynamic(() => import("@/components/sections/menu-section"), {
   loading: () => <div className="h-96 w-full bg-gray-50 animate-pulse" />,
 })
@@ -46,6 +51,7 @@ export default function GuantanameraPage() {
 
       <main className="flex-1">
         <HeroSection />
+        <NewsSection />
         <MenuSection />
         <PhotoGallery />
         <TestimonialsSection />

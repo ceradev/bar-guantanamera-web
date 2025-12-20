@@ -70,46 +70,7 @@ export default function NotFound() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating food icons */}
-        <motion.div
-          className="absolute top-20 left-10 text-6xl opacity-10"
-          variants={floatingVariants}
-          initial="initial"
-          animate="float"
-        >
-          🍗
-        </motion.div>
-        <motion.div
-          className="absolute top-40 right-20 text-5xl opacity-10"
-          variants={floatingVariants}
-          initial="initial"
-          animate="float"
-          style={{ animationDelay: "1s" }}
-        >
-          🥩
-        </motion.div>
-        <motion.div
-          className="absolute bottom-40 left-20 text-4xl opacity-10"
-          variants={floatingVariants}
-          initial="initial"
-          animate="float"
-          style={{ animationDelay: "2s" }}
-        >
-          🌯
-        </motion.div>
-        <motion.div
-          className="absolute bottom-20 right-10 text-5xl opacity-10"
-          variants={floatingVariants}
-          initial="initial"
-          animate="float"
-          style={{ animationDelay: "0.5s" }}
-        >
-          🍺
-        </motion.div>
-      </div>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
 
       {/* Main content */}
       <motion.div
@@ -124,7 +85,7 @@ export default function NotFound() {
           variants={itemVariants}
         >
           <motion.h1
-            className="text-9xl md:text-[12rem] font-bold text-red-600 leading-none"
+            className="text-9xl md:text-[12rem] font-bold text-gray-100 leading-none"
             variants={pulseVariants}
             initial="initial"
             animate="pulse"
@@ -135,11 +96,11 @@ export default function NotFound() {
 
         {/* Main message */}
         <motion.div
-          className="mb-12"
+          className="mb-12 -mt-20 md:-mt-32 relative z-20"
           variants={itemVariants}
         >
           <motion.div
-            className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full mb-6 shadow-lg"
+            className="inline-flex items-center gap-3 bg-red-50 px-6 py-3 rounded-full mb-6"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -147,11 +108,11 @@ export default function NotFound() {
             <span className="text-red-600 font-semibold text-lg">¡Ups! Página no encontrada</span>
           </motion.div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Parece que te has perdido en el camino
           </h2>
           
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
             No te preocupes, en Bar Guantanamera siempre hay un camino de regreso. 
             Mientras tanto, ¿por qué no exploras nuestro delicioso menú?
           </p>
@@ -170,7 +131,7 @@ export default function NotFound() {
             <Link href="/">
               <Button
                 size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <Home className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
                 Volver al Inicio
@@ -187,7 +148,7 @@ export default function NotFound() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="border-2 border-gray-200 text-gray-700 hover:border-red-600 hover:text-red-600 px-8 py-6 text-lg rounded-full shadow-sm hover:shadow-md transition-all duration-300 group bg-white"
               >
                 <Utensils className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
                 Ver Menú
@@ -205,13 +166,13 @@ export default function NotFound() {
             whileHover={{ scale: 1.05, y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
               <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MapPin className="w-8 h-8 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Visítanos</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Visítanos</h3>
+                <p className="text-gray-500 text-sm">
                   Ven a disfrutar de nuestra cocina tradicional en un ambiente acogedor
                 </p>
               </CardContent>
@@ -222,13 +183,13 @@ export default function NotFound() {
             whileHover={{ scale: 1.05, y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
               <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Flame className="w-8 h-8 text-orange-600" />
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Flame className="w-8 h-8 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Especialidades</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Especialidades</h3>
+                <p className="text-gray-500 text-sm">
                   Pollos asados, costillas y platos con recetas caseras
                 </p>
               </CardContent>
@@ -239,13 +200,13 @@ export default function NotFound() {
             whileHover={{ scale: 1.05, y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
               <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="w-8 h-8 text-yellow-600" />
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="w-8 h-8 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Reserva</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Reserva</h3>
+                <p className="text-gray-500 text-sm">
                   Llámanos para hacer tu reserva y asegurar tu pedido
                 </p>
               </CardContent>
@@ -255,7 +216,7 @@ export default function NotFound() {
 
         {/* Fun message */}
         <motion.div
-          className="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl p-8 border border-red-200"
+          className="bg-gray-50 rounded-2xl p-8 border border-gray-100"
           variants={itemVariants}
         >
           <motion.div
@@ -265,10 +226,10 @@ export default function NotFound() {
           >
             😋
           </motion.div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">
             ¡El error está en la página, no en la comida!
           </h3>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-500 text-lg">
             Mientras arreglamos este pequeño problema, 
             nuestros chefs siguen preparando los mejores platos para ti.
           </p>
@@ -288,7 +249,7 @@ export default function NotFound() {
               <Button
                 variant="ghost"
                 size="lg"
-                className="text-gray-600 hover:text-red-600 px-6 py-3 text-lg group"
+                className="text-gray-400 hover:text-red-600 px-6 py-3 text-lg group hover:bg-transparent"
               >
                 <ArrowLeft className="mr-2 h-5 w-5 group-hover:-translate-x-1 transition-transform duration-200" />
                 Volver Atrás
@@ -297,14 +258,6 @@ export default function NotFound() {
           </motion.div>
         </motion.div>
       </motion.div>
-
-      {/* Bottom wave decoration */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-red-100 to-transparent"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1 }}
-      />
     </div>
   )
 }

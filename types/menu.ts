@@ -4,7 +4,9 @@ export interface MenuItem {
   price: string
   image: string
   popular?: boolean
-  allergens: string[]
+  iconic?: boolean
+  spicy?: boolean
+  vegetarian?: boolean
 }
 
 export interface MenuCategory {
@@ -13,26 +15,34 @@ export interface MenuCategory {
   items: MenuItem[]
 }
 
-export interface BeverageOrMojo {
+export interface Beverage {
   name: string
   description: string
   price: string
-  allergens: string[]
+  image?: string
+  category?: 'refrescos' | 'cervezas' | 'agua'
+}
+
+export interface Mojo {
+  name: string
+  description: string
+  price: string
+  image?: string
+  spicy?: boolean
+  vegetarian?: boolean
 }
 
 export interface ComboMeal {
   name: string
   description: string
   price: string
+  image?: string
   icon: string
 }
 
 export interface MenuData {
-  allergenIcons: Record<string, string>
   menuCategories: Record<string, MenuCategory>
-  bebidasYMojos: {
-    bebidas: BeverageOrMojo[]
-    mojos: BeverageOrMojo[]
-  }
+  bebidas: Beverage[]
+  mojos: Mojo[]
   comboMeals: ComboMeal[]
 }

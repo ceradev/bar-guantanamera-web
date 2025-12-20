@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowDown, Phone } from "lucide-react"
+import { ArrowDown, Phone, Sparkles, Utensils } from "lucide-react"
 import Image from "next/image"
 import { motion, easeOut } from "framer-motion"
 import { Wave } from "@/components/ui/wave"
@@ -86,8 +86,8 @@ export default function HeroSection() {
               asChild
               className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white shadow-2xl shadow-red-500/50 transition-all duration-300 rounded-lg px-8 py-6 text-base md:text-lg font-semibold group"
             >
-              <a href="#menu">
-                Ver el Menú
+              <a href="#news">
+                Ver Novedades
                 <ArrowDown className="ml-2 h-5 w-5 group-hover:translate-y-1 transition-transform duration-200" />
               </a>
             </Button>
@@ -97,16 +97,16 @@ export default function HeroSection() {
               O
             </span>
 
-            {/* Secondary Button - Phone */}
+            {/* Secondary Button - Menu */}
             <Button
               size="lg"
               asChild
               variant="outline"
               className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-white/5 backdrop-blur-md rounded-lg px-8 py-6 text-base md:text-lg font-semibold group transition-all duration-300"
             >
-              <a href="tel:922173039">
-                <Phone className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                Llamar Ahora
+              <a href="#menu">
+                <Utensils className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                Ver el Menú
               </a>
             </Button>
           </motion.div>
