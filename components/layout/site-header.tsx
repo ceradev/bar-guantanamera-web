@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ShoppingBag, Bike, Menu, X } from "lucide-react"
+import { ShoppingBag, Bike, Menu, X, ShoppingCart } from "lucide-react"
 import { motion, easeOut } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useThrottle } from "@/hooks/use-throttle"
@@ -249,6 +249,13 @@ const SiteHeader = () => {
           {/* Delivery Icons */}
           <div className="flex items-center gap-2">
             <Link
+              href="/pedido"
+              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
+              title="Ir a pedidos"
+            >
+              <ShoppingCart className="h-5 w-5" />
+            </Link>
+            <Link
               href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
               target="_blank"
               rel="noopener noreferrer"
@@ -276,6 +283,13 @@ const SiteHeader = () => {
         {/* Mobile: Todos los iconos y menú a la derecha */}
         <div className="flex items-center gap-0.5 ml-auto md:hidden">
           {/* Delivery Icons for mobile */}
+          <Link
+            href="/pedido"
+            className="p-2 text-gray-700 hover:text-red-600 transition-colors"
+            title="Ir a pedidos"
+          >
+            <ShoppingCart className="h-5 w-5" />
+          </Link>
           <Link
             href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
             target="_blank"
