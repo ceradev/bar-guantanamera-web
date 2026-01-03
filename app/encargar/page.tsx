@@ -2,11 +2,10 @@
 
 import { useMemo, useState, useEffect, useRef } from "react"
 import menuData from "@/data/menu-data.json"
-import type { MenuData, MenuItem } from "@/types/menu"
+import type { MenuData } from "@/types/menu"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Minus, Plus, Trash2, Clock, User, Phone, CupSoda, Beer, GlassWater, Flame } from "lucide-react"
-import Image from "next/image"
+import { ShoppingCart, CupSoda, Beer, GlassWater, Flame } from "lucide-react"
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import {
@@ -20,8 +19,11 @@ import * as Toast from "@radix-ui/react-toast"
 import { useCart } from "@/hooks/use-cart"
 import { useBusinessHours } from "@/hooks/use-business-hours"
 import { useCategoryScroll } from "@/hooks/use-category-scroll"
-import CartItemRowComp from "@/components/features/pedido/cart-item-row"
-import StepContentComp from "@/components/features/pedido/step-content"
+import CartItemRowComp from "@/components/features/encargar/cart-item-row"
+import ProductCard from "@/components/features/encargar/product-card"
+import CategoryTabs from "@/components/features/encargar/category-tabs"
+import DesktopCartPanel from "@/components/features/encargar/desktop-cart-panel"
+import StepContentComp from "@/components/features/encargar/step-content"
 import { formatPrice } from "@/lib/pricing"
 import { groupBeverages } from "@/lib/menu"
 import type { OrderStep } from "@/types/order"
@@ -31,7 +33,7 @@ import { BUSINESS_HOURS } from "@/data/business-hours"
 const { menuCategories, bebidas, mojos, comboMeals } = menuData as MenuData
 
 
-export default function PedidoPage() {
+export default function PedirPage() {
     const { cart, addToCart, increase, decrease, removeItem, total, setCart } = useCart()
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
@@ -44,7 +46,7 @@ export default function PedidoPage() {
     const [toastOpen, setToastOpen] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
     const { slots, isOpenNow, nextOpenText } = useBusinessHours(BUSINESS_HOURS)
-    
+
     const submit = () => {
         const { errors, message } = processOrderSubmission({
             name,
@@ -81,6 +83,7 @@ export default function PedidoPage() {
     return (
         <Toast.Provider swipeDirection="right">
             <SiteHeader />
+            { /* Encabezado de la página */}
             <div className="min-h-screen bg-white">
                 <div className="container mx-auto px-4 md:px-6 max-w-7xl py-10 md:py-16">
                     <div className="text-center mb-10 md:mb-12">
@@ -105,24 +108,12 @@ export default function PedidoPage() {
                             </div>
                         )}
                         <div className="lg:col-span-3 lg:col-start-1">
-                            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm md:p-6 p-3">
-                                <h3 className="text-sm md:text-base font-semibold text-gray-700 uppercase tracking-wider mb-3">Categorías</h3>
-                                <div className="flex overflow-x-auto gap-2 md:gap-3 pb-2 snap-x snap-mandatory">
-                                    {Object.entries(allCategories).map(([key, category]) => (
-                                        <button
-                                            key={key}
-                                            onClick={() => scrollToCategory(key)}
-                                            className={`px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-left transition-colors text-sm md:text-[0.95rem] font-semibold min-w-[140px] md:min-w-[160px] border snap-start ${activeCategory === key ? "bg-red-50 text-red-600 border-red-600" : "hover:bg-gray-50 text-gray-800 border-gray-200/60"
-                                                }`}
-                                        >
-                                            <span className="font-semibold">{category.title}</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+                            {/* Pestañas de categorías */}
+                            <CategoryTabs categories={allCategories} activeKey={activeCategory} onSelect={scrollToCategory} />
                         </div>
 
-                        <div ref={productsRef} className="lg:col-span-2 lg:col-start-1 space-y-8 overflow-y-auto md:max-h-[75vh] max-h-[calc(100vh-260px)] pr-2">
+                        {/* Contenedor scrollable de productos por categoría */}
+                        <div ref={productsRef} className="lg:col-span-2 lg:col-start-1 space-y-8 overflow-y-auto md:max-h-[85vh] max-h-[calc(100vh-220px)] pr-2">
                             {Object.entries(menuCategories).map(([key, category]) => (
                                 <section key={key} id={`cat-${key}`} className="space-y-4">
                                     <div className="flex items-baseline justify-between">
@@ -134,55 +125,22 @@ export default function PedidoPage() {
                                             const inCart = cart[item.name]
                                             return (
                                                 <div key={item.name} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6">
-                                                    <div className="relative h-40 rounded-xl overflow-hidden bg-gray-50">
-                                                        <Image
-                                                            src={(item as any).image || "/images/placeholder.jpg"}
-                                                            alt={item.name}
-                                                            fill
-                                                            className="object-cover"
-                                                        />
-                                                    </div>
-                                                    <div className="flex items-start justify-between mt-4">
-                                                        <div className="pr-4">
-                                                            <div className="text-gray-900 font-semibold text-lg">{item.name}</div>
-                                                            {item.description && (
-                                                                <div className="text-base text-gray-500 mt-2 line-clamp-2">{item.description}</div>
-                                                            )}
-                                                        </div>
-                                                        <div className="text-red-600 font-bold text-lg">{item.price}</div>
-                                                    </div>
-                                                    <div className="mt-4">
-                                                        {!inCart ? (
-                                                            <Button
-                                                                onClick={() => addToCart(item)}
-                                                                className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full py-3 text-base disabled:opacity-60"
-                                                                disabled={!isOpenNow}
-                                                            >
-                                                                + Añadir
-                                                            </Button>
-                                                        ) : (
-                                                            <div className="flex items-center justify-between">
-                                                                <div className="flex items-center gap-2">
-                                                                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => decrease(item.name)}>
-                                                                        <Minus className="w-4 h-4" />
-                                                                    </Button>
-                                                                    <div className="w-12 text-center font-semibold text-lg">{inCart.quantity}</div>
-                                                                    <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => increase(item.name)}>
-                                                                        <Plus className="w-4 h-4" />
-                                                                    </Button>
-                                                                </div>
-                                                                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => removeItem(item.name)}>
-                                                                    <Trash2 className="w-4 h-4" />
-                                                                </Button>
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                                    <ProductCard
+                                                        item={item as any}
+                                                        inCart={inCart}
+                                                        isOpenNow={isOpenNow}
+                                                        onAdd={() => addToCart(item)}
+                                                        onIncrease={() => increase(item.name)}
+                                                        onDecrease={() => decrease(item.name)}
+                                                        onRemove={() => removeItem(item.name)}
+                                                    />
                                                 </div>
                                             )
                                         })}
                                     </div>
                                 </section>
                             ))}
+                            {/* Sección: Platos combinados */}
                             <section className="space-y-4" id="cat-combos">
                                 <div className="flex items-baseline justify-between">
                                     <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Platos Combinados</h3>
@@ -213,6 +171,7 @@ export default function PedidoPage() {
                                 </div>
                             </section>
 
+                            {/* Sección: Mojos y salsas */}
                             <section className="space-y-4" id="cat-salsas">
                                 <div className="flex items-baseline justify-between">
                                     <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Mojos y Salsas</h3>
@@ -244,6 +203,7 @@ export default function PedidoPage() {
                                 </div>
                             </section>
 
+                            {/* Sección: Bebidas */}
                             <section className="space-y-4" id="cat-bebidas">
                                 <div className="flex items-baseline justify-between">
                                     <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Bebidas</h3>
@@ -287,50 +247,22 @@ export default function PedidoPage() {
                             </section>
                         </div>
 
+                        {/* Panel lateral derecho */}
                         <div className="space-y-6">
-                            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 hidden md:block">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Carrito</h2>
-                                <div>
-                                    {Object.keys(cart).length === 0 ? (
-                                        <div className="text-base text-gray-500">Añade productos para ver tu pedido.</div>
-                                    ) : (
-                                        <div className="space-y-4">
-                                            {Object.values(cart).map(it => (
-                                                <CartItemRowComp
-                                                    key={it.name}
-                                                    item={it}
-                                                    onDecrease={() => decrease(it.name)}
-                                                    onIncrease={() => increase(it.name)}
-                                                    onRemove={() => removeItem(it.name)}
-                                                />
-                                            ))}
-                                            <div className="flex items-center justify-between pt-2">
-                                                <div className="text-base text-gray-600">Total</div>
-                                                <div className="text-2xl font-bold text-gray-900">{formatPrice(total)}</div>
-                                            </div>
-                                            {pickupTime && (
-                                                <div className="text-sm text-gray-700">
-                                                    Hora seleccionada: <span className="font-semibold">{pickupTime}</span>
-                                                </div>
-                                            )}
-                                            {!pickupTime && (
-                                                <div className="rounded-lg bg-yellow-50 border border-yellow-200 text-yellow-700 text-sm px-3 py-2">
-                                                    Selecciona una hora para continuar con tu pedido.
-                                                </div>
-                                            )}
-                                            <Button
-                                                onClick={() => setStep("hora")}
-                                                className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full py-3 text-base disabled:opacity-60"
-                                                disabled={Object.keys(cart).length === 0 || !isOpenNow}
-                                            >
-                                                Elegir hora
-                                            </Button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
+                            {/* Panel de carrito (escritorio) */}
+                            <DesktopCartPanel
+                                items={Object.values(cart)}
+                                total={total}
+                                pickupTime={pickupTime}
+                                isOpenNow={isOpenNow}
+                                onChooseHour={() => setStep("hora")}
+                                onIncrease={(name) => increase(name)}
+                                onDecrease={(name) => decrease(name)}
+                                onRemove={(name) => removeItem(name)}
+                            />
 
 
+                            {/* Flujo de pasos en escritorio (hora/cliente/confirmación) */}
                             {(step === "hora" || step === "cliente" || step === "confirmacion") && (
                                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 hidden md:block">
                                     <StepContentComp
@@ -355,6 +287,7 @@ export default function PedidoPage() {
                         </div>
                     </div>
                 </div>
+                {/* Barra inferior móvil y carrito */}
                 <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 md:hidden">
                     <div className="flex items-center justify-between">
                         <div className="text-sm font-semibold text-gray-900">Ver pedido</div>
@@ -396,6 +329,7 @@ export default function PedidoPage() {
                                     >
                                         Elegir hora
                                     </Button>
+                                    {/* Flujo de pasos en móvil */}
                                     <StepContentComp
                                         variant="mobile"
                                         step={step}
@@ -419,7 +353,9 @@ export default function PedidoPage() {
                     </div>
                 </div>
             </div>
+            {/* Pie del sitio */}
             <SiteFooter />
+            {/* Notificación de confirmación de pedido */}
             <Toast.Root
                 open={toastOpen}
                 onOpenChange={setToastOpen}

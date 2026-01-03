@@ -90,7 +90,7 @@ const SiteHeader = () => {
   }, [setInitialActiveSection]) // Solo setInitialActiveSection porque está memoizado y es estable
 
   useEffect(() => {
-    const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"]
+    const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "encargar"]
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -197,6 +197,7 @@ const SiteHeader = () => {
     { href: getHashLink("#galeria"), label: "Galería", id: "galeria" },
     { href: getHashLink("#opiniones"), label: "Opiniones", id: "opiniones" },
     { href: getHashLink("#ubicacion"), label: "Ubicación", id: "ubicacion" },
+    { href: getHashLink("#pedir"), label: "Pedir", id: "pedir" },
   ]
 
   return (
@@ -249,13 +250,6 @@ const SiteHeader = () => {
           {/* Delivery Icons */}
           <div className="flex items-center gap-2">
             <Link
-              href="/pedido"
-              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-              title="Ir a pedidos"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Link>
-            <Link
               href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
               target="_blank"
               rel="noopener noreferrer"
@@ -276,20 +270,12 @@ const SiteHeader = () => {
           </div>
 
           <Button asChild size="sm" className="bg-red-600 text-white shadow-md shadow-red-500/20 hover:bg-red-700">
-            <Link href={getHashLink("#pedir")}>Pedir Ahora</Link>
+            <Link href="/encargar">Encargar Ahora</Link>
           </Button>
         </div>
 
         {/* Mobile: Todos los iconos y menú a la derecha */}
         <div className="flex items-center gap-0.5 ml-auto md:hidden">
-          {/* Delivery Icons for mobile */}
-          <Link
-            href="/pedido"
-            className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-            title="Ir a pedidos"
-          >
-            <ShoppingCart className="h-5 w-5" />
-          </Link>
           <Link
             href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
             target="_blank"
@@ -406,11 +392,11 @@ const SiteHeader = () => {
                     Acción Rápida
                   </h3>
                   <Link
-                    href={getHashLink("#pedir")}
+                    href="/encargar"
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="block rounded-lg bg-red-600 px-4 py-3 text-center font-semibold text-white hover:bg-red-700 transition-colors"
                   >
-                    Pedir Ahora
+                    Encargar Ahora
                   </Link>
                 </div>
               </div>

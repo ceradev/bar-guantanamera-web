@@ -47,7 +47,8 @@ export default function StepContent({
           <Clock className={`${isMobile ? "w-5 h-5" : "w-5 h-5"} text-gray-500`} />
           <h3 className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-gray-900`}>Selecciona la hora de recogida</h3>
         </div>
-        <div className={`grid ${isMobile ? "grid-cols-3 gap-2" : "grid-cols-3 gap-3"}`}>
+        <div className={`${isMobile ? "max-h-[40vh]" : "max-h-[45vh]"} overflow-y-auto pr-1`}>
+          <div className={`grid ${isMobile ? "grid-cols-3 gap-2" : "grid-cols-3 gap-3"}`}>
           {slots.map(s => (
             <button
               key={s}
@@ -58,6 +59,7 @@ export default function StepContent({
               {s}
             </button>
           ))}
+          </div>
         </div>
         <Button
           onClick={() => setStep("cliente")}

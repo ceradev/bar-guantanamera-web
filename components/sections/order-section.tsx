@@ -15,9 +15,8 @@ import {
   Copy,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, easeOut, useInView, backOut } from "framer-motion";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -75,34 +74,10 @@ const deliveryOptions = [
   },
 ];
 
-const benefits = [
-  {
-    icon: <Clock className="w-5 h-5" />,
-    title: "Entrega Rápida",
-    description: "20-35 minutos",
-  },
-  {
-    icon: <Star className="w-5 h-5" />,
-    title: "Calidad Garantizada",
-    description: "Siempre fresco",
-  },
-  {
-    icon: <CheckCircle className="w-5 h-5" />,
-    title: "Pedido Seguro",
-    description: "Pago protegido",
-  },
-];
-
 export default function OrderSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copiedPhone, setCopiedPhone] = useState(false);
-  const pathname = usePathname();
-
-  // Helper para ajustar enlaces con hash según la ruta actual
-  const getHashLink = useCallback((hash: string) => {
-    return pathname === "/" ? hash : `/${hash}`;
-  }, [pathname]);
 
   const copyPhone = async () => {
     try {
@@ -131,7 +106,7 @@ export default function OrderSection() {
           <div className="inline-flex items-center gap-2 bg-red-50 px-4 py-2 rounded-full mb-6">
             <Utensils className="w-4 h-4 text-red-600" />
             <span className="text-red-600 text-sm font-medium tracking-wide">
-              HACER PEDIDO
+              PEDIR AHORA
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black mb-6">
@@ -164,39 +139,25 @@ export default function OrderSection() {
                   <Utensils className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-black mb-4 text-center">
-                  Pide Online, Directo desde Nuestra Web
+                  Pide Ahora Online, Directo desde Nuestra Web
                 </h3>
                 <p className="text-gray-600 mb-6 text-center max-w-2xl mx-auto">
                   Todo lo que necesitas está aquí. Explora nuestro menú completo, 
-                  personaliza tu pedido a tu gusto y compra con un solo clic. 
+                  personaliza tu pedido a tu gusto y encarga con un solo clic. 
                   Sin salir de nuestra página, con los mejores precios y ofertas 
                   que solo encuentras en nuestra web.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  {/* Botones de pedido online - Próximamente */}
-                  {/* <Button
+                  <Button
                     asChild
                     className="bg-red-600 text-white hover:bg-red-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                     size="lg"
                   >
-                    <Link href={getHashLink("#menu")}>
-                      Ver Menú y Pedir
+                    <Link href="/encargar">
+                      Hacer encargo online
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
-                  </Button> */}
-                  
-                  {/* Mensaje de Próximamente */}
-                  <motion.div
-                    className="flex items-center gap-2 px-6 py-3 bg-red-50 border-2 border-red-200 rounded-full text-red-700"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <Clock className="w-5 h-5" />
-                    <span className="font-semibold text-sm md:text-base">
-                      Pedido Online - Próximamente
-                    </span>
-                  </motion.div>
+                  </Button>
                 </div>
               </div>
             </motion.div>
@@ -222,7 +183,7 @@ export default function OrderSection() {
                       </div>
                       <div className="flex-1">
                         <h3 className="font-bold text-gray-900 mb-2 text-xl md:text-2xl">
-                          Pedido Directo
+                          Encargo Directo
                         </h3>
                         <p className="text-gray-600 mb-4 text-sm md:text-base">
                           Llámanos y te atendemos personalmente

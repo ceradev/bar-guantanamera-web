@@ -42,9 +42,20 @@ export function getPickupSlots(businessHours: BusinessHour[], prepMarginMinutes:
   start.setMinutes(start.getMinutes() + Math.max(0, prepMarginMinutes))
   const end = new Date(sched.close)
   end.setMinutes(end.getMinutes() - Math.max(0, prepMarginMinutes))
-  if (end <= start) return []
+  // Respect current time: do not allow past slots
+  const now = new Date()
+  const nowWithMargin = new Date(now)
+  nowWithMargin.setMinutes(nowWithMargin.getMinutes() + Math.max(0, prepMarginMinutes))
+  // Align now to nearest step boundary (ceil to next step)
+  const nowRemainder = nowWithMargin.getMinutes() % stepMinutes
+  if (nowRemainder !== 0) {
+    nowWithMargin.setMinutes(nowWithMargin.getMinutes() + (stepMinutes - nowRemainder))
+  }
+  // Use the max between schedule start and current time with margin
+  const effectiveStart = nowWithMargin > start ? nowWithMargin : start
+  if (end <= effectiveStart) return []
   const slots: string[] = []
-  const cursor = new Date(start)
+  const cursor = new Date(effectiveStart)
   // Align cursor to nearest step boundary
   const remainder = cursor.getMinutes() % stepMinutes
   if (remainder !== 0) cursor.setMinutes(cursor.getMinutes() + (stepMinutes - remainder))

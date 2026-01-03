@@ -6,6 +6,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Wave } from "@/components/ui/wave"
 import { staggerContainer, fadeInUp } from "./menu/animations"
+import Link from "next/link"
 
 export default function HeroSection() {
   return (
@@ -82,10 +83,9 @@ export default function HeroSection() {
               variant="outline"
               className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-white/5 backdrop-blur-md rounded-lg px-8 py-6 text-base md:text-lg font-semibold group transition-all duration-300"
             >
-              <a href="#menu">
-                <Utensils className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                Ver el Menú
-              </a>
+              <Link href="/encargar">
+                Encarga tu pedido
+              </Link>
             </Button>
           </motion.div>
         </div>
