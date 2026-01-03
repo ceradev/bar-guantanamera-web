@@ -3,38 +3,16 @@
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Utensils } from "lucide-react"
 import Image from "next/image"
-import { motion, easeOut } from "framer-motion"
+import { motion } from "framer-motion"
 import { Wave } from "@/components/ui/wave"
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: easeOut,
-    },
-  },
-}
+import { staggerContainer, fadeInUp } from "./menu/animations"
 
 export default function HeroSection() {
   return (
     <motion.div
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      variants={containerVariants}
+      variants={staggerContainer}
       initial="hidden"
       animate="visible"
     >
@@ -61,7 +39,7 @@ export default function HeroSection() {
           {/* Main Title - Large and centered */}
           <motion.h1
             className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white leading-tight tracking-tight"
-            variants={itemVariants}
+            variants={fadeInUp as any}
           >
             <span className="block">SABORES</span>
             <span className="block text-red-600">AUTÉNTICOS</span>
@@ -70,7 +48,7 @@ export default function HeroSection() {
           {/* Subtitle */}
           <motion.p
             className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto font-light"
-            variants={itemVariants}
+            variants={fadeInUp as any}
           >
             Crujiente por fuera, jugoso por dentro. Especialidad en pollos, costillas y patas asadas con la{" "}
             <span className="text-red-600 font-semibold">receta casera</span> que nos define.
@@ -79,7 +57,7 @@ export default function HeroSection() {
           {/* CTA Button - Red primary color */}
           <motion.div
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 pb-16"
-            variants={itemVariants}
+            variants={fadeInUp as any}
           >
             <Button
               size="lg"

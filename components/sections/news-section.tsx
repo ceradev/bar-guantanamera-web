@@ -3,61 +3,63 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Clock, Utensils, ShoppingBag, ChevronLeft, ChevronRight, X, Calendar, Laptop, Truck, Bell } from "lucide-react"
+import { ArrowRight, X, Bell } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+import { newsItems, type NewsItem } from "@/data/news"
 
-const newsItems = [
-  {
-    id: 1,
-    title: "Encargos de Navidad",
-    shortDescription: "¡Reserva ya! Patas asadas por encargo para el 24 y 31 de diciembre. Plazas limitadas.",
-    fullDescription: "Estas Navidades, deja que nosotros cocinemos por ti. Estamos aceptando encargos de nuestras famosas Patas Asadas para las cenas de Nochebuena (24 de diciembre) y Nochevieja (31 de diciembre). Para garantizar tu reserva, es necesario acudir al local con antelación y realizar el pago previo. ¡No te quedes sin el plato estrella de estas fiestas! Te recomendamos reservar lo antes posible ya que tenemos un cupo limitado.",
-    image: "/images/menu/ribs-and-legs/pata-asada-entera.png",
-    tag: "Especial Navidad",
-    icon: <Calendar className="w-4 h-4" />,
-    cta: "Más información",
-    detailsImage: "/images/menu/ribs-and-legs/pata-asada-entera.png"
-  },
-  {
-    id: 2,
-    title: "Pedidos Online (Próximamente)",
-    shortDescription: "Muy pronto podrás hacer tus pedidos directamente desde nuestra web. Más fácil, más rápido.",
-    fullDescription: "Estamos trabajando para mejorar tu experiencia. Muy pronto lanzaremos nuestro nuevo sistema de pedidos online integrado directamente en esta página web. Podrás consultar el menú actualizado, seleccionar tus platos favoritos, personalizar tu pedido y elegir la hora de recogida o entrega, todo desde tu móvil u ordenador. ¡Olvídate de las esperas al teléfono!",
-    image: "/images/gallery/bar-barra.jpg",
-    tag: "Próximamente",
-    icon: <Laptop className="w-4 h-4" />,
-    cta: "Descubrir",
-    detailsImage: "/images/gallery/bar-barra.jpg"
-  },
-  {
-    id: 3,
-    title: "Servicio a Domicilio",
-    shortDescription: "Disfruta de Guantanamera en casa. Ya disponibles en Uber Eats y Glovo.",
-    fullDescription: "¿No te apetece salir? No hay problema. Ahora llevamos el sabor auténtico de Guantanamera hasta la puerta de tu casa. Hemos activado nuestro servicio de delivery a través de las principales plataformas: Uber Eats y Glovo. Busca 'Bar Guantanamera' en tu app favorita, haz tu pedido y disfruta de nuestros pollos asados, costillas y especialidades sin moverte del sofá.",
-    image: "/images/gallery/bar-entrada-1.jpg",
-    tag: "Delivery",
-    icon: <Truck className="w-4 h-4" />,
-    cta: "Pedir ahora",
-    detailsImage: "/images/gallery/bar-entrada-1.jpg"
-  }
-]
 
-const AUTOPLAY_INTERVAL = 5000 // 5 segundos
+const AUTOPLAY_INTERVAL = 5000
+
+function NewsDialog({ item, onClose }: { item: NewsItem | null; onClose: () => void }) {
+  return (
+    <Dialog open={!!item} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-[90vw] md:max-w-4xl p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
+        {item && (
+          <div className="flex flex-col md:flex-row h-[80vh] md:h-auto">
+            <div className="relative h-48 md:h-auto w-full md:w-1/2 shrink-0">
+              <Image src={item.detailsImage || item.image} alt={item.title} fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
+              <Button
+                size="icon"
+                variant="ghost"
+                className="absolute top-4 right-4 text-white md:text-gray-900 hover:bg-white/20 md:hover:bg-gray-100 rounded-full z-10"
+                onClick={onClose}
+              >
+                <X className="w-6 h-6" />
+              </Button>
+            </div>
+
+            <div className="p-6 md:p-10 flex flex-col justify-between overflow-y-auto md:w-1/2">
+              <div>
+                <Badge className="bg-red-600 text-white border-0 mb-4 w-fit">{item.tag}</Badge>
+                <DialogTitle className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">{item.title}</DialogTitle>
+                <DialogDescription className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">{item.fullDescription}</DialogDescription>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
+                <Button variant="outline" onClick={onClose} className="rounded-full px-6 w-full md:w-auto">Cerrar</Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  )
+}
 
 export default function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<typeof newsItems[0] | null>(null)
+  const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null)
 
   const paginate = useCallback((newDirection: number) => {
     setDirection(newDirection)
@@ -233,52 +235,7 @@ export default function NewsSection() {
           </div>
         </div>
 
-        {/* Info Modal */}
-        <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-          <DialogContent className="max-w-[90vw] md:max-w-4xl p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
-            {selectedItem && (
-              <div className="flex flex-col md:flex-row h-[80vh] md:h-auto">
-                <div className="relative h-48 md:h-auto w-full md:w-1/2 shrink-0">
-                  <Image
-                    src={selectedItem.detailsImage || selectedItem.image}
-                    alt={selectedItem.title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute top-4 right-4 text-white md:text-gray-900 hover:bg-white/20 md:hover:bg-gray-100 rounded-full z-10"
-                    onClick={() => setSelectedItem(null)}
-                  >
-                    <X className="w-6 h-6" />
-                  </Button>
-                </div>
-
-                <div className="p-6 md:p-10 flex flex-col justify-between overflow-y-auto md:w-1/2">
-                  <div>
-                    <Badge className="bg-red-600 text-white border-0 mb-4 w-fit">
-                      {selectedItem.tag}
-                    </Badge>
-                    <DialogTitle className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">
-                      {selectedItem.title}
-                    </DialogTitle>
-                    <DialogDescription className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-                      {selectedItem.fullDescription}
-                    </DialogDescription>
-                  </div>
-
-                  <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
-                    <Button variant="outline" onClick={() => setSelectedItem(null)} className="rounded-full px-6 w-full md:w-auto">
-                      Cerrar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
+        <NewsDialog item={selectedItem} onClose={() => setSelectedItem(null)} />
       </div>
     </section>
   )

@@ -5,57 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Wave } from "@/components/ui/wave";
 import { MapPin, Clock, Navigation, Copy, ExternalLink } from "lucide-react";
-import { motion, easeOut, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-
-const headerVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: easeOut,
-    },
-  },
-};
-
-const mapVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 50 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: easeOut,
-      delay: 0.2,
-    },
-  },
-};
-
-const infoVariants = {
-  hidden: { opacity: 0, x: -30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: easeOut,
-      delay: 0.4,
-    },
-  },
-};
-
-const businessHours = [
-  { day: "Lunes, Jueves y Viernes", hours: "09:00 - 18:00", days: [1, 4, 5] },
-  { day: "Sábados y Domingos", hours: "09:00 - 17:00", days: [6, 0] },
-  {
-    day: "Martes, Miércoles",
-    hours: "Estamos cerrados",
-    days: [2, 3],
-  },
-];
+import { fadeInUp, scaleIn } from "./menu/animations";
+import type { BusinessHour } from "@/lib/schedule";
+import { BUSINESS_HOURS } from "@/data/business-hours";
+import { getPlaceUrl } from "@/lib/google-maps";
+import { isToday, isClosed, getBadge } from "@/lib/schedule";
 
 export default function LocationSection() {
   const ref = useRef(null);
@@ -64,43 +20,24 @@ export default function LocationSection() {
 
   const address = "C. Castro, 7, 38611 San Isidro, Santa Cruz de Tenerife";
 
-  // Función para obtener el día actual (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
-  const getCurrentDay = () => {
-    return new Date().getDay();
-  };
-
-  // Función para verificar si un horario es para hoy
-  const isToday = (days: number[]) => days.includes(getCurrentDay());
-
-  // Función para verificar si estamos cerrados hoy
-  const isClosed = () => {
-    const currentDay = getCurrentDay();
-    // Martes (2), Miércoles (3), Jueves (4) están cerrados
-    return [2, 3].includes(currentDay);
-  };
-
   // Función para obtener el color del texto basado en el estado del horario
-  const getTextColor = (schedule: any, weight: "medium" | "semibold") => {
-    if (isToday(schedule.days)) {
-      // Si es hoy, verificar si está cerrado o abierto
-      if (isClosed()) {
+  const getTextColor = (schedule: BusinessHour, weight: "medium" | "semibold") => {
+    if (isToday(schedule)) {
+      if (isClosed(schedule)) {
         return weight === "medium" ? "text-red-800" : "text-red-600";
-      } else {
-        return weight === "medium" ? "text-green-800" : "text-green-600";
       }
+      return weight === "medium" ? "text-green-800" : "text-green-600";
     }
     return weight === "medium" ? "text-gray-700" : "text-gray-900";
   };
 
   // Función para obtener las clases CSS del contenedor del horario
-  const getScheduleContainerClasses = (schedule: any) => {
-    if (isToday(schedule.days)) {
-      // Si es hoy, verificar si está cerrado o abierto
-      if (isClosed()) {
+  const getScheduleContainerClasses = (schedule: BusinessHour) => {
+    if (isToday(schedule)) {
+      if (isClosed(schedule)) {
         return "bg-red-50 border border-red-200";
-      } else {
-        return "bg-green-50 border border-green-200";
       }
+      return "bg-green-50 border border-green-200";
     }
     return "bg-gray-50";
   };
@@ -116,11 +53,8 @@ export default function LocationSection() {
   };
 
   const openInMaps = () => {
-    const encodedAddress = encodeURIComponent(address);
-    window.open(
-      `https://www.google.com/maps/search/${encodedAddress}`,
-      "_blank"
-    );
+    const url = getPlaceUrl();
+    window.open(url, "_blank");
   };
 
   return (
@@ -138,7 +72,7 @@ export default function LocationSection() {
         {/* Enhanced Header */}
         <motion.div
           className="mb-16 text-center"
-          variants={headerVariants}
+          variants={fadeInUp as any}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
@@ -163,7 +97,7 @@ export default function LocationSection() {
           {/* Enhanced Map */}
           <motion.div
             className="lg:col-span-1"
-            variants={mapVariants}
+            variants={scaleIn as any}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
@@ -201,7 +135,7 @@ export default function LocationSection() {
           {/* Enhanced Location Info */}
           <motion.div
             className="space-y-6 lg:col-span-1"
-            variants={infoVariants}
+            variants={fadeInUp as any}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
@@ -249,9 +183,9 @@ export default function LocationSection() {
                   <h3 className="font-bold text-gray-900">Horarios</h3>
                 </div>
                 <div className="space-y-3">
-                  {businessHours.map((schedule, index) => (
+                  {BUSINESS_HOURS.map((schedule, index) => (
                     <div
-                      key={index + schedule.day}
+                      key={index + schedule.dayLabel}
                       className={`flex justify-between items-center p-4 rounded-xl transition-colors ${getScheduleContainerClasses(
                         schedule
                       )}`}
@@ -262,7 +196,7 @@ export default function LocationSection() {
                           "medium"
                         )}`}
                       >
-                        {schedule.day}
+                        {schedule.dayLabel}
                       </span>
                       <span
                         className={`font-semibold ${getTextColor(
@@ -272,15 +206,11 @@ export default function LocationSection() {
                       >
                         {schedule.hours}
                       </span>
-                      {isToday(schedule.days) && !isClosed() && (
-                        <Badge className="bg-green-600 text-white text-xs ml-2">
-                          Hoy
-                        </Badge>
+                      {getBadge(schedule) === "Hoy" && (
+                        <Badge className="bg-green-600 text-white text-xs ml-2">Hoy</Badge>
                       )}
-                      {isClosed() && isToday(schedule.days) && (
-                        <Badge className="bg-red-600 text-white text-xs ml-2">
-                          Cerrado
-                        </Badge>
+                      {getBadge(schedule) === "Cerrado" && (
+                        <Badge className="bg-red-600 text-white text-xs ml-2">Cerrado</Badge>
                       )}
                     </div>
                   ))}
@@ -289,30 +219,6 @@ export default function LocationSection() {
             </Card>
           </motion.div>
         </div>
-
-        {/* Simplified Call to Action */}
-        {/* <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Reserva tu pedido
-            </h3>
-            <p className="text-gray-600 mb-6">
-              No pierdas la oportunidad de disfrutar de nuestros productos
-              frescos y deliciosos.
-            </p>
-            <Button
-              asChild
-              className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full"
-            >
-              <a href="#pedir">Pedir ahora</a>
-            </Button>
-          </div>
-        </motion.div> */}
       </div>
     </section>
   );
