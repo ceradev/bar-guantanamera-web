@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "title": "Pedidos Online (Próximamente)",
+    "shortDescription": "Muy pronto podrás hacer tus pedidos directamente desde nuestra web. Más fácil, más rápido.",
+    "fullDescription": "Estamos trabajando para mejorar tu experiencia. Muy pronto lanzaremos nuestro nuevo sistema de pedidos online integrado directamente en esta página web. Podrás consultar el menú actualizado, seleccionar tus platos favoritos, personalizar tu pedido y elegir la hora de recogida o entrega, todo desde tu móvil u ordenador. ¡Olvídate de las esperas al teléfono!",
+    "image": "/images/gallery/bar-barra.jpg",
+    "tag": "Próximamente",
+    "icon": "laptop",
+    "cta": "Descubrir",
+    "detailsImage": "/images/gallery/bar-barra.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Servicio a Domicilio",
+    "shortDescription": "Disfruta de Guantanamera en casa. Ya disponibles en Uber Eats y Glovo.",
+    "fullDescription": "¿No te apetece salir? No hay problema. Ahora llevamos el sabor auténtico de Guantanamera hasta la puerta de tu casa. Hemos activado nuestro servicio de delivery a través de las principales plataformas: Uber Eats y Glovo. Busca 'Bar Guantanamera' en tu app favorita, haz tu pedido y disfruta de nuestros pollos asados, costillas y especialidades sin moverte del sofá.",
+    "image": "/images/gallery/bar-entrada-1.jpg",
+    "tag": "Delivery",
+    "icon": "truck",
+    "cta": "Pedir ahora",
+    "detailsImage": "/images/gallery/bar-entrada-1.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Estamos abiertos el día de Reyes",
+    "shortDescription": "¡No te pierdas la oportunidad de disfrutar de nuestros platos tradicionales en un día especial!",
+    "fullDescription": "El Día de los Reyes, 6 de enero, celebraremos la tradición y el sabor auténtico de Guantanamera. Disfruta de nuestros platos tradicionales, como las Patas Asadas y las Costillas. No te pierdas esta oportunidad única para deleitarte con la gastronomía local.",
+    "image": "/images/gallery/bar-cocina-1.jpg",
+    "tag": "Día de los Reyes",
+    "icon": "calendar",
+    "cta": "Más información",
+    "detailsImage": "/images/gallery/bar-cocina-1.jpg"
+  }
+]

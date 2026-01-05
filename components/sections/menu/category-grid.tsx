@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { ArrowRight, UtensilsCrossed } from "lucide-react"
-import menuData from "@/data/menu-data.json"
+import menuData from "@/data/menu.json"
 import { MenuData } from "@/types/menu"
 import { staggerContainer, fadeInUp, scaleIn } from "./animations"
 

@@ -88,9 +88,9 @@ bar-restaurant-web/
 │   ├── sections/          # Page sections
 │   └── ui/                # UI components
 ├── data/                  # Static data files
-│   ├── gallery-data.json  # Photo gallery data
-│   ├── menu-data.json     # Menu items data
-│   └── testimonials-data.json
+│   ├── gallery.json  # Photo gallery data
+│   ├── menu.json     # Menu items data
+│   └── testimonials.json
 ├── hooks/                 # Custom React hooks
 ├── lib/                   # Utility libraries
 ├── public/                # Static assets

@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 
-import menuData from "@/data/menu-data.json"
+import menuData from "@/data/menu.json"
 import type { MenuData, MenuItem } from "@/types/menu"
 
 import { MenuHeader } from "./menu/menu-header"

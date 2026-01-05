@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Star, Quote, Filter, ChevronDown, User, Calendar, ThumbsUp, ExternalLink } from "lucide-react"
 import { motion, easeOut, useInView } from "framer-motion"
 import { useRef, useState, useMemo, useCallback, memo } from "react"
-import testimonialsData from "@/data/testimonials-data.json"
+import testimonialsData from "@/data/testimonials.json"
 import { Testimonial, TestimonialStats } from "@/types/testimonials"
 import { getReviewUrl, getPlaceUrl } from "@/lib/google-maps"
 

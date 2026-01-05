@@ -6,7 +6,7 @@ import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Wave } from "@/components/ui/wave";
-import galleryData from "@/data/gallery-data.json";
+import galleryData from "@/data/gallery.json";
 import { GalleryImage } from "@/types/gallery";
 
 // Componente de video optimizado que se carga cuando está visible

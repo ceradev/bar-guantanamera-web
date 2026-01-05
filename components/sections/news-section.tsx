@@ -3,53 +3,18 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Clock, Utensils, ShoppingBag, ChevronLeft, ChevronRight, X, Calendar, Laptop, Truck, Bell } from "lucide-react"
+import { ArrowRight, X, Bell } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 
-const newsItems = [
-  {
-    id: 1,
-    title: "Encargos de Navidad",
-    shortDescription: "¡Reserva ya! Patas asadas por encargo para el 24 y 31 de diciembre. Plazas limitadas.",
-    fullDescription: "Estas Navidades, deja que nosotros cocinemos por ti. Estamos aceptando encargos de nuestras famosas Patas Asadas para las cenas de Nochebuena (24 de diciembre) y Nochevieja (31 de diciembre). Para garantizar tu reserva, es necesario acudir al local con antelación y realizar el pago previo. ¡No te quedes sin el plato estrella de estas fiestas! Te recomendamos reservar lo antes posible ya que tenemos un cupo limitado.",
-    image: "/images/menu/ribs-and-legs/pata-asada-entera.png",
-    tag: "Especial Navidad",
-    icon: <Calendar className="w-4 h-4" />,
-    cta: "Más información",
-    detailsImage: "/images/menu/ribs-and-legs/pata-asada-entera.png"
-  },
-  {
-    id: 2,
-    title: "Pedidos Online (Próximamente)",
-    shortDescription: "Muy pronto podrás hacer tus pedidos directamente desde nuestra web. Más fácil, más rápido.",
-    fullDescription: "Estamos trabajando para mejorar tu experiencia. Muy pronto lanzaremos nuestro nuevo sistema de pedidos online integrado directamente en esta página web. Podrás consultar el menú actualizado, seleccionar tus platos favoritos, personalizar tu pedido y elegir la hora de recogida o entrega, todo desde tu móvil u ordenador. ¡Olvídate de las esperas al teléfono!",
-    image: "/images/gallery/bar-barra.jpg",
-    tag: "Próximamente",
-    icon: <Laptop className="w-4 h-4" />,
-    cta: "Descubrir",
-    detailsImage: "/images/gallery/bar-barra.jpg"
-  },
-  {
-    id: 3,
-    title: "Servicio a Domicilio",
-    shortDescription: "Disfruta de Guantanamera en casa. Ya disponibles en Uber Eats y Glovo.",
-    fullDescription: "¿No te apetece salir? No hay problema. Ahora llevamos el sabor auténtico de Guantanamera hasta la puerta de tu casa. Hemos activado nuestro servicio de delivery a través de las principales plataformas: Uber Eats y Glovo. Busca 'Bar Guantanamera' en tu app favorita, haz tu pedido y disfruta de nuestros pollos asados, costillas y especialidades sin moverte del sofá.",
-    image: "/images/gallery/bar-entrada-1.jpg",
-    tag: "Delivery",
-    icon: <Truck className="w-4 h-4" />,
-    cta: "Pedir ahora",
-    detailsImage: "/images/gallery/bar-entrada-1.jpg"
-  }
-]
+import { newsItems, type NewsItem } from "@/data/news"
 
 const AUTOPLAY_INTERVAL = 5000 // 5 segundos
 
@@ -57,7 +22,7 @@ export default function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<typeof newsItems[0] | null>(null)
+  const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null)
 
   const paginate = useCallback((newDirection: number) => {
     setDirection(newDirection)
