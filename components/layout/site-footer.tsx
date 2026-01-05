@@ -22,7 +22,7 @@ export default function SiteFooter() {
     return pathname === "/" ? hash : `/${hash}`;
   };
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-black/90 text-white">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
@@ -54,6 +54,14 @@ export default function SiteFooter() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  href={getHashLink("#novedades")}
+                  className="text-gray-300 hover:text-red-500 transition-colors text-sm"
+                >
+                  Novedades
+                </Link>
+              </li>
+              <li>
+                <Link
                   href={getHashLink("#menu")}
                   className="text-gray-300 hover:text-red-500 transition-colors text-sm"
                 >
@@ -82,14 +90,6 @@ export default function SiteFooter() {
                   className="text-gray-300 hover:text-red-500 transition-colors text-sm"
                 >
                   Ubicación
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={getHashLink("#pedir")}
-                  className="text-gray-300 hover:text-red-500 transition-colors text-sm"
-                >
-                  Hacer Pedido
                 </Link>
               </li>
             </ul>
@@ -173,14 +173,6 @@ export default function SiteFooter() {
                 className="text-gray-400 hover:text-red-500 transition-colors"
               >
                 Términos de Servicio
-              </Link>
-              <Link
-                href="https://ceradev.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-red-500 transition-colors"
-              >
-                Creado por ceradev
               </Link>
             </div>
           </div>

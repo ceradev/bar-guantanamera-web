@@ -37,7 +37,7 @@ export default function ProductCard({
                 <div className="pr-4">
                     <div className="text-gray-900 font-semibold text-lg">{item.name}</div>
                     {item.description && (
-                        <div className="text-base text-gray-500 mt-2 line-clamp-2">{item.description}</div>
+                        <div className="text-base text-gray-500 mt-2">{item.description}</div>
                     )}
                 </div>
                 <div className="text-red-600 font-bold text-lg">{item.price}</div>
@@ -57,7 +57,7 @@ export default function ProductCard({
                             <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onDecrease}>
                                 <Minus className="w-4 h-4" />
                             </Button>
-                            <div className="w-12 text-center font-semibold text-lg">{inCart.quantity}</div>
+                            <div className="w-12 text-center font-semibold text-md">{inCart.quantity}</div>
                             <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onIncrease}>
                                 <Plus className="w-4 h-4" />
                             </Button>

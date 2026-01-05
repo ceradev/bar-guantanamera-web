@@ -9,6 +9,7 @@ import { useThrottle } from "@/hooks/use-throttle"
 export default function FloatingCallButton() {
   const [isVisible, setIsVisible] = useState(false)
   const [isClosed, setIsClosed] = useState(false)
+  const [footerVisible, setFooterVisible] = useState(false)
 
   const toggleVisibility = useCallback(() => {
     setIsVisible(window.pageYOffset > 300)
@@ -34,6 +35,20 @@ export default function FloatingCallButton() {
     }
   }, []) // Array vacío porque la función wrapper es estable y usa la ref
 
+  useEffect(() => {
+    const footer = document.querySelector("footer")
+    if (!footer) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        setFooterVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
   const handleCall = () => {
     window.location.href = "tel:922173039"
   }
@@ -47,7 +62,7 @@ export default function FloatingCallButton() {
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && !footerVisible && (
         <motion.div
           className="fixed bottom-20 right-6 z-50"
           initial={{ opacity: 0, scale: 0.8, x: 100 }}

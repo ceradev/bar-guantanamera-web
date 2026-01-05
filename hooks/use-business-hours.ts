@@ -33,7 +33,8 @@ export function useBusinessHours(businessHours: BusinessHour[]) {
       const next = businessHours.find(b => b.days.includes(idx) && b.hours !== "Cerrado")
       if (next) {
         const [openStr] = next.hours.split(" - ")
-        return `Estamos cerrados. Volvemos ${i === 1 ? "mañana" : `el ${names[idx]}`} a las ${openStr}`
+        const [closeStr] = next.hours.split(" - ").slice(-1)
+        return `Estaremos disponibles el ${names[idx]} de ${openStr} a ${closeStr}`
       }
     }
     return "Estamos cerrados."

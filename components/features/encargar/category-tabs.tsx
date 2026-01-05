@@ -22,7 +22,7 @@ export default function CategoryTabs({
           <button
             key={key}
             onClick={() => onSelect(key)}
-            className={`px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-left transition-colors text-sm md:text-[0.95rem] font-semibold min-w-[140px] md:min-w-[160px] border snap-start ${
+            className={`px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-left transition-colors text-sm md:text-[0.95rem] font-semibold min-w-[120px] md:min-w-[140px] border snap-start ${
               activeKey === key ? "bg-red-50 text-red-600 border-red-600" : "hover:bg-gray-50 text-gray-800 border-gray-200/60"
             }`}
           >

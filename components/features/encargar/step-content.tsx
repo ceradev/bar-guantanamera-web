@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Clock, User, Phone } from "lucide-react"
 import type { CartItem, OrderStep } from "@/types/order"
@@ -39,11 +40,17 @@ export default function StepContent({
   submit: () => void
 }) {
   const isMobile = variant === "mobile"
+  useEffect(() => {
+    if (cartItems.length === 0 && step !== "productos") {
+      setPickupTime("")
+      setStep("productos")
+    }
+  }, [cartItems.length, step, setStep, setPickupTime])
 
   if (step === "hora") {
     return (
       <div className="space-y-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Clock className={`${isMobile ? "w-5 h-5" : "w-5 h-5"} text-gray-500`} />
           <h3 className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-gray-900`}>Selecciona la hora de recogida</h3>
         </div>
@@ -90,13 +97,15 @@ export default function StepContent({
         <div className="space-y-1">
           <div className="flex items-center justify-between">
             <div className={`${isMobile ? "text-sm" : "text-base"} text-gray-700`}>Teléfono</div>
-            <div className={`${isMobile ? "text-xs" : "text-sm"} text-gray-500`}>Obligatorio si el total supera 30€</div>
+            <div className={`${isMobile ? "text-xs" : "text-sm"} text-red-500`}>Obligatorio si el total supera 30€</div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Phone className={`${isMobile ? "w-4 h-4" : "w-5 h-5"} text-gray-500`} />
             <input
               value={phone}
               onChange={e => setPhone(e.target.value)}
+              type="tel"
+              disabled={total <= 30}
               placeholder="Teléfono de contacto"
               className={`w-full rounded-lg border border-gray-300 bg-white ${isMobile ? "px-3 py-2 text-sm" : "px-4 py-3 text-base"} focus:outline-none focus:ring-2 focus:ring-red-600`}
             />
@@ -143,17 +152,17 @@ export default function StepContent({
             ))}
           </div>
           <div className="flex items-center justify-between pt-2">
-            <div className="text-sm text-gray-600">Total</div>
+            <div className="text-md text-gray-600">Total</div>
             <div className="text-lg font-bold text-gray-900">{formatPrice(total)}</div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="rounded-full" onClick={() => setStep("cliente")}>Editar datos</Button>
-          <Button variant="outline" className="rounded-full" onClick={() => setStep("hora")}>Editar hora</Button>
+        <div className="flex items-center gap-1">
+          <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("cliente")}>Editar datos</Button>
+          <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("hora")}>Editar hora</Button>
           <Button
             onClick={submit}
+            size="sm"
             className={`flex-1 bg-red-600 text-white hover:bg-red-700 rounded-full disabled:opacity-60`}
-            disabled={!isOpenNow}
           >
             Encargar pedido
           </Button>
