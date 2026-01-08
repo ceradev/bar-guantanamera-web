@@ -10,6 +10,7 @@ export default function ProductCard({
     item,
     inCart,
     isOpenNow,
+    inactive,
     onAdd,
     onIncrease,
     onDecrease,
@@ -18,6 +19,7 @@ export default function ProductCard({
     item: MenuItem
     inCart?: CartItem
     isOpenNow: boolean
+    inactive?: boolean
     onAdd: () => void
     onIncrease: () => void
     onDecrease: () => void
@@ -47,23 +49,23 @@ export default function ProductCard({
                     <Button
                         onClick={onAdd}
                         className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full py-3 text-base disabled:opacity-60"
-                        disabled={!isOpenNow}
+                        disabled={!isOpenNow || !!inactive}
                     >
-                        + Añadir
+                        {inactive ? "No disponible" : "+ Añadir"}
                     </Button>
                 ) : (
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onDecrease}>
-                                <Minus className="w-4 h-4" />
-                            </Button>
-                            <div className="w-12 text-center font-semibold text-md">{inCart.quantity}</div>
-                            <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onIncrease}>
-                                <Plus className="w-4 h-4" />
-                            </Button>
+                          <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onDecrease}>
+                            <Minus className="w-4 h-4" />
+                          </Button>
+                          <div className="w-12 text-center font-semibold text-md">{inCart.quantity}</div>
+                          <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onIncrease} disabled={!!inactive}>
+                            <Plus className="w-4 h-4" />
+                          </Button>
                         </div>
                         <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onRemove}>
-                            <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4" />
                         </Button>
                     </div>
                 )}

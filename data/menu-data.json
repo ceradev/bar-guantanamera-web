@@ -275,19 +275,19 @@
     ],
   "comboMeals": [
     {
-      "name": "Menú Pollo",
+      "name": "Menu Pollo",
       "description": "Pollo + Papas Fritas + Refresco",
       "price": "14.50€",
       "icon": "🐔"
     },
     {
-      "name": "Menú Medio Pollo",
+      "name": "Menu Medio Pollo",
       "description": "Medio pollo + Papas Fritas + Refresco",
       "price": "8.80€",
       "icon": "🍗"
     },
     {
-      "name": "Menú Burrito",
+      "name": "Menu Burrito",
       "description": "Burrito + Papas Fritas + Refresco",
       "price": "7.50€",
       "icon": "🌯"

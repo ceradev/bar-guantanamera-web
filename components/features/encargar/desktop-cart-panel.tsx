@@ -10,6 +10,7 @@ export default function DesktopCartPanel({
   total,
   pickupTime,
   isOpenNow,
+  inactiveNames,
   onChooseHour,
   onIncrease,
   onDecrease,
@@ -19,6 +20,7 @@ export default function DesktopCartPanel({
   total: number
   pickupTime: string
   isOpenNow: boolean
+  inactiveNames?: string[]
   onChooseHour: () => void
   onIncrease: (name: string) => void
   onDecrease: (name: string) => void
@@ -36,6 +38,7 @@ export default function DesktopCartPanel({
               <CartItemRowComp
                 key={it.name}
                 item={it}
+                inactive={inactiveNames?.includes(it.name)}
                 onDecrease={() => onDecrease(it.name)}
                 onIncrease={() => onIncrease(it.name)}
                 onRemove={() => onRemove(it.name)}

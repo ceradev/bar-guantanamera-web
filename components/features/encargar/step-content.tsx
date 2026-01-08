@@ -138,6 +138,9 @@ export default function StepContent({
     return (
       <div className="space-y-4">
         <div className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-gray-900`}>Confirmación</div>
+        {errors.length > 0 && (
+          <div className={`${isMobile ? "text-xs" : "text-sm"} rounded-lg bg-red-50 text-red-700 px-3 py-2`}>{errors.join(" ")}</div>
+        )}
         <div className="rounded-xl border border-gray-200 p-4 space-y-2">
           <div className="text-sm text-gray-700">Nombre: <span className="font-semibold">{name}</span></div>
           <div className="text-sm text-gray-700">Teléfono: <span className="font-semibold">{phone || "—"}</span></div>

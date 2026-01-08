@@ -48,15 +48,17 @@ export default function PedirPage() {
     const [toastMessage, setToastMessage] = useState("")
     const [lastOrder, setLastOrder] = useState<{ name: string; phone: string; pickupTime: string; total: number } | null>(null)
     const { slots, isOpenNow, nextOpenText } = useBusinessHours(BUSINESS_HOURS)
+    const [inactiveNames, setInactiveNames] = useState<string[]>([])
+    const [inactiveError, setInactiveError] = useState<string | null>(null)
 
-    const submit = () => {
-        const { errors, message } = processOrderSubmission({
+    const submit = async () => {
+        const { errors, message } = await processOrderSubmission({
             name,
             phone,
             pickupTime,
             total,
             cartCount: Object.keys(cart).length,
-        })
+        }, Object.values(cart))
         setErrors(errors)
         if (errors.length === 0 && message) {
             setToastMessage(message)
@@ -82,6 +84,29 @@ export default function PedirPage() {
     const sectionKeys = useMemo(() => Object.keys(allCategories), [allCategories])
     const { activeCategory: activeCategoryFromHook, scrollToCategory } = useCategoryScroll(productsRef as React.RefObject<HTMLDivElement>, sectionKeys)
     useEffect(() => { setActiveCategory(activeCategoryFromHook) }, [activeCategoryFromHook])
+    useEffect(() => {
+        let mounted = true
+        const fetchInactive = async () => {
+            try {
+                const res = await fetch("http://localhost:8000/products/inactive-names")
+                if (!res.ok) throw new Error(String(res.status))
+                const data = await res.json()
+                const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
+                if (mounted) {
+                    setInactiveNames(names)
+                    setInactiveError(null)
+                }
+            } catch {
+                if (mounted) setInactiveError("No se pudo actualizar la lista de productos inactivos.")
+            }
+        }
+        fetchInactive()
+        const interval = setInterval(fetchInactive, 10000)
+        return () => {
+            mounted = false
+            clearInterval(interval)
+        }
+    }, [])
 
     return (
         <>
@@ -110,6 +135,23 @@ export default function PedirPage() {
                             Pago y recogida en el local, fácil y rápido.
                         </p>
                     </div>
+                    {inactiveError && (
+                        <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
+                            {inactiveError}
+                        </div>
+                    )}
+                    {inactiveNames.length > 0 && (
+                        <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3">
+                            <div className="text-sm font-semibold text-yellow-800">Productos temporalmente inactivos</div>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                {inactiveNames.map(n => (
+                                    <span key={n} className="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-200">
+                                        {n}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
                         <div className="lg:col-span-3 lg:col-start-1">
                             {/* Pestañas de categorías */}
@@ -127,12 +169,14 @@ export default function PedirPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {category.items.map(item => {
                                             const inCart = cart[item.name]
+                                            const inactive = inactiveNames.includes(item.name)
                                             return (
                                                 <ProductCard
                                                     key={item.name}
                                                     item={item as any}
                                                     inCart={inCart}
                                                     isOpenNow={isOpenNow}
+                                                    inactive={inactive}
                                                     onAdd={() => addToCart(item)}
                                                     onIncrease={() => increase(item.name)}
                                                     onDecrease={() => decrease(item.name)}
@@ -164,8 +208,9 @@ export default function PedirPage() {
                                                     <Button
                                                         onClick={() => addToCart({ name: combo.name, price: combo.price } as any)}
                                                         className="bg-red-600 text-white hover:bg-red-700 rounded-full"
+                                                        disabled={inactiveNames.includes(combo.name) || !isOpenNow}
                                                     >
-                                                        + Añadir
+                                                        {inactiveNames.includes(combo.name) ? "No disponible" : "+ Añadir"}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -197,8 +242,9 @@ export default function PedirPage() {
                                                     onClick={() => addToCart({ name: mojo.name, price: mojo.price } as any)}
                                                     variant="outline"
                                                     className="rounded-full"
+                                                    disabled={inactiveNames.includes(mojo.name) || !isOpenNow}
                                                 >
-                                                    + Añadir
+                                                    {inactiveNames.includes(mojo.name) ? "No disponible" : "+ Añadir"}
                                                 </Button>
                                             </div>
                                         </div>
@@ -232,8 +278,9 @@ export default function PedirPage() {
                                                                 onClick={() => addToCart({ name: drink.name, price: drink.price } as any)}
                                                                 variant="outline"
                                                                 className="rounded-full"
+                                                                disabled={inactiveNames.includes(drink.name) || !isOpenNow}
                                                             >
-                                                                + Añadir
+                                                                {inactiveNames.includes(drink.name) ? "No disponible" : "+ Añadir"}
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -253,6 +300,7 @@ export default function PedirPage() {
                                 total={total}
                                 pickupTime={pickupTime}
                                 isOpenNow={isOpenNow}
+                                inactiveNames={inactiveNames}
                                 onChooseHour={() => setStep("hora")}
                                 onIncrease={(name) => increase(name)}
                                 onDecrease={(name) => decrease(name)}
@@ -310,6 +358,7 @@ export default function PedirPage() {
                                             key={it.name}
                                             item={it}
                                             mobile
+                                            inactive={inactiveNames.includes(it.name)}
                                             onDecrease={() => decrease(it.name)}
                                             onIncrease={() => increase(it.name)}
                                             onRemove={() => removeItem(it.name)}

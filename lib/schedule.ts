@@ -41,7 +41,6 @@ export function getPickupSlots(businessHours: BusinessHour[], prepMarginMinutes:
   const start = new Date(sched.open)
   start.setMinutes(start.getMinutes() + Math.max(0, prepMarginMinutes))
   const end = new Date(sched.close)
-  end.setMinutes(end.getMinutes() - Math.max(0, prepMarginMinutes))
   // Respect current time: do not allow past slots
   const now = new Date()
   const nowWithMargin = new Date(now)

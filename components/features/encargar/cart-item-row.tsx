@@ -8,12 +8,14 @@ import { formatPrice } from "@/lib/pricing"
 export default function CartItemRow({
   item,
   mobile,
+  inactive,
   onDecrease,
   onIncrease,
   onRemove,
 }: {
   item: CartItem
   mobile?: boolean
+  inactive?: boolean
   onDecrease: () => void
   onIncrease: () => void
   onRemove: () => void
@@ -30,7 +32,7 @@ export default function CartItemRow({
             <Minus className="w-4 h-4" />
           </Button>
           <div className={`${mobile ? "w-8" : "w-10"} text-center font-semibold ${mobile ? "text-sm" : "text-base"}`}>{item.quantity}</div>
-          <Button variant="outline" size="icon" className={`${mobile ? "h-8 w-8" : "h-9 w-9"} rounded-full`} onClick={onIncrease}>
+          <Button variant="outline" size="icon" className={`${mobile ? "h-8 w-8" : "h-9 w-9"} rounded-full`} onClick={onIncrease} disabled={!!inactive}>
             <Plus className="w-4 h-4" />
           </Button>
           <Button variant="outline" size="icon" className={`${mobile ? "h-8 w-8" : "h-9 w-9"} rounded-full`} onClick={onRemove}>
