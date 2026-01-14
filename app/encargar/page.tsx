@@ -88,7 +88,7 @@ export default function PedirPage() {
         let mounted = true
         const fetchInactive = async () => {
             try {
-                const res = await fetch("http://localhost:8000/products/inactive-names")
+                const res = await fetch("https://api.barguantanamera.com/products/inactive-names")
                 if (!res.ok) throw new Error(String(res.status))
                 const data = await res.json()
                 const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])

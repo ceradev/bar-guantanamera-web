@@ -50,7 +50,7 @@ export async function processOrderSubmission(
     ...(form.phone.trim() ? { customerPhone: form.phone.trim() } : {}),
   }
   try {
-    const res = await fetch("http://localhost:8000/orders", {
+    const res = await fetch("https://api.barguantanamera.com/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
