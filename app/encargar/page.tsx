@@ -50,6 +50,8 @@ export default function PedirPage() {
     const { slots, isOpenNow, nextOpenText } = useBusinessHours(BUSINESS_HOURS)
     const [inactiveNames, setInactiveNames] = useState<string[]>([])
     const [inactiveError, setInactiveError] = useState<string | null>(null)
+    const [publicStatus, setPublicStatus] = useState<{ orders_enabled: boolean; opening_time?: string; closing_time?: string; store_name?: string; store_address?: string; store_phone?: string } | null>(null)
+    const [publicStatusError, setPublicStatusError] = useState<string | null>(null)
 
     const submit = async () => {
         const { errors, message } = await processOrderSubmission({
@@ -88,7 +90,11 @@ export default function PedirPage() {
         let mounted = true
         const fetchInactive = async () => {
             try {
-                const res = await fetch("https://api.barguantanamera.com/products/inactive-names")
+                const res = await fetch("https://api.barguantanamera.com/products/inactive-names", {
+                    headers: {
+                        "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
+                    },
+                })
                 if (!res.ok) throw new Error(String(res.status))
                 const data = await res.json()
                 const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
@@ -108,17 +114,50 @@ export default function PedirPage() {
         }
     }, [])
 
+    useEffect(() => {
+        let mounted = true
+        const fetchStatus = async () => {
+            try {
+                const res = await fetch("https://api.barguantanamera.com/settings/public/status", {
+                    headers: {
+                        "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
+                    },
+                })
+                if (!res.ok) throw new Error(String(res.status))
+                const data = await res.json()
+                if (mounted) {
+                    setPublicStatus(data)
+                    setPublicStatusError(null)
+                }
+            } catch {
+                if (mounted) setPublicStatusError("No se pudo obtener el estado de los pedidos.")
+            }
+        }
+        fetchStatus()
+        const interval = setInterval(fetchStatus, 30000)
+        return () => {
+            mounted = false
+            clearInterval(interval)
+        }
+    }, [])
+
+    const canOrder = isOpenNow && (publicStatus?.orders_enabled ?? true)
+
     return (
         <>
             <SiteHeader />
             <div className="min-h-screen bg-white">
-                <div className={isOpenNow ? "container mx-auto px-4 md:px-6 max-w-7xl py-10 md:py-16 relative" : "container mx-auto px-4 md:px-6 max-w-7xl py-10 md:py-16 relative pointer-events-none select-none overflow-hidden"}>
-                    {!isOpenNow && (
+                <div className={canOrder ? "container mx-auto px-4 md:px-6 max-w-7xl py-10 md:py-16 relative" : "container mx-auto px-4 md:px-6 max-w-7xl py-10 md:py-16 relative pointer-events-none select-none overflow-hidden"}>
+                    {(!canOrder) && (
                         <div className="absolute inset-0 z-40 bg-white/95 backdrop-blur-sm flex items-center justify-center">
                             <div className="max-w-xl mx-auto text-center px-6">
-                                <h2 className="text-3xl md:text-4xl font-bold text-red-600 mb-4">Estamos cerrados</h2>
-                                <p className="text-lg md:text-xl text-gray-700">{nextOpenText}</p>
-                                <p className="text-sm text-gray-500 mt-4">Puedes consultar el menu en la pagina principal y encargarnos tu pedido cuando estemos abiertos.</p>
+                                <h2 className="text-3xl md:text-4xl font-bold text-red-600 mb-4">
+                                    {!isOpenNow ? "Estamos cerrados" : "Pedidos online desactivados temporalmente"}
+                                </h2>
+                                <p className="text-lg md:text-xl text-gray-700">
+                                    {!isOpenNow ? nextOpenText : "En este momento no podemos aceptar pedidos desde la web."}
+                                </p>
+                                <p className="text-sm text-gray-500 mt-4">Puedes consultar el menú en la página principal o llamarnos por teléfono.</p>
                             </div>
                         </div>
                     )}
@@ -135,6 +174,11 @@ export default function PedirPage() {
                             Pago y recogida en el local, fácil y rápido.
                         </p>
                     </div>
+                    {publicStatusError && (
+                        <div className="max-w-4xl mx-auto mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
+                            {publicStatusError}
+                        </div>
+                    )}
                     {inactiveError && (
                         <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
                             {inactiveError}
@@ -175,7 +219,7 @@ export default function PedirPage() {
                                                     key={item.name}
                                                     item={item as any}
                                                     inCart={inCart}
-                                                    isOpenNow={isOpenNow}
+                                                    isOpenNow={canOrder}
                                                     inactive={inactive}
                                                     onAdd={() => addToCart(item)}
                                                     onIncrease={() => increase(item.name)}
@@ -208,7 +252,7 @@ export default function PedirPage() {
                                                     <Button
                                                         onClick={() => addToCart({ name: combo.name, price: combo.price } as any)}
                                                         className="bg-red-600 text-white hover:bg-red-700 rounded-full"
-                                                        disabled={inactiveNames.includes(combo.name) || !isOpenNow}
+                                                        disabled={inactiveNames.includes(combo.name) || !canOrder}
                                                     >
                                                         {inactiveNames.includes(combo.name) ? "No disponible" : "+ Añadir"}
                                                     </Button>
@@ -242,7 +286,7 @@ export default function PedirPage() {
                                                     onClick={() => addToCart({ name: mojo.name, price: mojo.price } as any)}
                                                     variant="outline"
                                                     className="rounded-full"
-                                                    disabled={inactiveNames.includes(mojo.name) || !isOpenNow}
+                                                        disabled={inactiveNames.includes(mojo.name) || !canOrder}
                                                 >
                                                     {inactiveNames.includes(mojo.name) ? "No disponible" : "+ Añadir"}
                                                 </Button>
@@ -278,7 +322,7 @@ export default function PedirPage() {
                                                                 onClick={() => addToCart({ name: drink.name, price: drink.price } as any)}
                                                                 variant="outline"
                                                                 className="rounded-full"
-                                                                disabled={inactiveNames.includes(drink.name) || !isOpenNow}
+                                                                disabled={inactiveNames.includes(drink.name) || !canOrder}
                                                             >
                                                                 {inactiveNames.includes(drink.name) ? "No disponible" : "+ Añadir"}
                                                             </Button>
@@ -299,7 +343,7 @@ export default function PedirPage() {
                                 items={Object.values(cart)}
                                 total={total}
                                 pickupTime={pickupTime}
-                                isOpenNow={isOpenNow}
+                                isOpenNow={canOrder}
                                 inactiveNames={inactiveNames}
                                 onChooseHour={() => setStep("hora")}
                                 onIncrease={(name) => increase(name)}
@@ -334,7 +378,7 @@ export default function PedirPage() {
                     </div>
                 </div>
                 {/* Barra inferior móvil y carrito */}
-                {isOpenNow && (
+                {canOrder && (
                 <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 md:hidden">
                     <div className="flex items-center justify-between">
                         <div className="text-sm font-semibold text-gray-900">Ver pedido</div>
@@ -383,7 +427,7 @@ export default function PedirPage() {
                                         step={step}
                                         setStep={setStep}
                                         slots={slots}
-                                        isOpenNow={isOpenNow}
+                                        isOpenNow={canOrder}
                                         pickupTime={pickupTime}
                                         setPickupTime={setPickupTime}
                                         name={name}
