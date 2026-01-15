@@ -1,7 +1,8 @@
 "use client"
 
-import React, { createContext, useContext, useEffect, useState, useMemo, useRef, useCallback } from 'react'
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react'
 import type { PublicSettings } from '@/types/settings'
+import { useNotifications } from '@/hooks/use-notifications'
 
 interface BusinessSettingsContextType {
     settings: PublicSettings | null
@@ -26,7 +27,6 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [productsLastUpdated, setProductsLastUpdated] = useState<number>(Date.now())
-    const lastSettingsFetchRef = useRef<number>(0)
 
     const fetchSettings = useCallback(async () => {
         try {
@@ -41,7 +41,6 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
             const data = await res.json()
             setSettings(data)
             setError(null)
-            lastSettingsFetchRef.current = Date.now()
         } catch (err) {
             setSettings(prev => {
                 if (!prev) setError("No se pudo cargar la configuración")
@@ -52,69 +51,18 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
         }
     }, [])
 
-    // Initial fetch
     useEffect(() => {
         fetchSettings()
     }, [fetchSettings])
 
-    // Poll notifications (solo si el endpoint existe)
-    useEffect(() => {
-        let mounted = true
-        let stopPolling = false
-
-        const poll = async () => {
-            if (stopPolling) return
-            const apiKey = process.env.NEXT_PUBLIC_API_KEY ?? ""
-            if (!apiKey) {
-                stopPolling = true
-                return
-            }
-            try {
-                const url = `https://api.barguantanamera.com/notifications?types=SETTINGS_UPDATED,PRODUCTS_UPDATED&apiKey=${encodeURIComponent(apiKey)}`
-                const res = await fetch(url)
-
-                if (!mounted) return
-
-                // Si el endpoint no existe (404), desactivar el polling definitivamente
-                if (res.status === 404) {
-                    stopPolling = true
-                    return
-                }
-
-                if (res.ok) {
-                    const data = await res.json()
-                    if (Array.isArray(data)) {
-                        const maxSettingsTime = data
-                            .filter((n: any) => n.type === "SETTINGS_UPDATED")
-                            .reduce((max: number, n: any) => Math.max(max, new Date(n.createdAt).getTime()), 0)
-
-                        if (maxSettingsTime > lastSettingsFetchRef.current) {
-                            fetchSettings()
-                        }
-
-                        const maxProductsTime = data
-                            .filter((n: any) => n.type === "PRODUCTS_UPDATED")
-                            .reduce((max: number, n: any) => Math.max(max, new Date(n.createdAt).getTime()), 0)
-
-                        setProductsLastUpdated(prev => {
-                            if (maxProductsTime > prev) return maxProductsTime
-                            return prev
-                        })
-                    }
-                }
-            } catch (e) {
-                // Silenciar errores de polling
-            }
-        }
-
-        // Intervalo más relajado para evitar spam de logs
-        const interval = setInterval(poll, 30000)
-
-        return () => {
-            mounted = false
-            clearInterval(interval)
-        }
-    }, [fetchSettings])
+    useNotifications({
+        onSettingsUpdated: () => {
+            fetchSettings()
+        },
+        onProductsUpdated: () => {
+            setProductsLastUpdated(Date.now())
+        },
+    })
 
 
     // Derived state
