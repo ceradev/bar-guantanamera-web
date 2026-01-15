@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState, useEffect, useRef } from "react"
-import menuData from "@/data/menu-data.json"
+import menuData from "@/data/menu.json"
 import type { MenuData } from "@/types/menu"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
