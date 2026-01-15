@@ -64,10 +64,14 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
 
         const poll = async () => {
             if (stopPolling) return
+            const apiKey = process.env.NEXT_PUBLIC_API_KEY ?? ""
+            if (!apiKey) {
+                stopPolling = true
+                return
+            }
             try {
-                const res = await fetch("https://api.barguantanamera.com/notifications?types=SETTINGS_UPDATED,PRODUCTS_UPDATED", {
-                    headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" }
-                })
+                const url = `https://api.barguantanamera.com/notifications?types=SETTINGS_UPDATED,PRODUCTS_UPDATED&apiKey=${encodeURIComponent(apiKey)}`
+                const res = await fetch(url)
 
                 if (!mounted) return
 
@@ -125,20 +129,20 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
         if (todaySchedule?.enabled && todaySchedule.open && todaySchedule.close) {
             const [openH, openM] = todaySchedule.open.split(':').map(Number)
             const [closeH, closeM] = todaySchedule.close.split(':').map(Number)
-
+            
             const openDate = new Date(now)
             openDate.setHours(openH, openM, 0, 0)
-
+            
             const closeDate = new Date(now)
             closeDate.setHours(closeH, closeM, 0, 0)
-
+            
             isOpen = now >= openDate && now <= closeDate
         }
 
         // Calculate nextOpenText
         let text = "Cerrado"
         if (isOpen) {
-            text = "Abierto ahora"
+             text = "Abierto ahora"
         } else {
             // Find next open slot
             // 1. Check if we open later today
