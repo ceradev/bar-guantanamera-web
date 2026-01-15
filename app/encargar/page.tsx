@@ -30,6 +30,8 @@ import { processOrderSubmission } from "@/lib/order"
 import { BUSINESS_HOURS } from "@/data/business-hours"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import Link from "next/link"
+import { useBusinessSettings } from "@/components/providers/business-settings-provider"
+import { getPickupSlotsFromSettings } from "@/lib/schedule"
 
 const { menuCategories, bebidas, mojos, comboMeals } = menuData as MenuData
 
@@ -47,11 +49,29 @@ export default function PedirPage() {
     const [toastOpen, setToastOpen] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
     const [lastOrder, setLastOrder] = useState<{ name: string; phone: string; pickupTime: string; total: number } | null>(null)
-    const { slots, isOpenNow, nextOpenText } = useBusinessHours(BUSINESS_HOURS)
+    
+    // Business Settings (Context)
+    const { settings, isOpenNow: dynamicIsOpen, nextOpenText: dynamicNextOpen, isLoading: settingsLoading, productsLastUpdated } = useBusinessSettings()
+    
+    // Static fallback
+    const { slots: staticSlots, isOpenNow: staticIsOpen, nextOpenText: staticNextOpen } = useBusinessHours(BUSINESS_HOURS)
+    
+    // Derived state mixing dynamic and static
+    const isOpenNow = settings ? dynamicIsOpen : staticIsOpen
+    const nextOpenText = settings ? dynamicNextOpen : staticNextOpen
+    
+    const slots = useMemo(() => {
+        if (settings?.weekly_schedule) {
+            return getPickupSlotsFromSettings(settings.weekly_schedule, settings.prep_time ?? 15)
+        }
+        return staticSlots
+    }, [settings, staticSlots])
+
+    const canOrder = isOpenNow && (settings?.orders_enabled ?? true)
+
     const [inactiveNames, setInactiveNames] = useState<string[]>([])
     const [inactiveError, setInactiveError] = useState<string | null>(null)
-    const [publicStatus, setPublicStatus] = useState<{ orders_enabled: boolean; opening_time?: string; closing_time?: string; store_name?: string; store_address?: string; store_phone?: string } | null>(null)
-    const [publicStatusError, setPublicStatusError] = useState<string | null>(null)
+
 
     const submit = async () => {
         const { errors, message } = await processOrderSubmission({
@@ -85,7 +105,10 @@ export default function PedirPage() {
     const beveragesByCategory = useMemo(() => groupBeverages(bebidas as any), [])
     const sectionKeys = useMemo(() => Object.keys(allCategories), [allCategories])
     const { activeCategory: activeCategoryFromHook, scrollToCategory } = useCategoryScroll(productsRef as React.RefObject<HTMLDivElement>, sectionKeys)
-    useEffect(() => { setActiveCategory(activeCategoryFromHook) }, [activeCategoryFromHook])
+    useEffect(() => {
+        setActiveCategory(activeCategoryFromHook)
+    }, [activeCategoryFromHook])
+
     useEffect(() => {
         let mounted = true
         const fetchInactive = async () => {
@@ -107,41 +130,11 @@ export default function PedirPage() {
             }
         }
         fetchInactive()
-        const interval = setInterval(fetchInactive, 10000)
+        
         return () => {
             mounted = false
-            clearInterval(interval)
         }
-    }, [])
-
-    useEffect(() => {
-        let mounted = true
-        const fetchStatus = async () => {
-            try {
-                const res = await fetch("https://api.barguantanamera.com/settings/public/status", {
-                    headers: {
-                        "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
-                    },
-                })
-                if (!res.ok) throw new Error(String(res.status))
-                const data = await res.json()
-                if (mounted) {
-                    setPublicStatus(data)
-                    setPublicStatusError(null)
-                }
-            } catch {
-                if (mounted) setPublicStatusError("No se pudo obtener el estado de los pedidos.")
-            }
-        }
-        fetchStatus()
-        const interval = setInterval(fetchStatus, 30000)
-        return () => {
-            mounted = false
-            clearInterval(interval)
-        }
-    }, [])
-
-    const canOrder = isOpenNow && (publicStatus?.orders_enabled ?? true)
+    }, [productsLastUpdated])
 
     return (
         <>
@@ -152,10 +145,12 @@ export default function PedirPage() {
                         <div className="absolute inset-0 z-40 bg-white/95 backdrop-blur-sm flex items-center justify-center">
                             <div className="max-w-xl mx-auto text-center px-6">
                                 <h2 className="text-3xl md:text-4xl font-bold text-red-600 mb-4">
-                                    {!isOpenNow ? "Estamos cerrados" : "Pedidos online desactivados temporalmente"}
+                                    {!isOpenNow ? "Establecimiento Cerrado" : "Pedidos no disponibles"}
                                 </h2>
                                 <p className="text-lg md:text-xl text-gray-700">
-                                    {!isOpenNow ? nextOpenText : "En este momento no podemos aceptar pedidos desde la web."}
+                                    {!isOpenNow 
+                                        ? (nextOpenText || "Vuelve a intentarlo dentro del horario comercial.") 
+                                        : "En este momento no podemos aceptar pedidos desde la web."}
                                 </p>
                                 <p className="text-sm text-gray-500 mt-4">Puedes consultar el menú en la página principal o llamarnos por teléfono.</p>
                             </div>
@@ -174,11 +169,6 @@ export default function PedirPage() {
                             Pago y recogida en el local, fácil y rápido.
                         </p>
                     </div>
-                    {publicStatusError && (
-                        <div className="max-w-4xl mx-auto mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
-                            {publicStatusError}
-                        </div>
-                    )}
                     {inactiveError && (
                         <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
                             {inactiveError}

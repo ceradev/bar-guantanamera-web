@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import {
   MapPin,
   Phone,
@@ -11,9 +12,17 @@ import {
   Instagram,
   Twitter,
 } from "lucide-react";
+import { useBusinessSettings } from "@/components/providers/business-settings-provider";
+import { groupSchedule } from "@/lib/schedule";
+import { BUSINESS_HOURS } from "@/data/business-hours";
 
 export default function SiteFooter() {
   const pathname = usePathname();
+  const { settings } = useBusinessSettings();
+  const displayedSchedule = useMemo(() => {
+      if (!settings?.weekly_schedule) return BUSINESS_HOURS
+      return groupSchedule(settings.weekly_schedule)
+  }, [settings])
 
   // Helper para ajustar enlaces con hash según la ruta actual
   const getHashLink = (hash: string) => {
@@ -137,18 +146,14 @@ export default function SiteFooter() {
               <div className="flex items-start gap-3">
                 <Clock className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
                 <div className="text-sm">
-                  <div className="text-gray-300">
-                    <div className="font-medium text-white mb-1">
-                      Lunes, Jueves y Viernes
-                    </div>
-                    <div>9:00 - 18:00</div>
-                  </div>
-                  <div className="text-gray-300 mt-2">
-                    <div className="font-medium text-white mb-1">
-                      Sábados y Domingos
-                    </div>
-                    <div>9:00 - 17:00</div>
-                  </div>
+                  {displayedSchedule.map((schedule, idx) => (
+                      <div key={idx} className={idx > 0 ? "text-gray-300 mt-2" : "text-gray-300"}>
+                        <div className="font-medium text-white mb-1">
+                          {schedule.dayLabel}
+                        </div>
+                        <div>{schedule.hours}</div>
+                      </div>
+                  ))}
                 </div>
               </div>
             </div>

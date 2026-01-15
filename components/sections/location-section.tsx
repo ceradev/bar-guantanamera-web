@@ -6,17 +6,24 @@ import { Badge } from "@/components/ui/badge";
 import { Wave } from "@/components/ui/wave";
 import { MapPin, Clock, Navigation, Copy, ExternalLink } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { fadeInUp, scaleIn } from "./menu/animations";
 import type { BusinessHour } from "@/lib/schedule";
 import { BUSINESS_HOURS } from "@/data/business-hours";
 import { getPlaceUrl } from "@/lib/google-maps";
-import { isToday, isClosed, getBadge } from "@/lib/schedule";
+import { isToday, isClosed, getBadge, groupSchedule } from "@/lib/schedule";
+import { useBusinessSettings } from "@/components/providers/business-settings-provider";
 
 export default function LocationSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const { settings } = useBusinessSettings();
+
+  const displayedSchedule = useMemo(() => {
+      if (!settings?.weekly_schedule) return BUSINESS_HOURS
+      return groupSchedule(settings.weekly_schedule)
+  }, [settings])
 
   const address = "C. Castro, 7, 38611 San Isidro, Santa Cruz de Tenerife";
 
@@ -183,7 +190,7 @@ export default function LocationSection() {
                   <h3 className="font-bold text-gray-900">Horarios</h3>
                 </div>
                 <div className="space-y-3">
-                  {BUSINESS_HOURS.map((schedule, index) => (
+                  {displayedSchedule.map((schedule, index) => (
                     <div
                       key={index + schedule.dayLabel}
                       className={`flex justify-between items-center p-4 rounded-xl transition-colors ${getScheduleContainerClasses(
