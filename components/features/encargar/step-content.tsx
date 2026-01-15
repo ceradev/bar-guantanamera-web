@@ -54,7 +54,7 @@ export default function StepContent({
           <Clock className={`${isMobile ? "w-5 h-5" : "w-5 h-5"} text-gray-500`} />
           <h3 className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-gray-900`}>Selecciona la hora de recogida</h3>
         </div>
-        <div className={`${isMobile ? "max-h-[40vh]" : "max-h-[45vh]"} overflow-y-auto pr-1`}>
+        <div className={`${isMobile ? "max-h-[32vh]" : "max-h-[45vh]"} overflow-y-auto pr-1`}>
           <div className={`grid ${isMobile ? "grid-cols-3 gap-2" : "grid-cols-3 gap-3"}`}>
           {slots.map(s => (
             <button
@@ -141,7 +141,7 @@ export default function StepContent({
         {errors.length > 0 && (
           <div className={`${isMobile ? "text-xs" : "text-sm"} rounded-lg bg-red-50 text-red-700 px-3 py-2`}>{errors.join(" ")}</div>
         )}
-        <div className="rounded-xl border border-gray-200 p-4 space-y-2">
+        <div className={`rounded-xl border border-gray-200 p-4 space-y-2 ${isMobile ? "max-h-[40vh] overflow-y-auto pr-1" : ""}`}>
           <div className="text-sm text-gray-700">Nombre: <span className="font-semibold">{name}</span></div>
           <div className="text-sm text-gray-700">Teléfono: <span className="font-semibold">{phone || "—"}</span></div>
           <div className="text-sm text-gray-700">Hora de recogida: <span className="font-semibold">{pickupTime || "Sin seleccionar"}</span></div>
