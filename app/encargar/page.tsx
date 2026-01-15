@@ -73,18 +73,22 @@ export default function PedirPage() {
     const [inactiveError, setInactiveError] = useState<string | null>(null)
 
 
+    const hasItems = Object.keys(cart).length > 0
+    const bagFee = hasItems ? 0.10 : 0
+    const finalTotal = total + bagFee
+
     const submit = async () => {
         const { errors, message } = await processOrderSubmission({
             name,
             phone,
             pickupTime,
-            total,
-            cartCount: Object.keys(cart).length,
+            total: finalTotal,
+            cartCount: hasItems ? Object.keys(cart).length : 0,
         }, Object.values(cart))
         setErrors(errors)
         if (errors.length === 0 && message) {
             setToastMessage(message)
-            setLastOrder({ name, phone, pickupTime, total })
+            setLastOrder({ name, phone, pickupTime, total: finalTotal })
             setToastOpen(true)
             setCart({})
             setName("")
@@ -331,7 +335,8 @@ export default function PedirPage() {
                             {/* Panel de carrito (escritorio) */}
                             <DesktopCartPanel
                                 items={Object.values(cart)}
-                                total={total}
+                                total={finalTotal}
+                                bagFee={bagFee}
                                 pickupTime={pickupTime}
                                 isOpenNow={canOrder}
                                 inactiveNames={inactiveNames}
@@ -359,7 +364,8 @@ export default function PedirPage() {
                                         setPhone={setPhone}
                                         errors={errors}
                                         cartItems={Object.values(cart)}
-                                        total={total}
+                                        total={finalTotal}
+                                        bagFee={bagFee}
                                         submit={submit}
                                     />
                                 </div>
@@ -372,7 +378,7 @@ export default function PedirPage() {
                 <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 md:hidden">
                     <div className="flex items-center justify-between">
                         <div className="text-sm font-semibold text-gray-900">Ver pedido</div>
-                        <div className="text-lg font-bold text-red-600">{formatPrice(total)}</div>
+                        <div className="text-lg font-bold text-red-600">{formatPrice(finalTotal)}</div>
                     </div>
                     <div className="mt-2">
                         <Sheet open={mobileCartOpen} onOpenChange={setMobileCartOpen}>
@@ -398,9 +404,19 @@ export default function PedirPage() {
                                             onRemove={() => removeItem(it.name)}
                                         />
                                     ))}
-                                    <div className="flex items-center justify-between pt-2">
-                                        <div className="text-sm text-gray-600">Total</div>
-                                        <div className="text-lg font-bold text-gray-900">{formatPrice(total)}</div>
+                                    <div className="space-y-1 pt-2">
+                                        <div className="flex items-center justify-between">
+                                            <div className="text-sm text-gray-600">Subtotal</div>
+                                            <div className="text-sm font-semibold text-gray-900">{formatPrice(total)}</div>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <div className="text-sm text-gray-600">Bolsa</div>
+                                            <div className="text-sm font-semibold text-gray-900">{formatPrice(bagFee)}</div>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <div className="text-sm text-gray-600">Total</div>
+                                            <div className="text-lg font-bold text-gray-900">{formatPrice(finalTotal)}</div>
+                                        </div>
                                     </div>
                                     <Button
                                         onClick={() => {
@@ -426,7 +442,8 @@ export default function PedirPage() {
                                         setPhone={setPhone}
                                         errors={errors}
                                         cartItems={Object.values(cart)}
-                                        total={total}
+                                        total={finalTotal}
+                                        bagFee={bagFee}
                                         submit={submit}
                                     />
                                 </div>

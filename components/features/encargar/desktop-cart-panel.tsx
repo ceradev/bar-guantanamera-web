@@ -8,6 +8,7 @@ import type { CartItem } from "@/types/order"
 export default function DesktopCartPanel({
   items,
   total,
+  bagFee = 0,
   pickupTime,
   isOpenNow,
   inactiveNames,
@@ -18,6 +19,7 @@ export default function DesktopCartPanel({
 }: {
   items: CartItem[]
   total: number
+  bagFee?: number
   pickupTime: string
   isOpenNow: boolean
   inactiveNames?: string[]
@@ -44,9 +46,19 @@ export default function DesktopCartPanel({
                 onRemove={() => onRemove(it.name)}
               />
             ))}
-            <div className="flex items-center justify-between pt-2">
-              <div className="text-base text-gray-600">Total</div>
-              <div className="text-2xl font-bold text-gray-900">{formatPrice(total)}</div>
+            <div className="space-y-1 pt-2">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600">Subtotal</div>
+                <div className="text-sm font-semibold text-gray-900">{formatPrice(total - bagFee)}</div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600">Bolsa</div>
+                <div className="text-sm font-semibold text-gray-900">{formatPrice(bagFee)}</div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-base text-gray-600">Total</div>
+                <div className="text-2xl font-bold text-gray-900">{formatPrice(total)}</div>
+              </div>
             </div>
             {pickupTime && (
               <div className="text-sm text-gray-700">

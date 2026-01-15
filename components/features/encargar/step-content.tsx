@@ -21,6 +21,7 @@ export default function StepContent({
   errors,
   cartItems,
   total,
+  bagFee,
   submit,
 }: {
   variant: "desktop" | "mobile"
@@ -37,6 +38,7 @@ export default function StepContent({
   errors: string[]
   cartItems: CartItem[]
   total: number
+  bagFee: number
   submit: () => void
 }) {
   const isMobile = variant === "mobile"
@@ -154,9 +156,19 @@ export default function StepContent({
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-between pt-2">
-            <div className="text-md text-gray-600">Total</div>
-            <div className="text-lg font-bold text-gray-900">{formatPrice(total)}</div>
+          <div className="space-y-1 pt-2">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600">Subtotal</div>
+              <div className="text-sm font-semibold text-gray-900">{formatPrice(total - bagFee)}</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600">Bolsa</div>
+              <div className="text-sm font-semibold text-gray-900">{formatPrice(bagFee)}</div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="text-md text-gray-600">Total</div>
+              <div className="text-lg font-bold text-gray-900">{formatPrice(total)}</div>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-1">
