@@ -13,47 +13,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+
 import { newsItems, type NewsItem } from "@/data/news"
 
-
-const AUTOPLAY_INTERVAL = 5000
-
-function NewsDialog({ item, onClose }: { item: NewsItem | null; onClose: () => void }) {
-  return (
-    <Dialog open={!!item} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-[90vw] md:max-w-4xl p-0 overflow-hidden bg-white border-0 rounded-2xl [&>button]:hidden">
-        {item && (
-          <div className="flex flex-col md:flex-row h-[80vh] md:h-auto">
-            <div className="relative h-48 md:h-auto w-full md:w-1/2 shrink-0">
-              <Image src={item.detailsImage || item.image} alt={item.title} fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute top-4 right-4 text-white md:text-gray-900 hover:bg-white/20 md:hover:bg-gray-100 rounded-full z-10"
-                onClick={onClose}
-              >
-                <X className="w-6 h-6" />
-              </Button>
-            </div>
-
-            <div className="p-6 md:p-10 flex flex-col justify-between overflow-y-auto md:w-1/2">
-              <div>
-                <Badge className="bg-red-600 text-white border-0 mb-4 w-fit">{item.tag}</Badge>
-                <DialogTitle className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">{item.title}</DialogTitle>
-                <DialogDescription className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">{item.fullDescription}</DialogDescription>
-              </div>
-
-              <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
-                <Button variant="outline" onClick={onClose} className="rounded-full px-6 w-full md:w-auto">Cerrar</Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
-  )
-}
+const AUTOPLAY_INTERVAL = 5000 // 5 segundos
 
 export default function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0)

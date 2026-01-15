@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, Star, Flame, Leaf } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import menuData from "@/data/menu-data.json"
+import menuData from "@/data/menu.json"
 import { MenuData } from "@/types/menu"
 import { expandVariants, fadeInUp } from "./animations"
 
