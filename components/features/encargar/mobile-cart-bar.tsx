@@ -102,15 +102,17 @@ export default function MobileCartBar({
                                     <div className="text-lg font-bold text-gray-900">{formatPrice(finalTotal)}</div>
                                 </div>
                             </div>
-                            <Button
-                                onClick={() => {
-                                    setStep("hora")
-                                }}
-                                className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full"
-                                disabled={cartItems.length === 0}
-                            >
-                                Elegir hora
-                            </Button>
+                            {step === "productos" && (
+                                <Button
+                                    onClick={() => {
+                                        setStep("hora")
+                                    }}
+                                    className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full"
+                                    disabled={cartItems.length === 0}
+                                >
+                                    Elegir hora
+                                </Button>
+                            )}
                             <StepContentComp
                                 variant="mobile"
                                 step={step}
