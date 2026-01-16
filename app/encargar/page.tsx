@@ -1,144 +1,27 @@
 "use client"
 
-import { useMemo, useState, useEffect, useRef } from "react"
-import menuData from "@/data/menu.json"
-import type { MenuData } from "@/types/menu"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, CupSoda, Beer, GlassWater, Flame, CheckCircle } from "lucide-react"
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
-import { useCart } from "@/hooks/use-cart"
-import { useBusinessHours } from "@/hooks/use-business-hours"
-import { useCategoryScroll } from "@/hooks/use-category-scroll"
-import CartItemRowComp from "@/components/features/encargar/cart-item-row"
-import ProductCard from "@/components/features/encargar/product-card"
-import CategoryTabs from "@/components/features/encargar/category-tabs"
 import DesktopCartPanel from "@/components/features/encargar/desktop-cart-panel"
 import StepContentComp from "@/components/features/encargar/step-content"
-import { formatPrice } from "@/lib/pricing"
-import { groupBeverages } from "@/lib/menu"
-import type { OrderStep } from "@/types/order"
-import { processOrderSubmission } from "@/lib/order"
-import { BUSINESS_HOURS } from "@/data/business-hours"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import Link from "next/link"
-import { useBusinessSettings } from "@/components/providers/business-settings-provider"
-import { getPickupSlotsFromSettings } from "@/lib/schedule"
-
-const { menuCategories, bebidas, mojos, comboMeals } = menuData as MenuData
-
+import { useOrderPage } from "@/hooks/use-order-page"
+import OrderHero from "@/components/features/encargar/order-hero"
+import InactiveAlerts from "@/components/features/encargar/inactive-alerts"
+import MenuProductGrid from "@/components/features/encargar/menu-product-grid"
+import MobileCartBar from "@/components/features/encargar/mobile-cart-bar"
+import OrderSuccessDialog from "@/components/features/encargar/order-success-dialog"
 
 export default function PedirPage() {
-    const { cart, addToCart, increase, decrease, removeItem, total, setCart } = useCart()
-    const [name, setName] = useState("")
-    const [phone, setPhone] = useState("")
-    const [pickupTime, setPickupTime] = useState("")
-    const [errors, setErrors] = useState<string[]>([])
-    const [step, setStep] = useState<OrderStep>("productos")
-    const [mobileCartOpen, setMobileCartOpen] = useState(false)
-    const [activeCategory, setActiveCategory] = useState<string | null>(null)
-    const productsRef = useRef<HTMLDivElement>(null)
-    const [toastOpen, setToastOpen] = useState(false)
-    const [toastMessage, setToastMessage] = useState("")
-    const [lastOrder, setLastOrder] = useState<{ name: string; phone: string; pickupTime: string; total: number } | null>(null)
-    
-    // Business Settings (Context)
-    const { settings, isOpenNow: dynamicIsOpen, nextOpenText: dynamicNextOpen, isLoading: settingsLoading, productsLastUpdated } = useBusinessSettings()
-    
-    // Static fallback
-    const { slots: staticSlots, isOpenNow: staticIsOpen, nextOpenText: staticNextOpen } = useBusinessHours(BUSINESS_HOURS)
-    
-    // Derived state mixing dynamic and static
-    const isOpenNow = settings ? dynamicIsOpen : staticIsOpen
-    const nextOpenText = settings ? dynamicNextOpen : staticNextOpen
-    
-    const slots = useMemo(() => {
-        if (settings?.weekly_schedule) {
-            return getPickupSlotsFromSettings(settings.weekly_schedule, settings.prep_time ?? 15)
-        }
-        return staticSlots
-    }, [settings, staticSlots])
-
-    const canOrder = isOpenNow && (settings?.orders_enabled ?? true)
-
-    const [inactiveNames, setInactiveNames] = useState<string[]>([])
-    const [inactiveError, setInactiveError] = useState<string | null>(null)
-
-
-    const hasItems = Object.keys(cart).length > 0
-    const bagFee = hasItems ? 0.10 : 0
-    const finalTotal = total + bagFee
-
-    const submit = async () => {
-        const { errors, message } = await processOrderSubmission({
-            name,
-            phone,
-            pickupTime,
-            total: finalTotal,
-            cartCount: hasItems ? Object.keys(cart).length : 0,
-        }, Object.values(cart))
-        setErrors(errors)
-        if (errors.length === 0 && message) {
-            setToastMessage(message)
-            setLastOrder({ name, phone, pickupTime, total: finalTotal })
-            setToastOpen(true)
-            setCart({})
-            setName("")
-            setPhone("")
-            setPickupTime("")
-            setStep("productos")
-            setMobileCartOpen(false)
-        }
-    }
-
-    const allCategories = useMemo(() => ({
-        ...menuCategories,
-        combos: { title: "Platos Combinados", subtitle: "" },
-        salsas: { title: "Mojos y Salsas", subtitle: "" },
-        bebidas: { title: "Bebidas", subtitle: "" },
-    }), [])
-
-    const beveragesByCategory = useMemo(() => groupBeverages(bebidas as any), [])
-    const sectionKeys = useMemo(() => Object.keys(allCategories), [allCategories])
-    const { activeCategory: activeCategoryFromHook, scrollToCategory } = useCategoryScroll(productsRef as React.RefObject<HTMLDivElement>, sectionKeys)
-    useEffect(() => {
-        setActiveCategory(activeCategoryFromHook)
-    }, [activeCategoryFromHook])
-
-    useEffect(() => {
-        let mounted = true
-        const fetchInactive = async () => {
-            try {
-                const res = await fetch("https://api.barguantanamera.com/products/inactive-names", {
-                    headers: {
-                        "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
-                    },
-                })
-                if (!res.ok) throw new Error(String(res.status))
-                const data = await res.json()
-                const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
-                if (mounted) {
-                    setInactiveNames(names)
-                    setInactiveError(null)
-                }
-            } catch {
-                if (mounted) setInactiveError("No se pudo actualizar la lista de productos inactivos.")
-            }
-        }
-        fetchInactive()
-        
-        return () => {
-            mounted = false
-        }
-    }, [productsLastUpdated])
+    const {
+        cart, name, setName, phone, setPhone, pickupTime, setPickupTime,
+        errors, step, setStep, mobileCartOpen, setMobileCartOpen,
+        activeCategory, productsRef, toastOpen, setToastOpen,
+        toastMessage, lastOrder, inactiveNames, inactiveError,
+        isOpenNow, nextOpenText, slots, canOrder,
+        total, bagFee, finalTotal, allCategories, beveragesByCategory,
+        addToCart, increase, decrease, removeItem, submit, scrollToCategory,
+        menuCategories, comboMeals, mojos
+    } = useOrderPage()
 
     return (
         <>
@@ -152,187 +35,43 @@ export default function PedirPage() {
                                     {!isOpenNow ? "Establecimiento Cerrado" : "Pedidos no disponibles"}
                                 </h2>
                                 <p className="text-lg md:text-xl text-gray-700">
-                                    {!isOpenNow 
-                                        ? (nextOpenText || "Vuelve a intentarlo dentro del horario comercial.") 
+                                    {!isOpenNow
+                                        ? (nextOpenText || "Vuelve a intentarlo dentro del horario comercial.")
                                         : "En este momento no podemos aceptar pedidos desde la web."}
                                 </p>
                                 <p className="text-sm text-gray-500 mt-4">Puedes consultar el menú en la página principal o llamarnos por teléfono.</p>
                             </div>
                         </div>
                     )}
-                    <div className="text-center mb-10 md:mb-12">
-                        <Badge className="bg-red-600 hover:bg-red-700 text-white mb-4 px-4 py-1 text-sm uppercase tracking-wider">
-                            <ShoppingCart className="inline-block mr-2 w-4 h-4" />
-                            Pedido para llevar
-                        </Badge>
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                            Encarga tu <span className="text-red-600">pedido</span>
-                        </h2>
-                        <p className="text-gray-600 max-w-xl mx-auto text-lg">
-                            Elige tus platos, selecciona la hora de recogida y confirma tus datos.
-                            Pago y recogida en el local, fácil y rápido.
-                        </p>
-                    </div>
-                    {inactiveError && (
-                        <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
-                            {inactiveError}
-                        </div>
-                    )}
-                    {inactiveNames.length > 0 && (
-                        <div className="max-w-4xl mx-auto mb-6 rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3">
-                            <div className="text-sm font-semibold text-yellow-800">Productos temporalmente inactivos</div>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {inactiveNames.map(n => (
-                                    <span key={n} className="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-200">
-                                        {n}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+
+                    <OrderHero />
+
+                    <InactiveAlerts
+                        inactiveError={inactiveError}
+                        inactiveNames={inactiveNames}
+                    />
+
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
-                        <div className="lg:col-span-3 lg:col-start-1">
-                            {/* Pestañas de categorías */}
-                            <CategoryTabs categories={allCategories} activeKey={activeCategory} onSelect={scrollToCategory} />
-                        </div>
+                        <MenuProductGrid
+                            productsRef={productsRef}
+                            allCategories={allCategories}
+                            activeCategory={activeCategory}
+                            scrollToCategory={scrollToCategory}
+                            menuCategories={menuCategories}
+                            cart={cart}
+                            inactiveNames={inactiveNames}
+                            canOrder={canOrder}
+                            addToCart={addToCart}
+                            increase={increase}
+                            decrease={decrease}
+                            removeItem={removeItem}
+                            comboMeals={comboMeals as any[]}
+                            mojos={mojos as any[]}
+                            beveragesByCategory={beveragesByCategory}
+                        />
 
-                        {/* Contenedor scrollable de productos por categoría */}
-                        <div ref={productsRef} className="lg:col-span-2 lg:col-start-1 space-y-8 overflow-y-auto md:min-h-[110vh] max-h-[calc(100vh-220px)] p-6 border border-gray-100 rounded-2xl">
-                            {Object.entries(menuCategories).map(([key, category]) => (
-                                <section key={key} id={`cat-${key}`} className="space-y-4">
-                                    <div className="flex items-baseline justify-between border-b border-gray-100 pb-4">
-                                        <h3 className="text-xl md:text-2xl font-bold text-gray-900">{category.title}</h3>
-                                        <span className="text-base text-gray-500">{category.subtitle}</span>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        {category.items.map(item => {
-                                            const inCart = cart[item.name]
-                                            const inactive = inactiveNames.includes(item.name)
-                                            return (
-                                                <ProductCard
-                                                    key={item.name}
-                                                    item={item as any}
-                                                    inCart={inCart}
-                                                    isOpenNow={canOrder}
-                                                    inactive={inactive}
-                                                    onAdd={() => addToCart(item)}
-                                                    onIncrease={() => increase(item.name)}
-                                                    onDecrease={() => decrease(item.name)}
-                                                    onRemove={() => removeItem(item.name)}
-                                                />
-                                            )
-                                        })}
-                                    </div>
-                                </section>
-                            ))}
-                            {/* Sección: Platos combinados */}
-                            <section className="space-y-4" id="cat-combos">
-                                <div className="flex items-baseline justify-between border-b border-gray-100 pb-4">
-                                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Platos Combinados</h3>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {(comboMeals as any[]).map(combo => (
-                                        <div key={combo.name} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6 flex items-start gap-4">
-                                            <div className="text-5xl leading-none">{combo.icon}</div>
-                                            <div className="flex-1">
-                                                <div className="flex items-baseline justify-between">
-                                                    <div className="text-gray-900 font-semibold text-lg flex-1">{combo.name}</div>
-                                                    <div className="text-red-600 font-bold text-md">{combo.price}</div>
-                                                </div>
-                                                {combo.description && (
-                                                    <div className="text-base text-gray-500 mt-2">{combo.description}</div>
-                                                )}
-                                                <div className="mt-4">
-                                                    <Button
-                                                        onClick={() => addToCart({ name: combo.name, price: combo.price } as any)}
-                                                        className="bg-red-600 text-white hover:bg-red-700 rounded-full"
-                                                        disabled={inactiveNames.includes(combo.name) || !canOrder}
-                                                    >
-                                                        {inactiveNames.includes(combo.name) ? "No disponible" : "+ Añadir"}
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-
-                            {/* Sección: Mojos y salsas */}
-                            <section className="space-y-4" id="cat-salsas">
-                                <div className="flex items-baseline justify-between border-b border-gray-100 pb-4">
-                                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Mojos y Salsas</h3>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {(mojos as any[]).map(mojo => (
-                                        <div key={mojo.name} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6 flex items-center justify-between">
-                                            <div className="flex items-center gap-3 flex-1">
-                                                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                                                    {mojo.spicy ? <Flame className="w-5 h-5 text-red-600" /> : <span className="text-xl">🫙</span>}
-                                                </div>
-                                                <div>
-                                                    <div className="text-gray-900 font-semibold text-md">{mojo.name}</div>
-                                                    {mojo.spicy && <div className="text-xs text-red-500 mt-1">Picante</div>}
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <div className="text-red-600 font-bold text-md mr-2">{mojo.price}</div>
-                                                <Button
-                                                    onClick={() => addToCart({ name: mojo.name, price: mojo.price } as any)}
-                                                    variant="outline"
-                                                    className="rounded-full"
-                                                        disabled={inactiveNames.includes(mojo.name) || !canOrder}
-                                                >
-                                                    {inactiveNames.includes(mojo.name) ? "No disponible" : "+ Añadir"}
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-
-                            {/* Sección: Bebidas */}
-                            <section className="space-y-4" id="cat-bebidas">
-                                <div className="flex items-baseline justify-between border-b border-gray-100 pb-4">
-                                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Bebidas</h3>
-                                </div>
-                                <div className="space-y-6">
-                                    {Object.entries(beveragesByCategory).map(([category, drinks]) => (
-                                        <div key={category} className="space-y-3">
-                                            <div className="flex items-center gap-3 border-b border-gray-100 px-2 py-2">
-                                                {category === "refrescos" && <CupSoda className="w-5 h-5 text-red-600" />}
-                                                {category === "cervezas" && <Beer className="w-5 h-5 text-amber-600" />}
-                                                {category === "agua" && <GlassWater className="w-5 h-5 text-blue-600" />}
-                                                <h4 className="text-lg font-semibold text-gray-900 capitalize">{category}</h4>
-                                            </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                {drinks.map((drink: any) => (
-                                                    <div key={drink.name} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6 flex items-center justify-between">
-                                                        <div className="flex items-center gap-3 flex-1">
-                                                            <div className="text-gray-900 font-semibold text-md">{drink.name}</div>
-                                                        </div>
-                                                        <div className="flex items-center gap-4">
-                                                            <div className="text-red-600 font-bold text-md mr-2">{drink.price}</div>
-                                                            <Button
-                                                                onClick={() => addToCart({ name: drink.name, price: drink.price } as any)}
-                                                                variant="outline"
-                                                                className="rounded-full"
-                                                                disabled={inactiveNames.includes(drink.name) || !canOrder}
-                                                            >
-                                                                {inactiveNames.includes(drink.name) ? "No disponible" : "+ Añadir"}
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        </div>
-
-                        {/* Panel lateral derecho */}
+                        {/* Panel lateral derecho (Escritorio) */}
                         <div className="space-y-6">
-                            {/* Panel de carrito (escritorio) */}
                             <DesktopCartPanel
                                 items={Object.values(cart)}
                                 total={finalTotal}
@@ -346,8 +85,6 @@ export default function PedirPage() {
                                 onRemove={(name) => removeItem(name)}
                             />
 
-
-                            {/* Flujo de pasos en escritorio (hora/cliente/confirmación) */}
                             {(step === "hora" || step === "cliente" || step === "confirmacion") && (
                                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 hidden md:block">
                                     <StepContentComp
@@ -373,125 +110,45 @@ export default function PedirPage() {
                         </div>
                     </div>
                 </div>
-                {/* Barra inferior móvil y carrito */}
-                {canOrder && (
-                <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 md:hidden">
-                    <div className="flex items-center justify-between">
-                        <div className="text-sm font-semibold text-gray-900">Ver pedido</div>
-                        <div className="text-lg font-bold text-red-600">{formatPrice(finalTotal)}</div>
-                    </div>
-                    <div className="mt-2">
-                        <Sheet open={mobileCartOpen} onOpenChange={setMobileCartOpen}>
-                            <SheetTrigger asChild>
-                                <Button className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full">Abrir carrito</Button>
-                            </SheetTrigger>
-                            <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl">
-                                <SheetHeader>
-                                    <SheetTitle>Tu pedido</SheetTitle>
-                                    <div className="text-xs text-gray-600 mt-1">
-                                        Hora seleccionada: <span className="font-semibold">{pickupTime || "Sin seleccionar"}</span>
-                                    </div>
-                                </SheetHeader>
-                                <div className="mt-4 space-y-4 overflow-y-auto max-h-[calc(80vh-80px)] pr-1">
-                                    {Object.values(cart).map(it => (
-                                        <CartItemRowComp
-                                            key={it.name}
-                                            item={it}
-                                            mobile
-                                            inactive={inactiveNames.includes(it.name)}
-                                            onDecrease={() => decrease(it.name)}
-                                            onIncrease={() => increase(it.name)}
-                                            onRemove={() => removeItem(it.name)}
-                                        />
-                                    ))}
-                                    <div className="space-y-1 pt-2">
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-sm text-gray-600">Subtotal</div>
-                                            <div className="text-sm font-semibold text-gray-900">{formatPrice(total)}</div>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-sm text-gray-600">Bolsa</div>
-                                            <div className="text-sm font-semibold text-gray-900">{formatPrice(bagFee)}</div>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-sm text-gray-600">Total</div>
-                                            <div className="text-lg font-bold text-gray-900">{formatPrice(finalTotal)}</div>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        onClick={() => {
-                                            setStep("hora")
-                                        }}
-                                        className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full"
-                                        disabled={Object.keys(cart).length === 0}
-                                    >
-                                        Elegir hora
-                                    </Button>
-                                    {/* Flujo de pasos en móvil */}
-                                    <StepContentComp
-                                        variant="mobile"
-                                        step={step}
-                                        setStep={setStep}
-                                        slots={slots}
-                                        isOpenNow={canOrder}
-                                        pickupTime={pickupTime}
-                                        setPickupTime={setPickupTime}
-                                        name={name}
-                                        setName={setName}
-                                        phone={phone}
-                                        setPhone={setPhone}
-                                        errors={errors}
-                                        cartItems={Object.values(cart)}
-                                        total={finalTotal}
-                                        bagFee={bagFee}
-                                        submit={submit}
-                                    />
-                                </div>
-                            </SheetContent>
-                        </Sheet>
-                    </div>
-                </div>
-                )}
+
+                <MobileCartBar
+                    canOrder={canOrder}
+                    mobileCartOpen={mobileCartOpen}
+                    setMobileCartOpen={setMobileCartOpen}
+                    finalTotal={finalTotal}
+                    pickupTime={pickupTime}
+                    setPickupTime={setPickupTime}
+                    cart={cart}
+                    inactiveNames={inactiveNames}
+                    total={total}
+                    bagFee={bagFee}
+                    step={step}
+                    setStep={setStep}
+                    slots={slots}
+                    name={name}
+                    setName={setName}
+                    phone={phone}
+                    setPhone={setPhone}
+                    errors={errors}
+                    submit={submit}
+                    increase={increase}
+                    decrease={decrease}
+                    removeItem={removeItem}
+                />
             </div>
-            {/* Pie del sitio */}
+
             <SiteFooter />
-            <Dialog open={toastOpen} onOpenChange={setToastOpen}>
-                <DialogContent className="sm:max-w-lg border border-red-200">
-                    <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto">
-                        <CheckCircle className="w-8 h-8 text-white" />
-                    </div>
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold text-gray-900 text-center">Pedido confirmado</DialogTitle>
-                        <DialogDescription className="text-gray-700 text-center">{toastMessage}</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-2 text-sm">
-                        <div>Nombre: <span className="font-semibold">{lastOrder?.name || "—"}</span></div>
-                        <div>Teléfono: <span className="font-semibold">{lastOrder?.phone || "—"}</span></div>
-                        <div>Hora de recogida: <span className="font-semibold">{lastOrder?.pickupTime || "Sin seleccionar"}</span></div>
-                        <div>Total: <span className="font-semibold">{formatPrice(lastOrder?.total ?? 0)}</span></div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
-                        <Button
-                            variant="outline"
-                            className="rounded-full"
-                            onClick={() => {
-                                setToastOpen(false)
-                                setMobileCartOpen(true)
-                            }}
-                        >
-                            Ver pedido
-                        </Button>
-                        <Button asChild variant="outline" className="rounded-full">
-                            <Link href="/">
-                                Volver a la página principal
-                            </Link>
-                        </Button>
-                        <Button onClick={() => setToastOpen(false)} className="bg-red-600 text-white hover:bg-red-700 rounded-full">
-                            Cerrar
-                        </Button>
-                    </div>
-                </DialogContent>
-            </Dialog>
+
+            <OrderSuccessDialog
+                open={toastOpen}
+                onOpenChange={setToastOpen}
+                message={toastMessage}
+                lastOrder={lastOrder}
+                onViewOrder={() => {
+                    setToastOpen(false)
+                    setMobileCartOpen(true)
+                }}
+            />
         </>
     )
 }

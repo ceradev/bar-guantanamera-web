@@ -56,18 +56,18 @@ export default function StepContent({
           <Clock className={`${isMobile ? "w-5 h-5" : "w-5 h-5"} text-gray-500`} />
           <h3 className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-gray-900`}>Selecciona la hora de recogida</h3>
         </div>
-        <div className={`${isMobile ? "max-h-[32vh]" : "max-h-[45vh]"} overflow-y-auto pr-1`}>
+        <div className={`${isMobile ? "max-h-[35vh]" : "max-h-[45vh]"} overflow-y-auto pr-1`}>
           <div className={`grid ${isMobile ? "grid-cols-3 gap-2" : "grid-cols-3 gap-3"}`}>
-          {slots.map(s => (
-            <button
-              key={s}
-              onClick={() => setPickupTime(s)}
-              className={`${isMobile ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base"} rounded-lg border disabled:opacity-60 ${pickupTime === s ? "border-red-600 text-red-600 bg-red-50" : "border-gray-200 text-gray-800 hover:bg-gray-50"}`}
-              disabled={!isOpenNow}
-            >
-              {s}
-            </button>
-          ))}
+            {slots.map(s => (
+              <button
+                key={s}
+                onClick={() => setPickupTime(s)}
+                className={`${isMobile ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base"} rounded-lg border disabled:opacity-60 ${pickupTime === s ? "border-red-600 text-red-600 bg-red-50" : "border-gray-200 text-gray-800 hover:bg-gray-50"}`}
+                disabled={!isOpenNow}
+              >
+                {s}
+              </button>
+            ))}
           </div>
         </div>
         <Button
@@ -171,16 +171,33 @@ export default function StepContent({
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-1">
-          <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("cliente")}>Editar datos</Button>
-          <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("hora")}>Editar hora</Button>
-          <Button
-            onClick={submit}
-            size="sm"
-            className={`flex-1 bg-red-600 text-white hover:bg-red-700 rounded-full disabled:opacity-60`}
-          >
-            Encargar pedido
-          </Button>
+        <div className={`flex ${isMobile ? "flex-col gap-3" : "items-center gap-1"}`}>
+          {isMobile ? (
+            <>
+              <Button
+                onClick={submit}
+                className="w-full bg-red-600 text-white hover:bg-red-700 rounded-full py-6 text-lg font-bold"
+              >
+                Encargar pedido
+              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1 rounded-full text-sm py-5" onClick={() => setStep("cliente")}>Editar datos</Button>
+                <Button variant="outline" className="flex-1 rounded-full text-sm py-5" onClick={() => setStep("hora")}>Editar hora</Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("cliente")}>Editar datos</Button>
+              <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep("hora")}>Editar hora</Button>
+              <Button
+                onClick={submit}
+                size="sm"
+                className={`flex-1 bg-red-600 text-white hover:bg-red-700 rounded-full disabled:opacity-60`}
+              >
+                Encargar pedido
+              </Button>
+            </>
+          )}
         </div>
       </div>
     )
