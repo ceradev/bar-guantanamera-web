@@ -26,8 +26,8 @@ export default function ProductCard({
     onRemove: () => void
 }) {
     return (
-        <div className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6">
-            <div className="relative h-40 rounded-xl overflow-hidden bg-gray-50">
+        <div className="rounded-xl border border-border bg-card shadow-sm p-5">
+            <div className="relative h-40 rounded-lg overflow-hidden bg-secondary">
                 <Image
                     src={(item as any).image || "/images/placeholder.jpg"}
                     alt={item.name}
@@ -37,34 +37,34 @@ export default function ProductCard({
             </div>
             <div className="flex items-start justify-between mt-4">
                 <div className="pr-4">
-                    <div className="text-gray-900 font-semibold text-lg">{item.name}</div>
+                    <div className="text-foreground font-semibold text-base">{item.name}</div>
                     {item.description && (
-                        <div className="text-base text-gray-500 mt-2">{item.description}</div>
+                        <div className="text-sm text-muted-foreground font-body mt-1 line-clamp-2">{item.description}</div>
                     )}
                 </div>
-                <div className="text-red-600 font-bold text-lg">{item.price}</div>
+                <div className="text-primary font-bold text-base flex-shrink-0">{item.price}</div>
             </div>
             <div className="mt-4">
                 {!inCart ? (
                     <Button
                         onClick={onAdd}
-                        className="bg-red-600 text-white hover:bg-red-700 rounded-full w-full py-3 text-base disabled:opacity-60"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm w-full py-3 text-sm font-semibold tracking-wide disabled:opacity-60"
                         disabled={!isOpenNow || !!inactive}
                     >
-                        {inactive ? "No disponible" : "+ Añadir"}
+                        {inactive ? "No disponible" : "+ Anadir"}
                     </Button>
                 ) : (
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onDecrease}>
+                          <Button variant="outline" size="icon" className="rounded-sm h-9 w-9 border-border" onClick={onDecrease}>
                             <Minus className="w-4 h-4" />
                           </Button>
-                          <div className="w-12 text-center font-semibold text-md">{inCart.quantity}</div>
-                          <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onIncrease} disabled={!!inactive}>
+                          <div className="w-10 text-center font-semibold text-base text-foreground">{inCart.quantity}</div>
+                          <Button variant="outline" size="icon" className="rounded-sm h-9 w-9 border-border" onClick={onIncrease} disabled={!!inactive}>
                             <Plus className="w-4 h-4" />
                           </Button>
                         </div>
-                        <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={onRemove}>
+                        <Button variant="outline" size="icon" className="rounded-sm h-9 w-9 border-border" onClick={onRemove}>
                           <Trash2 className="w-4 h-4" />
                         </Button>
                     </div>
@@ -73,4 +73,3 @@ export default function ProductCard({
         </div>
     )
 }
-
