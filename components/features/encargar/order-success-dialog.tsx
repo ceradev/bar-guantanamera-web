@@ -22,34 +22,34 @@ export default function OrderSuccessDialog({
 }: OrderSuccessDialogProps) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-lg border border-red-200">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle className="w-8 h-8 text-white" />
+            <DialogContent className="sm:max-w-lg border border-primary/20">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle className="w-8 h-8 text-primary-foreground" />
                 </div>
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-gray-900 text-center">Pedido confirmado</DialogTitle>
-                    <DialogDescription className="text-gray-700 text-center">{message}</DialogDescription>
+                    <DialogTitle className="text-2xl font-bold text-foreground text-center">Pedido confirmado</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-center font-body">{message}</DialogDescription>
                 </DialogHeader>
-                <div className="space-y-2 text-sm">
-                    <div>Nombre: <span className="font-semibold">{lastOrder?.name || "—"}</span></div>
-                    <div>Teléfono: <span className="font-semibold">{lastOrder?.phone || "—"}</span></div>
-                    <div>Hora de recogida: <span className="font-semibold">{lastOrder?.pickupTime || "Sin seleccionar"}</span></div>
-                    <div>Total: <span className="font-semibold">{formatPrice(lastOrder?.total ?? 0)}</span></div>
+                <div className="space-y-2 text-sm font-body">
+                    <div className="text-muted-foreground">Nombre: <span className="font-semibold text-foreground">{lastOrder?.name || "\u2014"}</span></div>
+                    <div className="text-muted-foreground">{"Telefono: "}<span className="font-semibold text-foreground">{lastOrder?.phone || "\u2014"}</span></div>
+                    <div className="text-muted-foreground">Hora de recogida: <span className="font-semibold text-foreground">{lastOrder?.pickupTime || "Sin seleccionar"}</span></div>
+                    <div className="text-muted-foreground">Total: <span className="font-semibold text-foreground">{formatPrice(lastOrder?.total ?? 0)}</span></div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
                     <Button
                         variant="outline"
-                        className="rounded-full"
+                        className="rounded-sm border-border"
                         onClick={onViewOrder}
                     >
                         Ver pedido
                     </Button>
-                    <Button asChild variant="outline" className="rounded-full">
+                    <Button asChild variant="outline" className="rounded-sm border-border">
                         <Link href="/">
-                            Volver a la página principal
+                            {"Volver a la pagina principal"}
                         </Link>
                     </Button>
-                    <Button onClick={() => onOpenChange(false)} className="bg-red-600 text-white hover:bg-red-700 rounded-full">
+                    <Button onClick={() => onOpenChange(false)} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm">
                         Cerrar
                     </Button>
                 </div>
