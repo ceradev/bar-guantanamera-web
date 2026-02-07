@@ -1,11 +1,22 @@
 import type React from "react";
-import { Inter } from "next/font/google";
+import { Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BusinessSettingsProvider } from "@/components/providers/business-settings-provider"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["400", "500", "600", "700"],
+});
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+  weight: ["400", "500"],
+});
 
 export const metadata = {
   title: "Bar Cafeteria Guantanamera",
@@ -38,8 +49,9 @@ export default function RootLayout({
     <html lang="es" className="scroll-smooth">
       <body
         className={cn(
-          "bg-white font-sans text-gray-800 antialiased",
-          inter.variable
+          "bg-background font-sans text-foreground antialiased",
+          montserrat.variable,
+          openSans.variable
         )}
       >
         <BusinessSettingsProvider>
