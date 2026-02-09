@@ -4,7 +4,7 @@ import Image from "next/image"
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
-import InstagramSection from "@/components/common/instagram-section"
+import InstagramBanner from "@/components/common/instagram-banner"
 import { useOrderPage } from "@/hooks/use-order-page"
 import OrderSuccessDialog from "@/components/features/encargar/order-success-dialog"
 
@@ -15,7 +15,7 @@ import { fadeInUp, staggerContainer } from "@/components/sections/menu/animation
 
 export default function PedirPage() {
     const {
-        cart, name, setName, phone, setPhone, pickupTime, setPickupTime,
+        cart, name, setName, email, setEmail, phone, setPhone, pickupTime, setPickupTime,
         errors,
         toastOpen, setToastOpen, toastMessage, lastOrder,
         isOpenNow, nextOpenText, slots, canOrder,
@@ -230,6 +230,13 @@ export default function PedirPage() {
                                                             onChange={(e) => setName(e.target.value)}
                                                             className="w-full text-sm px-3 py-2 border border-border rounded-md bg-transparent focus:ring-1 focus:ring-primary focus:border-primary outline-none"
                                                         />
+                                                        <input
+                                                            type="email"
+                                                            placeholder="Tu Email (para confirmación)"
+                                                            value={email}
+                                                            onChange={(e) => setEmail(e.target.value)}
+                                                            className="w-full text-sm px-3 py-2 border border-border rounded-md bg-transparent focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                                                        />
                                                         <div>
                                                             <input
                                                                 type="tel"
@@ -277,7 +284,7 @@ export default function PedirPage() {
                     </div>
                 </section>
 
-                <InstagramSection />
+                <InstagramBanner />
             </main>
             <SiteFooter />
 

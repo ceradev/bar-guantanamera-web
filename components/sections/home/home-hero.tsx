@@ -67,8 +67,11 @@ export default function HomeHero() {
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
           </Link>
-          <span className="text-background/80 text-lg md:text-xl font-semibold px-2">
+          <span className="text-background/80 text-lg md:text-xl font-semibold px-2 hidden md:block">
             |
+          </span>
+          <span className="text-background/80 text-lg md:text-xl font-semibold px-2 block md:hidden">
+            O
           </span>
           <a
             href="tel:+34922173039"

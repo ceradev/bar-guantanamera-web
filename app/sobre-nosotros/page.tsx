@@ -3,7 +3,7 @@ import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
 import AboutStory from "@/components/sections/about/about-story"
 import AboutGallery from "@/components/sections/about/about-gallery"
-import InstagramSection from "@/components/common/instagram-section"
+import InstagramBanner from "@/components/common/instagram-banner"
 import ParallaxImageBand from "@/components/sections/about/parallax-image-band"
 
 export const metadata = {
@@ -31,7 +31,7 @@ export default function SobreNosotrosPage() {
           alt="Pollo asado recién hecho"
         />
         <AboutGallery />
-        <InstagramSection />
+        <InstagramBanner />
       </main>
       <SiteFooter />
     </div>

@@ -10,8 +10,9 @@ import { useBusinessSettings } from "@/components/providers/business-settings-pr
 import { getPickupSlotsFromSettings } from "@/lib/schedule"
 
 export function useOrderPage() {
-    const { cart, increase, decrease, removeItem, total, setCart } = useCart()
+    const { cart, increase, decrease, removeItem, total, clearCart } = useCart()
     const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
     const [pickupTime, setPickupTime] = useState("")
     const [errors, setErrors] = useState<string[]>([])
@@ -51,6 +52,7 @@ export function useOrderPage() {
     const submit = async () => {
         const { errors, message } = await processOrderSubmission({
             name,
+            email,
             phone,
             pickupTime,
             total: finalTotal,
@@ -61,8 +63,9 @@ export function useOrderPage() {
             setToastMessage(message)
             setLastOrder({ name, phone, pickupTime, total: finalTotal })
             setToastOpen(true)
-            setCart({})
+            clearCart()
             setName("")
+            setEmail("")
             setPhone("")
             setPickupTime("")
         }
@@ -75,6 +78,8 @@ export function useOrderPage() {
         cart,
         name,
         setName,
+        email,
+        setEmail,
         phone,
         setPhone,
         pickupTime,

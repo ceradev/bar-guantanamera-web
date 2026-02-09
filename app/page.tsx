@@ -4,7 +4,7 @@ import HomeHero from "@/components/sections/home/home-hero"
 import PopularDishes from "@/components/sections/home/popular-dishes"
 import FlavorBento from "@/components/sections/home/flavor-bento"
 import RecentNews from "@/components/sections/home/recent-news"
-import InstagramSection from "@/components/common/instagram-section"
+import InstagramBanner from "@/components/common/instagram-banner"
 
 export default function HomePage() {
   return (
@@ -15,7 +15,7 @@ export default function HomePage() {
         <PopularDishes />
         <FlavorBento />
         <RecentNews />
-        <InstagramSection />
+        <InstagramBanner />
       </main>
       <SiteFooter />
     </div>

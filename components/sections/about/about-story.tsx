@@ -23,7 +23,7 @@ export default function AboutStory() {
         >
           {/* Image */}
           <motion.div
-            className="relative w-full h-full rounded-2xl overflow-hidden bg-secondary group"
+            className="relative w-full h-[400px] md:h-full rounded-2xl overflow-hidden bg-secondary group"
             variants={scaleIn}
           >
             <Image

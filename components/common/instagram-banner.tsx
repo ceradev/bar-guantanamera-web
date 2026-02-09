@@ -15,12 +15,12 @@ const instagramImages = [
   { src: "/images/gallery/bar-cocina-1.jpg", alt: "Cocina" },
 ]
 
-export default function InstagramSection() {
+export default function InstagramBanner() {
   return (
     <section className="bg-secondary/50 py-16">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
-          className="flex items-end justify-between mb-8"
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 md:gap-0 mb-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}

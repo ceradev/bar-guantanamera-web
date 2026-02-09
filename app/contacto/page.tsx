@@ -2,7 +2,7 @@ import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
 import ContactContent from "@/components/sections/contact/contact-content"
-import InstagramSection from "@/components/common/instagram-section"
+import InstagramBanner from "@/components/common/instagram-banner"
 
 export const metadata = {
   title: "Contacto | Guantanamera",
@@ -23,7 +23,7 @@ export default function ContactoPage() {
           description="Estamos ubicados en el corazon de San Isidro. Facilmente accesible en transporte publico y con opciones de aparcamiento cercanas."
         />
         <ContactContent />
-        <InstagramSection />
+        <InstagramBanner />
       </main>
       <SiteFooter />
     </div>

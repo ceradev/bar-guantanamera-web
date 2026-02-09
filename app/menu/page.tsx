@@ -2,7 +2,7 @@ import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
 import MenuBrowser from "@/components/sections/menu/menu-browser"
-import InstagramSection from "@/components/common/instagram-section"
+import InstagramBanner from "@/components/common/instagram-banner"
 
 export const metadata = {
   title: "Menu | Guantanamera",
@@ -23,7 +23,7 @@ export default function MenuPage() {
           description="Disfruta de una experiencia gastronomica unica, desde nuestros clasicos hasta nuevas creaciones"
         />
         <MenuBrowser />
-        <InstagramSection />
+        <InstagramBanner />
       </main>
       <SiteFooter />
     </div>

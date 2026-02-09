@@ -21,6 +21,19 @@ const navLinks = [
   { href: "/contacto", label: "CONTACTO" },
 ]
 
+const deliveryLinks = [
+  {
+    href: "https://glovoapp.com/es/es/las-chafiras/stores/guantanamera-las-chafiras",
+    label: "GLOVO",
+    external: true,
+  },
+  {
+    href: "https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw?diningMode=DELIVERY&ps=1&sc=SEARCH_SUGGESTION",
+    label: "UBER EATS",
+    external: true,
+  },
+]
+
 const SiteHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -101,6 +114,8 @@ const SiteHeader = () => {
               {link.label}
             </Link>
           ))}
+
+
 
           <Link
             href="/encargar"
@@ -192,10 +207,11 @@ const SiteHeader = () => {
                     >
                       {link.label}
                     </Link>
+
                   ))}
                 </nav>
 
-                <div className="border-t border-border pt-6">
+                <div className="border-t border-border pt-6 flex flex-col gap-4">
                   <Button
                     asChild
                     className="w-full bg-primary text-primary-foreground font-semibold tracking-wide hover:bg-primary/90 rounded-sm"
@@ -205,13 +221,34 @@ const SiteHeader = () => {
                       PEDIR AHORA
                     </Link>
                   </Button>
+
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    {deliveryLinks.map((link) => (
+                      <Button
+                        key={link.href}
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs font-bold tracking-wider border-2 hover:bg-secondary/50"
+                      >
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {link.label}
+                        </a>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
-    </header>
+    </header >
   )
 }
 
