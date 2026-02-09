@@ -1,263 +1,173 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Home, Utensils, MapPin, Phone, ArrowLeft, ChefHat, Flame } from "lucide-react"
+import { Utensils, Building2, Phone, ArrowLeft, Search } from "lucide-react"
 import Link from "next/link"
-import { motion, easeInOut, easeOut } from "framer-motion"
-import { useEffect, useState } from "react"
+import Image from "next/image"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
+import SiteHeader from "@/components/layout/site-header"
+import SiteFooter from "@/components/layout/site-footer"
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+}
+
+const scaleInVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+}
 
 export default function NotFound() {
-  const [mounted, setMounted] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 30,
-      scale: 0.9
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: easeOut,
-      },
-    },
-  }
-
-  const floatingVariants = {
-    initial: { y: 0 },
-    float: {
-      y: [-10, 10, -10],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: easeInOut,
-      },
-    },
-  }
-
-  const pulseVariants = {
-    initial: { scale: 1 },
-    pulse: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: easeInOut,
-      },
-    },
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/menu?search=${encodeURIComponent(searchQuery.trim())}`)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="flex min-h-screen w-full flex-col bg-background text-foreground">
+      <SiteHeader />
+      <main className="flex-1 relative flex items-center justify-center">
+        {/* Background Image with Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/not-found/404-image.png"
+            alt="Fondo"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Gradient overlay from gray to white */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/80 to-white/95" />
+        </div>
 
-      {/* Main content */}
-      <motion.div
-        className="max-w-4xl mx-auto text-center relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* 404 Number */}
+        {/* Content */}
         <motion.div
-          className="mb-8"
-          variants={itemVariants}
+          className="relative z-10 text-center px-4 py-20 w-full max-w-2xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
+          {/* 404 Number */}
           <motion.h1
-            className="text-9xl md:text-[12rem] font-bold text-gray-100 leading-none"
-            variants={pulseVariants}
-            initial="initial"
-            animate="pulse"
+            className="text-[10rem] md:text-[14rem] font-black text-foreground leading-none mb-4 drop-shadow-lg"
+            variants={scaleInVariants}
           >
             404
           </motion.h1>
-        </motion.div>
 
-        {/* Main message */}
-        <motion.div
-          className="mb-12 -mt-20 md:-mt-32 relative z-20"
-          variants={itemVariants}
-        >
-          <motion.div
-            className="inline-flex items-center gap-3 bg-red-50 px-6 py-3 rounded-full mb-6"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
+          {/* Message */}
+          <motion.p
+            className="text-xl md:text-2xl text-foreground/80 mb-10 font-medium"
+            variants={itemVariants}
           >
-            <ChefHat className="w-6 h-6 text-red-600" />
-            <span className="text-red-600 font-semibold text-lg">¡Ups! Página no encontrada</span>
-          </motion.div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Parece que te has perdido en el camino
-          </h2>
-          
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-            No te preocupes, en Bar Guantanamera siempre hay un camino de regreso. 
-            Mientras tanto, ¿por qué no exploras nuestro delicioso menú?
-          </p>
-        </motion.div>
+            ¿Buscas algo? Esta página ha abandonado el local.
+          </motion.p>
 
-        {/* Action buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-          variants={itemVariants}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Link href="/">
-              <Button
-                size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+          {/* Search Bar */}
+          <motion.form onSubmit={handleSearch} className="mb-10" variants={itemVariants}>
+            <div className="relative max-w-md mx-auto">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscando un plato o otra página..."
+                className="w-full bg-white rounded-lg px-5 py-4 pr-14 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary shadow-lg"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
+                aria-label="Buscar"
               >
-                <Home className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                Volver al Inicio
-              </Button>
-            </Link>
-          </motion.div>
+                <Search className="h-6 w-6" />
+              </button>
+            </div>
+          </motion.form>
 
+          {/* Navigation Buttons */}
           <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center mb-10"
+            variants={itemVariants}
           >
-            <Link href="/#menu">
+            <Link href="/menu">
               <Button
                 variant="outline"
                 size="lg"
-                className="border-2 border-gray-200 text-gray-700 hover:border-red-600 hover:text-red-600 px-8 py-6 text-lg rounded-full shadow-sm hover:shadow-md transition-all duration-300 group bg-white"
+                className="bg-white/80 backdrop-blur-sm border-border text-foreground hover:bg-white hover:border-primary px-6 py-5 text-base rounded-lg font-semibold w-full sm:w-auto shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
               >
-                <Utensils className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                Ver Menú
+                <Utensils className="mr-2 h-5 w-5 text-primary" />
+                Nuestro Menú
               </Button>
             </Link>
-          </motion.div>
-        </motion.div>
 
-        {/* Restaurant info cards */}
-        <motion.div
-          className="grid md:grid-cols-3 gap-6 mb-12"
-          variants={itemVariants}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-8 h-8 text-red-600" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Visítanos</h3>
-                <p className="text-gray-500 text-sm">
-                  Ven a disfrutar de nuestra cocina tradicional en un ambiente acogedor
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.05, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Flame className="w-8 h-8 text-red-600" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Especialidades</h3>
-                <p className="text-gray-500 text-sm">
-                  Pollos asados, costillas y platos con recetas caseras
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.05, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="w-8 h-8 text-red-600" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Reserva</h3>
-                <p className="text-gray-500 text-sm">
-                  Llámanos para hacer tu reserva y asegurar tu pedido
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.div>
-
-        {/* Fun message */}
-        <motion.div
-          className="bg-gray-50 rounded-2xl p-8 border border-gray-100"
-          variants={itemVariants}
-        >
-          <motion.div
-            className="text-4xl mb-4"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            😋
-          </motion.div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">
-            ¡El error está en la página, no en la comida!
-          </h3>
-          <p className="text-gray-500 text-lg">
-            Mientras arreglamos este pequeño problema, 
-            nuestros chefs siguen preparando los mejores platos para ti.
-          </p>
-        </motion.div>
-
-        {/* Back button */}
-        <motion.div
-          className="mt-12"
-          variants={itemVariants}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Link href="/">
+            <Link href="/sobre-nosotros">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="lg"
-                className="text-gray-400 hover:text-red-600 px-6 py-3 text-lg group hover:bg-transparent"
+                className="bg-white/80 backdrop-blur-sm border-border text-foreground hover:bg-white hover:border-primary px-6 py-5 text-base rounded-lg font-semibold w-full sm:w-auto shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
               >
-                <ArrowLeft className="mr-2 h-5 w-5 group-hover:-translate-x-1 transition-transform duration-200" />
-                Volver Atrás
+                <Building2 className="mr-2 h-5 w-5 text-primary" />
+                Sobre nosotros
+              </Button>
+            </Link>
+
+            <Link href="/contacto">
+              <Button
+                variant="outline"
+                size="lg"
+                className="bg-white/80 backdrop-blur-sm border-border text-foreground hover:bg-white hover:border-primary px-6 py-5 text-base rounded-lg font-semibold w-full sm:w-auto shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
+              >
+                <Phone className="mr-2 h-5 w-5 text-primary" />
+                Contacto
               </Button>
             </Link>
           </motion.div>
+
+          {/* Back Link */}
+          <motion.div variants={itemVariants}>
+            <Link
+              href="/"
+              className="inline-flex items-center text-primary hover:text-primary/80 font-semibold text-base transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Volver a la Página Principal
+            </Link>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </main>
+      <SiteFooter />
     </div>
   )
 }

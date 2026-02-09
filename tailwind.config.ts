@@ -1,7 +1,5 @@
 import type { Config } from "tailwindcss";
 
-// all in fixtures is set to tailwind v3 as interims solutions
-
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -55,20 +53,10 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "Georgia", "serif"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
+        body: ["var(--font-open-sans)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -77,20 +65,12 @@ const config: Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       animation: {

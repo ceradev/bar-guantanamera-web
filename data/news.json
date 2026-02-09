@@ -1,35 +1,50 @@
 [
   {
     "id": 1,
-    "title": "Pedidos Online (Próximamente)",
-    "shortDescription": "Muy pronto podrás hacer tus pedidos directamente desde nuestra web. Más fácil, más rápido.",
-    "fullDescription": "Estamos trabajando para mejorar tu experiencia. Muy pronto lanzaremos nuestro nuevo sistema de pedidos online integrado directamente en esta página web. Podrás consultar el menú actualizado, seleccionar tus platos favoritos, personalizar tu pedido y elegir la hora de recogida o entrega, todo desde tu móvil u ordenador. ¡Olvídate de las esperas al teléfono!",
+    "title": "Pedidos Online Ya Disponibles",
+    "shortDescription": "¡Ya está aquí! Haz tus pedidos directamente desde nuestra web. Más fácil, más rápido.",
+    "fullDescription": "Nos complace anunciar que nuestro nuevo sistema de pedidos online ya está activo. Ahora puedes consultar el menú actualizado, seleccionar sus platos favoritos, personalizar tu pedido y elegir la hora de recogida, todo desde tu móvil u ordenador. ¡Olvídate de las esperas al teléfono y disfruta de la comodidad de pedir online!",
     "image": "/images/gallery/bar-barra.jpg",
-    "tag": "Próximamente",
-    "icon": "laptop",
-    "cta": "Descubrir",
-    "detailsImage": "/images/gallery/bar-barra.jpg"
+    "tag": "Nuevo",
+    "cta": "Pedir ahora",
+    "link": "/encargar",
+    "detailsImage": "/images/gallery/bar-barra.jpg",
+    "icon": "laptop"
   },
   {
     "id": 2,
-    "title": "Servicio a Domicilio",
-    "shortDescription": "Disfruta de Guantanamera en casa. Ya disponibles en Uber Eats y Glovo.",
-    "fullDescription": "¿No te apetece salir? No hay problema. Ahora llevamos el sabor auténtico de Guantanamera hasta la puerta de tu casa. Hemos activado nuestro servicio de delivery a través de las principales plataformas: Uber Eats y Glovo. Busca 'Bar Guantanamera' en tu app favorita, haz tu pedido y disfruta de nuestros pollos asados, costillas y especialidades sin moverte del sofá.",
+    "title": "Síguenos en Redes",
+    "shortDescription": "Mantente al día de todas nuestras novedades, ofertas y platos especiales en Instagram.",
+    "fullDescription": "¿Quieres ser el primero en enterarte de nuestras promociones especiales y nuevos platos? Síguenos en nuestras redes sociales para ver el día a día de Bar Guantanamera, participar en sorteos y compartir tus experiencias con nosotros. ¡Te esperamos en Instagram!",
     "image": "/images/gallery/bar-entrada-1.jpg",
-    "tag": "Delivery",
-    "icon": "truck",
-    "cta": "Pedir ahora",
-    "detailsImage": "/images/gallery/bar-entrada-1.jpg"
+    "tag": "Social",
+    "cta": "Ver Instagram",
+    "link": "https://www.instagram.com/guantanamera.bar",
+    "detailsImage": "/images/gallery/bar-entrada-1.jpg",
+    "icon": "instagram"
   },
   {
     "id": 3,
-    "title": "Estamos abiertos el día de Reyes",
-    "shortDescription": "¡No te pierdas la oportunidad de disfrutar de nuestros platos tradicionales en un día especial!",
-    "fullDescription": "El Día de los Reyes, 6 de enero, celebraremos la tradición y el sabor auténtico de Guantanamera. Disfruta de nuestros platos tradicionales, como las Patas Asadas y las Costillas. No te pierdas esta oportunidad única para deleitarte con la gastronomía local.",
-    "image": "/images/gallery/bar-cocina-1.jpg",
-    "tag": "Día de los Reyes",
-    "icon": "calendar",
-    "cta": "Más información",
-    "detailsImage": "/images/gallery/bar-cocina-1.jpg"
+    "title": "Próximamente: Alitas de Pollo",
+    "shortDescription": "Un nuevo sabor llega a Guantanamera. Crujientes, sabrosas y perfectas para compartir.",
+    "fullDescription": "Estamos perfeccionando una nueva receta que te va a encantar. Muy pronto añadiremos a nuestra carta unas deliciosas alitas de pollo, marinadas con nuestra mezcla secreta de especias y cocinadas a la perfección. ¡Prepárate para mancharte los dedos!",
+    "image": "/images/menu/ribs-and-legs/pata-asada-entera.png",
+    "tag": "Próximamente",
+    "cta": "Saber más",
+    "link": "/menu",
+    "detailsImage": "/images/menu/ribs-and-legs/pata-asada-entera.png",
+    "icon": "utensils"
+  },
+  {
+    "id": 4,
+    "title": "¿Qué te gustaría probar?",
+    "shortDescription": "Tu opinión nos importa. ¿Hay algún plato que eches de menos en nuestra carta? ¡Cuéntanoslo!",
+    "fullDescription": "En Bar Guantanamera queremos ofrecerte lo mejor. Por eso, nos encantaría saber qué productos o platos te gustaría ver en nuestro menú. ¿Más postres? ¿Alguna especialidad canaria? ¿Opciones veganas? Déjanos tus sugerencias la próxima vez que nos visites o escríbenos por redes sociales.",
+    "image": "/images/gallery/bar-terraza.jpg",
+    "tag": "Tu opinión",
+    "cta": "Sugerir",
+    "link": "/contacto",
+    "detailsImage": "/images/gallery/bar-terraza.jpg",
+    "icon": "message"
   }
 ]

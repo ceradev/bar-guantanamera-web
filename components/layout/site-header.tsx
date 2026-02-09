@@ -1,410 +1,260 @@
 "use client"
-import { useState, useEffect, useCallback, useMemo, useRef } from "react"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ShoppingBag, Bike, Menu, X, ShoppingCart } from "lucide-react"
-import { motion, easeOut } from "framer-motion"
+import { ShoppingBag, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useThrottle } from "@/hooks/use-throttle"
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
   SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet"
+import { useCart } from "@/hooks/use-cart"
+import { Badge } from "@/components/ui/badge"
 
-const headerVariants = {
-  hidden: { y: -50, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: easeOut,
-    },
+const navLinks = [
+  { href: "/sobre-nosotros", label: "SOBRE NOSOTROS" },
+  { href: "/menu", label: "MENU" },
+  { href: "/contacto", label: "CONTACTO" },
+]
+
+const deliveryLinks = [
+  {
+    href: "https://glovoapp.com/es/es/las-chafiras/stores/guantanamera-las-chafiras",
+    label: "GLOVO",
+    external: true,
   },
-}
+  {
+    href: "https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw?diningMode=DELIVERY&ps=1&sc=SEARCH_SUGGESTION",
+    label: "UBER EATS",
+    external: true,
+  },
+]
 
 const SiteHeader = () => {
-  const [activeSection, setActiveSection] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-
-  // Helper para ajustar enlaces con hash según la ruta actual
-  const getHashLink = useCallback((hash: string) => {
-    // Si estamos en la página principal, usar solo el hash
-    // Si estamos en otra página, usar /#hash para navegar correctamente
-    return pathname === "/" ? hash : `/${hash}`
-  }, [pathname])
-
-  // Memoizar las secciones para evitar recrear el array
-  const sections = useMemo(() => ["home", "menu", "galeria", "opiniones", "ubicacion", "pedir"], [])
-
-  // Optimizar función de scroll con useCallback y throttling
-  const setInitialActiveSection = useCallback(() => {
-    const scrollPosition = window.scrollY + 100 // Add offset for header height
-    
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const element = document.getElementById(sections[i])
-      if (element) {
-        const elementTop = element.offsetTop
-        if (scrollPosition >= elementTop) {
-          setActiveSection(sections[i])
-          
-          // Update URL to reflect current section
-          const newUrl = `#${sections[i]}`
-          if (window.location.hash !== newUrl) {
-            window.history.replaceState(null, '', newUrl)
-          }
-          break
-        }
-      }
-    }
-  }, [sections])
-
-  // Throttle scroll listener para mejor rendimiento
-  const throttledSetActiveSection = useThrottle(setInitialActiveSection, 150)
-  
-  // Usar ref para mantener una referencia estable a la función throttled
-  const throttledRef = useRef(throttledSetActiveSection)
-  throttledRef.current = throttledSetActiveSection
+  const { count } = useCart()
 
   useEffect(() => {
-    // Call once on mount
-    setInitialActiveSection()
-    
-    // Función wrapper que usa la ref para acceder a la versión más reciente
     const handleScroll = () => {
-      throttledRef.current()
+      setIsScrolled(window.scrollY > 10)
     }
-    
-    // Throttled scroll listener
-    window.addEventListener('scroll', handleScroll)
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [setInitialActiveSection]) // Solo setInitialActiveSection porque está memoizado y es estable
-
-  useEffect(() => {
-    const sections = ["home", "menu", "galeria", "opiniones", "ubicacion", "encargar"]
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the section that is most visible in the viewport
-        let mostVisibleSection = ""
-        let maxVisibility = 0
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Calculate visibility based on intersection ratio and position
-            const visibility = entry.intersectionRatio
-            if (visibility > maxVisibility) {
-              maxVisibility = visibility
-              mostVisibleSection = entry.target.id
-            }
-          }
-        })
-
-        // Only update if we found a visible section
-        if (mostVisibleSection && mostVisibleSection !== activeSection) {
-          setActiveSection(mostVisibleSection)
-          
-          // Update URL to reflect current section
-          const newUrl = `#${mostVisibleSection}`
-          if (window.location.hash !== newUrl) {
-            // Use replaceState to avoid adding to browser history
-            window.history.replaceState(null, '', newUrl)
-          }
-        }
-      },
-      {
-        rootMargin: "-10% 0px -10% 0px",
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-      },
-    )
-
-    sections.forEach((id) => {
-      const element = document.getElementById(id)
-      if (element) {
-        observer.observe(element)
-      }
-    })
-
-    return () => {
-      sections.forEach((id) => {
-        const element = document.getElementById(id)
-        if (element) {
-          observer.unobserve(element)
-        }
-      })
-    }
-  }, [activeSection])
-
-  useEffect(() => {
-    // Smooth scroll behavior for navigation links
-    const handleSmoothScroll = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const link = target.closest('a[href^="#"]') as HTMLAnchorElement
-      
-      if (link) {
-        e.preventDefault()
-        const targetId = link.getAttribute('href')?.substring(1)
-        if (targetId) {
-          const targetElement = document.getElementById(targetId)
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            })
-          }
-        }
-      }
-    }
-
-    document.addEventListener('click', handleSmoothScroll)
-    
-    return () => {
-      document.removeEventListener('click', handleSmoothScroll)
-    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   useEffect(() => {
     const handleResize = () => {
-      // Cerrar menú móvil cuando el viewport se convierte en desktop (768px y superior)
       if (window.innerWidth >= 768 && isMobileMenuOpen) {
         setIsMobileMenuOpen(false)
       }
     }
-
-    // Añadir event listener para redimensionamiento de ventana
     window.addEventListener("resize", handleResize)
-
-    // Llamar una vez al montar para manejar el estado inicial
-    handleResize()
-
-    // Limpiar event listener al desmontar
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
+    return () => window.removeEventListener("resize", handleResize)
   }, [isMobileMenuOpen])
 
-  const navLinks = [
-    { href: getHashLink("#menu"), label: "Menú", id: "menu" },
-    { href: getHashLink("#galeria"), label: "Galería", id: "galeria" },
-    { href: getHashLink("#opiniones"), label: "Opiniones", id: "opiniones" },
-    { href: getHashLink("#ubicacion"), label: "Ubicación", id: "ubicacion" },
-    { href: getHashLink("#pedir"), label: "Pedir", id: "pedir" },
-  ]
+  const isActive = (href: string) => pathname === href
 
   return (
-    <motion.header
-      className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg"
-      variants={headerVariants}
-      initial="hidden"
-      animate="visible"
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full h-20 transition-all duration-300",
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
+          : "bg-background border-b border-border"
+      )}
     >
-      <div className="container mx-auto flex h-16 items-center px-4 md:px-6">
-        <Link href={getHashLink("#home")} className="flex items-center gap-2" prefetch={false}>
-          <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-10 w-10" />
-          <div className="flex flex-col">
-            <span className="text-xl font-bold text-black">Guantanamera</span>
-            <span className="text-xs text-gray-500 font-medium -mt-1 sm:block">23 años a su servicio</span>
-          </div>
-        </Link>
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6 relative">
 
-        <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium md:flex">
-          {navLinks.map((link) => (
+
+        {/* Left nav links - Desktop */}
+        <nav className="hidden flex-1 items-center gap-8 md:flex">
+          {navLinks.slice(0, 2).map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "relative px-3 py-2 transition-colors duration-200",
-                activeSection === link.id
-                  ? "text-red-600 font-semibold"
-                  : "text-gray-700 hover:text-red-600",
+                "text-sm font-semibold tracking-wide transition-colors duration-200",
+                isActive(link.href)
+                  ? "text-primary underline underline-offset-8 decoration-2"
+                  : "text-foreground hover:text-primary"
               )}
-              prefetch={false}
             >
               {link.label}
-              {activeSection === link.id && (
-                <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
-                  layoutId="activeSection"
-                  initial={false}
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 30,
-                  }}
-                />
-              )}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 md:flex">
-          {/* Delivery Icons */}
-          <div className="flex items-center gap-2">
-            <Link
-              href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-              title="Pedir en Uber Eats"
-            >
-              <ShoppingBag className="h-5 w-5" />
-            </Link>
-            <Link
-              href="https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-              title="Pedir en Glovo"
-            >
-              <Bike className="h-5 w-5" />
-            </Link>
-          </div>
+        {/* Center logo */}
+        <Link
+          href="/"
+          className="flex flex-col items-start md:items-center"
+          prefetch={false}
+        >
+          <span className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
+            Guantanamera
+          </span>
+          <span className="text-xs text-muted-foreground font-medium -mt-0.5">
+            23 años a su servicio
+          </span>
+        </Link>
 
-          <Button asChild size="sm" className="bg-red-600 text-white shadow-md shadow-red-500/20 hover:bg-red-700">
-            <Link href="/encargar">Encargar Ahora</Link>
+        {/* Right nav + actions - Desktop */}
+        <div className="hidden flex-1 items-center justify-end gap-8 md:flex">
+          {navLinks.slice(2).map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "text-sm font-semibold tracking-wide transition-colors duration-200",
+                isActive(link.href)
+                  ? "text-primary underline underline-offset-8 decoration-2"
+                  : "text-foreground hover:text-primary"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
+
+
+
+          <Link
+            href="/encargar"
+            className="p-2 text-foreground hover:text-primary transition-colors relative"
+            title="Carrito"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {count > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]"
+              >
+                {count}
+              </Badge>
+            )}
+          </Link>
+
+          <Button
+            asChild
+            size="sm"
+            className="bg-primary text-primary-foreground font-semibold tracking-wide hover:bg-primary/90 rounded-sm px-6"
+          >
+            <Link href="/encargar">PEDIR AHORA</Link>
           </Button>
         </div>
 
-        {/* Mobile: Todos los iconos y menú a la derecha */}
-        <div className="flex items-center gap-0.5 ml-auto md:hidden">
+        {/* Mobile: right side */}
+        <div className="flex items-center gap-1 md:hidden ml-auto">
           <Link
-            href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-            title="Pedir en Uber Eats"
+            href="/encargar"
+            className="p-2 text-foreground hover:text-primary transition-colors relative"
+            title="Carrito"
           >
-            <ShoppingBag className="h-5 w-5" />
-          </Link>
-          <Link
-            href="https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-gray-700 hover:text-red-600 transition-colors"
-            title="Pedir en Glovo"
-          >
-            <Bike className="h-5 w-5" />
+            <ShoppingBag className="h-6 w-6" />
+            {count > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]"
+              >
+                {count}
+              </Badge>
+            )}
           </Link>
 
-          {/* Menú hamburguesa separado */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <button
-                className="p-2 text-gray-700 hover:text-red-600 transition-colors ml-2"
-                aria-label="Abrir menú"
+                className="p-2 text-foreground hover:text-primary transition-colors"
+                aria-label="Abrir menu"
               >
-                <Menu className="h-6 w-6" />
+                <Menu className="h-7 w-7" />
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-[400px] p-0 [&>button]:hidden">
-              {/* Header con logo y botón cerrar */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                <Link 
-                  href={getHashLink("#home")} 
-                  className="flex items-center gap-2"
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+                <Link
+                  href="/"
+                  className="flex flex-col"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  prefetch={false}
                 >
-                  <img src="/bar-icono.svg" alt="Logo Guantanamera" className="h-8 w-8" />
-                  <div className="flex flex-col">
-                    <span className="text-xl font-bold text-black">Guantanamera</span>
-                    <span className="text-xs text-gray-500 font-medium -mt-1">23 años a su servicio</span>
-                  </div>
+                  <span className="text-xl font-bold text-foreground">Guantanamera</span>
+                  <span className="text-xs text-muted-foreground font-medium -mt-0.5">
+                    23 años a su servicio
+                  </span>
                 </Link>
                 <SheetClose asChild>
                   <button
-                    className="h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors"
-                    aria-label="Cerrar menú"
+                    className="h-8 w-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-secondary transition-colors"
+                    aria-label="Cerrar menu"
                   >
                     <X className="h-5 w-5" />
                   </button>
                 </SheetClose>
               </div>
 
-              {/* Contenido del menú */}
-              <div className="px-6 py-6 space-y-6 overflow-y-auto">
-                {/* Sección NAVEGACIÓN */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                    Navegación
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {navLinks.map((link) => (
-                      <Link
+              <div className="px-6 py-8 flex flex-col gap-6">
+                <nav className="flex flex-col gap-1">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "px-4 py-3 text-base font-semibold tracking-wide rounded-lg transition-colors",
+                        isActive(link.href)
+                          ? "text-primary bg-primary/5"
+                          : "text-foreground hover:bg-secondary"
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+
+                  ))}
+                </nav>
+
+                <div className="border-t border-border pt-6 flex flex-col gap-4">
+                  <Button
+                    asChild
+                    className="w-full bg-primary text-primary-foreground font-semibold tracking-wide hover:bg-primary/90 rounded-sm"
+                    size="lg"
+                  >
+                    <Link href="/encargar" onClick={() => setIsMobileMenuOpen(false)}>
+                      PEDIR AHORA
+                    </Link>
+                  </Button>
+
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    {deliveryLinks.map((link) => (
+                      <Button
                         key={link.href}
-                        href={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={cn(
-                          "rounded-lg px-4 py-3 text-sm font-semibold transition-colors text-center border-2",
-                          activeSection === link.id
-                            ? "bg-red-50 text-red-600 border-red-600"
-                            : "text-gray-800 hover:bg-gray-100 border-gray-200",
-                        )}
-                        prefetch={false}
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs font-bold tracking-wider border-2 hover:bg-secondary/50"
                       >
-                        {link.label}
-                      </Link>
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {link.label}
+                        </a>
+                      </Button>
                     ))}
                   </div>
-                </div>
-
-                {/* Sección PEDIR ONLINE */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                    Pedir Online
-                  </h3>
-                  <div className="space-y-3">
-                    <Link
-                      href="https://www.ubereats.com/es/store/bar-guantanamera/I6yHelcBWGuGn1VeHqaXJw"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"
-                    >
-                      <ShoppingBag className="h-5 w-5 text-gray-600" />
-                      <span className="font-semibold">Pedir en Uber Eats</span>
-                    </Link>
-                    <Link
-                      href="https://glovoapp.com/es/es/las-chafiras/guantanamera-las-chafiras"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center gap-3 rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-gray-800 hover:bg-gray-50 transition-colors"
-                    >
-                      <Bike className="h-5 w-5 text-gray-600" />
-                      <span className="font-semibold">Pedir en Glovo</span>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Sección ACCIÓN RÁPIDA */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                    Acción Rápida
-                  </h3>
-                  <Link
-                    href="/encargar"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block rounded-lg bg-red-600 px-4 py-3 text-center font-semibold text-white hover:bg-red-700 transition-colors"
-                  >
-                    Encargar Ahora
-                  </Link>
                 </div>
               </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
-    </motion.header>
+    </header >
   )
 }
 

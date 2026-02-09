@@ -11,6 +11,7 @@ interface BusinessSettingsContextType {
     isOpenNow: boolean
     nextOpenText: string
     productsLastUpdated: number
+    inactiveNames: string[]
 }
 
 const BusinessSettingsContext = createContext<BusinessSettingsContextType>({
@@ -19,7 +20,8 @@ const BusinessSettingsContext = createContext<BusinessSettingsContextType>({
     error: null,
     isOpenNow: false,
     nextOpenText: "",
-    productsLastUpdated: 0
+    productsLastUpdated: 0,
+    inactiveNames: []
 })
 
 export function BusinessSettingsProvider({ children }: { children: React.ReactNode }) {
@@ -27,20 +29,32 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [productsLastUpdated, setProductsLastUpdated] = useState<number>(Date.now())
+    const [inactiveNames, setInactiveNames] = useState<string[]>([])
 
     const fetchSettings = useCallback(async () => {
         try {
-            const res = await fetch("https://api.barguantanamera.com/settings/public/status", {
-                headers: {
-                    "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "",
-                },
+            // Fetch Settings
+            const resSettings = await fetch("https://api.barguantanamera.com/settings/public/status", {
+                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
+            if (resSettings.ok) {
+                const data = await resSettings.json()
+                setSettings(data)
+                setError(null)
+            } else {
+                throw new Error("Failed to fetch settings")
+            }
 
-            if (!res.ok) throw new Error("Failed to fetch settings")
+            // Fetch Inactive Products
+            const resInactive = await fetch("https://api.barguantanamera.com/products/inactive-names", {
+                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
+            })
+            if (resInactive.ok) {
+                const data = await resInactive.json()
+                const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
+                setInactiveNames(names)
+            }
 
-            const data = await res.json()
-            setSettings(data)
-            setError(null)
         } catch (err) {
             setSettings(prev => {
                 if (!prev) setError("No se pudo cargar la configuración")
@@ -53,7 +67,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
 
     useEffect(() => {
         fetchSettings()
-    }, [fetchSettings])
+    }, [fetchSettings, productsLastUpdated]) // Re-fetch when products update
 
     useNotifications({
         onSettingsUpdated: () => {
@@ -77,20 +91,20 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
         if (todaySchedule?.enabled && todaySchedule.open && todaySchedule.close) {
             const [openH, openM] = todaySchedule.open.split(':').map(Number)
             const [closeH, closeM] = todaySchedule.close.split(':').map(Number)
-            
+
             const openDate = new Date(now)
             openDate.setHours(openH, openM, 0, 0)
-            
+
             const closeDate = new Date(now)
             closeDate.setHours(closeH, closeM, 0, 0)
-            
+
             isOpen = now >= openDate && now <= closeDate
         }
 
         // Calculate nextOpenText
         let text = "Cerrado"
         if (isOpen) {
-             text = "Abierto ahora"
+            text = "Abierto ahora"
         } else {
             // Find next open slot
             // 1. Check if we open later today
@@ -124,7 +138,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
     }, [settings])
 
     return (
-        <BusinessSettingsContext.Provider value={{ settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated }}>
+        <BusinessSettingsContext.Provider value={{ settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated, inactiveNames }}>
             {children}
         </BusinessSettingsContext.Provider>
     )

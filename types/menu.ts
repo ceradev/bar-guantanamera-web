@@ -2,11 +2,12 @@ export interface MenuItem {
   name: string
   description: string
   price: string
-  image: string
+  image?: string
   popular?: boolean
   iconic?: boolean
   spicy?: boolean
   vegetarian?: boolean
+  active?: boolean
 }
 
 export interface MenuCategory {
@@ -21,6 +22,7 @@ export interface Beverage {
   price: string
   image?: string
   category?: 'refrescos' | 'cervezas' | 'agua'
+  active?: boolean
 }
 
 export interface Mojo {
@@ -30,6 +32,7 @@ export interface Mojo {
   image?: string
   spicy?: boolean
   vegetarian?: boolean
+  active?: boolean
 }
 
 export interface ComboMeal {
@@ -38,6 +41,7 @@ export interface ComboMeal {
   price: string
   image?: string
   icon: string
+  active?: boolean
 }
 
 export interface MenuData {
