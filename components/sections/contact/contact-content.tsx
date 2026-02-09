@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Music } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Music, ExternalLink, Copy, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { BUSINESS_HOURS } from "@/data/business-hours"
 import { motion } from "framer-motion"
@@ -12,6 +12,7 @@ const contactInfo = [
     icon: MapPin,
     title: "Ubicación",
     lines: ["C. Castro, 7, 38611", "San Isidro, Santa Cruz", "de Tenerife"],
+    href: "https://www.google.com/maps/search/?api=1&query=C.+Castro,+7,+38611+San+Isidro+(Guantanamera)",
   },
   {
     icon: Phone,
@@ -34,6 +35,7 @@ const socialLinks = [
 ]
 
 export default function ContactContent() {
+  const [copiedField, setCopiedField] = useState<string | null>(null)
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -86,29 +88,78 @@ export default function ContactContent() {
               className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12"
               variants={staggerContainer}
             >
-              {contactInfo.map((info, index) => {
+              {contactInfo.map((info) => {
                 const Icon = info.icon
-                const Wrapper = info.href ? "a" : "div"
-                const wrapperProps = info.href ? { href: info.href } : {}
+                const contentText = info.lines.join(" ")
+                const isCopied = copiedField === info.title
+
+                const handleCopy = () => {
+                  navigator.clipboard.writeText(contentText)
+                  setCopiedField(info.title)
+                  setTimeout(() => setCopiedField(null), 2000)
+                }
 
                 return (
-                  <motion.div key={info.title} variants={fadeInUp}>
-                    <Wrapper
-                      {...wrapperProps}
-                      className="flex flex-col items-center text-center p-6 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full"
-                    >
-                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                        <Icon className="h-5 w-5 text-primary" />
+                  <motion.div key={info.title} variants={fadeInUp} className="h-full">
+                    <div className="flex flex-col items-center text-center p-5 rounded-xl border border-border bg-card shadow-sm h-full">
+                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 text-primary">
+                        <Icon className="h-5 w-5" />
                       </div>
                       <h3 className="font-bold text-foreground text-sm mb-2">
                         {info.title}
                       </h3>
-                      {info.lines.map((line, i) => (
-                        <p key={i} className="text-xs text-muted-foreground font-body">
-                          {line}
-                        </p>
-                      ))}
-                    </Wrapper>
+                      <div className="flex-1 flex flex-col justify-center mb-4 w-full">
+                        {info.lines.map((line, i) => (
+                          <p
+                            key={i}
+                            className={`text-xs text-muted-foreground font-body ${info.title === "Email" ? "break-all" : ""
+                              }`}
+                          >
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 w-full mt-auto pt-3 border-t border-border/50">
+                        {info.href && (
+                          <a
+                            href={info.href}
+                            target={
+                              info.href.startsWith("http") ? "_blank" : undefined
+                            }
+                            rel={
+                              info.href.startsWith("http")
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
+                            className="flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/5 hover:bg-primary/10 rounded-md transition-colors"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            {info.title === "Ubicación"
+                              ? "Mapa"
+                              : info.title === "Teléfono"
+                                ? "Llamar"
+                                : "Enviar"}
+                          </a>
+                        )}
+                        <button
+                          onClick={handleCopy}
+                          className="flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground bg-secondary hover:bg-secondary/80 rounded-md transition-colors"
+                        >
+                          {isCopied ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-green-500">Copiado</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3 w-3" />
+                              <span>Copiar</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
                   </motion.div>
                 )
               })}

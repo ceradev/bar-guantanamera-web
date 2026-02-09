@@ -3,7 +3,7 @@ import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
 import AboutStory from "@/components/sections/about/about-story"
 import AboutGallery from "@/components/sections/about/about-gallery"
-import InstagramSection from "@/components/sections/instagram-section"
+import InstagramSection from "@/components/common/instagram-section"
 import ParallaxImageBand from "@/components/sections/about/parallax-image-band"
 
 export const metadata = {

@@ -699,13 +699,13 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
               <>
                 <span className="flex items-center gap-1.5">
                   <span className="flex items-center justify-center bg-green-600 text-white w-4 h-4 rounded-full text-[9px]">{quantityInCart}</span>
-                  En el carrito
+                  Añadir más al carrito +
                 </span>
               </>
             ) : (
               <>
                 <ShoppingCart className="mr-1.5 h-3 w-3" />
-                Añadir
+                Añadir al carrito
               </>
             )}
           </Button>
@@ -785,13 +785,13 @@ function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, on
               <>
                 <span className="flex items-center gap-1.5">
                   <span className="flex items-center justify-center bg-green-600 text-white w-4 h-4 rounded-full text-[9px]">{quantityInCart}</span>
-                  Añadir +
+                  Añadir más al carrito +
                 </span>
               </>
             ) : (
               <>
                 <ShoppingCart className="mr-1.5 h-3 w-3" />
-                Añadir
+                Añadir al carrito
               </>
             )}
           </Button>

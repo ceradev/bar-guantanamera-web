@@ -7,7 +7,7 @@ export default function TerminosServicioPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background text-foreground">
       <SiteHeader />
-      <main className="flex-1">
+      <main className="flex-1 p-6">
         <div className="bg-card border-b border-border">
           <div className="container mx-auto px-4 py-6">
             <Link
@@ -144,7 +144,7 @@ export default function TerminosServicioPage() {
                 {"Si tiene preguntas sobre estos Terminos de Servicio, puede contactarnos:"}
               </p>
               <div className="space-y-2 text-muted-foreground font-body">
-                <p><strong className="text-foreground">Email:</strong> info@guantanamera.com</p>
+                <p><strong className="text-foreground">Email:</strong> guantanamera.contact@gmail.com</p>
                 <p><strong className="text-foreground">{"Telefono:"}</strong> +34 922 17 30 39</p>
                 <p><strong className="text-foreground">{"Direccion:"}</strong> C. Castro, 7, 38611 San Isidro, Santa Cruz de Tenerife</p>
               </div>

@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { staggerContainer, scaleIn, fadeInUp } from "./menu/animations"
+import { staggerContainer, scaleIn, fadeInUp } from "../sections/menu/animations"
 
 const instagramImages = [
   { src: "/images/gallery/pollos-asados-1.jpg", alt: "Pollos asados" },

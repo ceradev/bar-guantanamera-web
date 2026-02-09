@@ -4,7 +4,7 @@ import HomeHero from "@/components/sections/home/home-hero"
 import PopularDishes from "@/components/sections/home/popular-dishes"
 import FlavorBento from "@/components/sections/home/flavor-bento"
 import RecentNews from "@/components/sections/home/recent-news"
-import InstagramSection from "@/components/sections/instagram-section"
+import InstagramSection from "@/components/common/instagram-section"
 
 export default function HomePage() {
   return (

@@ -50,7 +50,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-kitchen.jpg"
+              src="/images/home/bento-kitchen.png"
               alt="Maestria culinaria en la cocina"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -94,7 +94,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/about-restaurant.jpg"
+              src="/images/home/bento-quality.png"
               alt="Autenticidad Canaria"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -115,7 +115,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-tradition.jpg"
+              src="/images/home/bento-tradition.png"
               alt="Tradicion y Familia"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -136,7 +136,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-canaria.jpg"
+              src="/images/home/bento-canaria.png"
               alt="Cocina canaria"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -159,7 +159,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-kitchen.jpg"
+              src="/images/home/bento-kitchen.png"
               alt="Maestria culinaria en la cocina"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -201,7 +201,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/about-restaurant.jpg"
+              src="/images/home/bento-canaria.png"
               alt="Autenticidad Canaria"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -221,7 +221,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-tradition.jpg"
+              src="/images/home/bento-tradition.png"
               alt="Tradicion y Familia"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -241,7 +241,7 @@ export default function FlavorBento() {
             variants={scaleIn}
           >
             <Image
-              src="/images/bento-canaria.jpg"
+              src="/images/home/bento-quality.png"
               alt="Cocina canaria"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"

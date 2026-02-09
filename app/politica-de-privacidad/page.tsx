@@ -7,7 +7,7 @@ export default function PoliticaPrivacidadPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background text-foreground">
       <SiteHeader />
-      <main className="flex-1">
+      <main className="flex-1 p-6">
         <div className="bg-card border-b border-border">
           <div className="container mx-auto px-4 py-6">
             <Link

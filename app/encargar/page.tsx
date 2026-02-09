@@ -4,7 +4,7 @@ import Image from "next/image"
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
-import InstagramSection from "@/components/sections/instagram-section"
+import InstagramSection from "@/components/common/instagram-section"
 import { useOrderPage } from "@/hooks/use-order-page"
 import OrderSuccessDialog from "@/components/features/encargar/order-success-dialog"
 
@@ -198,7 +198,7 @@ export default function PedirPage() {
                                                         <span className="bg-primary/10 text-primary w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
                                                         Hora de recogida
                                                     </h4>
-                                                    <div className="grid grid-cols-3 gap-2">
+                                                    <div className="grid grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-2">
                                                         {slots.map(s => (
                                                             <button
                                                                 key={s}

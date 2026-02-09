@@ -2,7 +2,7 @@ import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import PageHero from "@/components/common/page-hero"
 import MenuBrowser from "@/components/sections/menu/menu-browser"
-import InstagramSection from "@/components/sections/instagram-section"
+import InstagramSection from "@/components/common/instagram-section"
 
 export const metadata = {
   title: "Menu | Guantanamera",

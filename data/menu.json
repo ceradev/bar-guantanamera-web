@@ -8,37 +8,33 @@
           "name": "Pollo Entero",
           "description": "Pollo asado entero a la perfección con nuestra mezcla secreta de especias caseras, jugoso por dentro y crujiente por fuera",
           "price": "8.50€",
+          "popular": true,
           "image": "/images/menu/roast-chickens/pollo-asado-entero.png"
         },
         {
           "name": "Pollo Asado Entero con Papas",
-          "description": "Pollo asado entero con guarnición de papas fritas caseras para compartir dos personas, perfecto para una comida completa",
+          "description": "Pollo asado entero con guarnición de papas fritas caseras para compartir dos personas",
           "price": "11.80€",
-          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
-          "popular": true,
-          "iconic": true
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png"
         },
         {
           "name": "Pollo Asado Entero con Papas Familiar",
           "description": "Pollo asado entero acompañado de papas fritas caseras para compartir cuatro personas, ideal para familias",
           "price": "14.00€",
           "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
-          "popular": true,
-          "iconic": true
+          "popular": true
         },
         {
           "name": "Medio Pollo",
-          "description": "Media ración de pollo asado con nuestra mezcla secreta de especias caseras, perfecto para una comida individual",
+          "description": "Media ración de pollo asado, perfecto para una comida individual",
           "price": "4.40€",
-          "image": "/images/menu/roast-chickens/medio-pollo.png",
-          "active": false
+          "image": "/images/menu/roast-chickens/medio-pollo.png"
         },
         {
           "name": "Medio Pollo con Papas Fritas",
           "description": "Medio pollo asado acompañado de papas fritas caseras para compartir dos personas, opción económica y deliciosa",
           "price": "8.00€",
-          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png",
-          "active": false
+          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png"
         }
       ]
     },
@@ -48,28 +44,26 @@
       "items": [
         {
           "name": "Medio Costillar",
-          "description": "Medio costillar asado a la perfección con nuestra mezcla secreta de especias caseras, tierno y jugoso",
+          "description": "Medio costillar asado a la perfección, tierno y jugoso",
           "price": "13.50€",
           "image": "/images/menu/ribs-and-legs/medio-costillar.png"
         },
         {
           "name": "Costillar Entero",
-          "description": "Costillar entero asado con nuestra mezcla secreta de especias caseras, perfecto para compartir en familia",
+          "description": "Costillar entero asado, perfecto para compartir en familia o con amigos",
           "price": "26.00€",
           "image": "/images/menu/ribs-and-legs/costilla-asada-entera.png",
-          "popular": true,
-          "iconic": true
+          "popular": true
         },
         {
           "name": "Pata Asada",
-          "description": "Pata asada con nuestra mezcla secreta de especias caseras, tierna y llena de sabor auténtico",
+          "description": "Pata asada, tierna y llena de sabor auténtico",
           "price": "20.00€ / 1Kg",
-          "image": "/images/menu/ribs-and-legs/pata-asada.png",
-          "iconic": true
+          "image": "/images/menu/ribs-and-legs/pata-asada.png"
         },
         {
           "name": "Pata Asada Entera",
-          "description": "Pata asada entera con nuestra mezcla secreta de especias caseras, especialidad de la casa para eventos",
+          "description": "Pata asada entera, especialidad de la casa para eventos",
           "price": "130€",
           "image": "/images/menu/ribs-and-legs/pata-asada-entera.png"
         }
@@ -89,8 +83,7 @@
           "name": "Papas Fritas Familiar",
           "description": "Papas fritas caseras para compartir cuatro personas, perfectas para familias grandes",
           "price": "5.50€",
-          "image": "/images/menu/side-dishes/papas-fritas.png",
-          "popular": true
+          "image": "/images/menu/side-dishes/papas-fritas.png"
         },
         {
           "name": "Papas Campesinas",
@@ -103,8 +96,7 @@
           "description": "Croquetas de pollo caseras con nuestra mezcla secreta de especias, cremosas y deliciosas",
           "price": "5.00€",
           "image": "/images/menu/side-dishes/croquetas-de-pollo.png",
-          "popular": true,
-          "iconic": true
+          "popular": true
         },
         {
           "name": "Pan Horneado",
@@ -128,9 +120,7 @@
           "name": "Quesadilla de pollo con refresco",
           "description": "Quesadilla de pollo y queso asado con refresco (coca-cola, fanta, sprite), perfecta para una comida rápida",
           "price": "6.80€",
-          "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png",
-          "popular": true,
-          "iconic": true
+          "image": "/images/menu/quesadillas-and-burritos/quesadillas-de-pollo.png"
         },
         {
           "name": "Burrito de Pollo",
