@@ -36,6 +36,23 @@ function getAllItems(): BrowserMenuItem[] {
       popular: true,
     })
   })
+
+  // Add beverages 
+  data.bebidas.forEach((beverage) => {
+    items.push({
+      ...beverage,
+      category: "Bebidas",
+    })
+  })
+
+  // Add mojos
+  data.mojos.forEach((mojo) => {
+    items.push({
+      ...mojo,
+      category: "Mojos",
+    })
+  })
+
   return items
 }
 
