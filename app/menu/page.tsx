@@ -1,6 +1,6 @@
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
-import PageHero from "@/components/sections/page-hero"
+import PageHero from "@/components/common/page-hero"
 import MenuBrowser from "@/components/sections/menu/menu-browser"
 import InstagramSection from "@/components/sections/instagram-section"
 
@@ -15,7 +15,7 @@ export default function MenuPage() {
       <SiteHeader />
       <main className="flex-1">
         <PageHero
-          image="/images/hero-menu.jpg"
+          image="/images/menu/hero-menu.jpg"
           imageAlt="Mesa con platos variados del restaurante"
           subtitle="Nuestra especialidad"
           titleWhite="MENU"

@@ -12,6 +12,8 @@ import {
   SheetClose,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { useCart } from "@/hooks/use-cart"
+import { Badge } from "@/components/ui/badge"
 
 const navLinks = [
   { href: "/sobre-nosotros", label: "SOBRE NOSOTROS" },
@@ -23,6 +25,7 @@ const SiteHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const { count } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,13 +50,13 @@ const SiteHeader = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 z-50 w-full h-20 transition-all duration-300",
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
           : "bg-background border-b border-border"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         {/* Left nav links - Desktop */}
         <nav className="hidden flex-1 items-center gap-8 md:flex">
           {navLinks.slice(0, 2).map((link) => (
@@ -74,11 +77,11 @@ const SiteHeader = () => {
 
         {/* Center logo */}
         <Link href="/" className="flex flex-col items-center" prefetch={false}>
-          <span className="text-2xl font-bold tracking-tight text-foreground">
+          <span className="text-2xl font-extrabold tracking-tight text-foreground">
             Guantanamera
           </span>
           <span className="text-xs text-muted-foreground font-medium -mt-0.5">
-            23 anos a su servicio
+            23 años a su servicio
           </span>
         </Link>
 
@@ -105,6 +108,14 @@ const SiteHeader = () => {
             title="Carrito"
           >
             <ShoppingBag className="h-5 w-5" />
+            {count > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]"
+              >
+                {count}
+              </Badge>
+            )}
           </Link>
 
           <Button
@@ -120,10 +131,18 @@ const SiteHeader = () => {
         <div className="flex items-center gap-2 md:hidden">
           <Link
             href="/encargar"
-            className="p-2 text-foreground hover:text-primary transition-colors"
+            className="p-2 text-foreground hover:text-primary transition-colors relative"
             title="Carrito"
           >
             <ShoppingBag className="h-5 w-5" />
+            {count > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]"
+              >
+                {count}
+              </Badge>
+            )}
           </Link>
 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>

@@ -3,6 +3,8 @@ import { Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BusinessSettingsProvider } from "@/components/providers/business-settings-provider"
+import { CartProvider } from "@/components/providers/cart-provider"
+import { Toaster } from "@/components/ui/sonner"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -55,8 +57,11 @@ export default function RootLayout({
         )}
       >
         <BusinessSettingsProvider>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
         </BusinessSettingsProvider>
+        <Toaster />
         <Analytics />
         <SpeedInsights />
       </body>

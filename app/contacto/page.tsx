@@ -1,6 +1,6 @@
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
-import PageHero from "@/components/sections/page-hero"
+import PageHero from "@/components/common/page-hero"
 import ContactContent from "@/components/sections/contact/contact-content"
 import InstagramSection from "@/components/sections/instagram-section"
 
@@ -15,7 +15,7 @@ export default function ContactoPage() {
       <SiteHeader />
       <main className="flex-1">
         <PageHero
-          image="/images/hero-contact.jpg"
+          image="/images/contact/hero-contact.jpg"
           imageAlt="Fachada del restaurante Guantanamera"
           subtitle="Donde ubicarnos"
           titleWhite="VEN A"
