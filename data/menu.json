@@ -59,7 +59,8 @@
           "name": "Pata Asada",
           "description": "Pata asada, tierna y llena de sabor auténtico",
           "price": "20.00€ / 1Kg",
-          "image": "/images/menu/ribs-and-legs/pata-asada.png"
+          "image": "/images/menu/ribs-and-legs/pata-asada.png",
+          "popular": true
         },
         {
           "name": "Pata Asada Entera",
@@ -95,8 +96,7 @@
           "name": "Croquetas de Pollo",
           "description": "Croquetas de pollo caseras con nuestra mezcla secreta de especias, cremosas y deliciosas",
           "price": "5.00€",
-          "image": "/images/menu/side-dishes/croquetas-de-pollo.png",
-          "popular": true
+          "image": "/images/menu/side-dishes/croquetas-de-pollo.png"
         },
         {
           "name": "Pan Horneado",

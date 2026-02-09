@@ -12,6 +12,7 @@ export type NewsItem = {
   tag: string
   icon?: ReactNode
   cta: string
+  link: string
   detailsImage?: string
 }
 
@@ -36,6 +37,7 @@ const NewsJsonItemSchema = z.object({
   image: z.string(),
   tag: z.string(),
   cta: z.string(),
+  link: z.string(),
   detailsImage: z.string().optional(),
   icon: IconKeySchema.optional(),
 })

@@ -308,7 +308,7 @@ export default function ContactContent() {
 
             {/* Business Hours */}
             <motion.div
-              className="h-[390px] rounded-xl border border-border bg-card shadow-sm p-8"
+              className="h-[440px] rounded-xl border border-border bg-card shadow-sm p-8"
               variants={fadeInUp}
             >
               <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">

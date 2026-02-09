@@ -65,10 +65,10 @@ export default function PopularDishes() {
           variants={staggerContainer}
         >
           {popular.map((item) => (
-            <motion.div key={item.name} variants={scaleIn}>
+            <motion.div key={item.name} variants={scaleIn} className="h-full">
               <Link
                 href="/menu"
-                className="group flex flex-col items-center text-center border border-card rounded-xl shadow-sm pb-4"
+                className="group flex flex-col h-full items-center text-center border border-card rounded-xl shadow-sm pb-4"
               >
                 <div className="relative w-full aspect-square rounded-t-xl overflow-hidden mb-4 bg-secondary">
                   <Image
@@ -79,13 +79,11 @@ export default function PopularDishes() {
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
-                <h3 className="font-bold text-foreground text-sm md:text-base mb-1">
+                <h3 className="font-bold text-foreground text-sm md:text-base mb-1 px-2">
                   {item.name}
                 </h3>
-                <p className="text-xs text-muted-foreground font-body leading-relaxed mb-2 line-clamp-2 px-2">
-                  {item.description.length > 60
-                    ? item.description.substring(0, 60) + "..."
-                    : item.description}
+                <p className="text-xs text-muted-foreground font-body leading-relaxed mb-2 line-clamp-2 px-2 flex-grow">
+                  {item.description}
                 </p>
                 <p className="text-base font-bold text-primary">{item.price}</p>
               </Link>

@@ -69,7 +69,9 @@ const SiteHeader = () => {
           : "bg-background border-b border-border"
       )}
     >
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6 relative">
+
+
         {/* Left nav links - Desktop */}
         <nav className="hidden flex-1 items-center gap-8 md:flex">
           {navLinks.slice(0, 2).map((link) => (
@@ -89,8 +91,12 @@ const SiteHeader = () => {
         </nav>
 
         {/* Center logo */}
-        <Link href="/" className="flex flex-col items-center" prefetch={false}>
-          <span className="text-2xl font-extrabold tracking-tight text-foreground">
+        <Link
+          href="/"
+          className="flex flex-col items-start md:items-center"
+          prefetch={false}
+        >
+          <span className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
             Guantanamera
           </span>
           <span className="text-xs text-muted-foreground font-medium -mt-0.5">
@@ -143,13 +149,13 @@ const SiteHeader = () => {
         </div>
 
         {/* Mobile: right side */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1 md:hidden ml-auto">
           <Link
             href="/encargar"
             className="p-2 text-foreground hover:text-primary transition-colors relative"
             title="Carrito"
           >
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="h-6 w-6" />
             {count > 0 && (
               <Badge
                 variant="destructive"
@@ -166,7 +172,7 @@ const SiteHeader = () => {
                 className="p-2 text-foreground hover:text-primary transition-colors"
                 aria-label="Abrir menu"
               >
-                <Menu className="h-6 w-6" />
+                <Menu className="h-7 w-7" />
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-[400px] p-0 [&>button]:hidden">
@@ -178,7 +184,7 @@ const SiteHeader = () => {
                 >
                   <span className="text-xl font-bold text-foreground">Guantanamera</span>
                   <span className="text-xs text-muted-foreground font-medium -mt-0.5">
-                    23 anos a su servicio
+                    23 años a su servicio
                   </span>
                 </Link>
                 <SheetClose asChild>

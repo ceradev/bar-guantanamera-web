@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { newsItems } from "@/types/news"
+import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { staggerContainer, fadeInUp } from "../menu/animations"
@@ -121,24 +122,31 @@ export default function RecentNews() {
                   }}
                   className="bg-card rounded-xl overflow-hidden border border-border group"
                 >
-                  <div className="relative h-48 overflow-hidden bg-secondary">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 line-clamp-3">
-                      {item.shortDescription}
-                    </p>
-                    <span className="text-sm font-semibold text-primary hover:text-primary/80 hover:underline hover:underline-offset-4 transition-all duration-300 cursor-pointer">
-                      {item.cta || "Read more"}
-                    </span>
-                  </div>
+                  <Link
+                    href={item.link}
+                    target={item.link.startsWith("http") ? "_blank" : undefined}
+                    rel={item.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="block h-full"
+                  >
+                    <div className="relative h-48 overflow-hidden bg-secondary">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-5 flex flex-col h-[calc(100%-12rem)]">
+                      <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 line-clamp-3 flex-grow">
+                        {item.shortDescription}
+                      </p>
+                      <span className="text-sm font-semibold text-primary group-hover:text-primary/80 group-hover:underline group-hover:underline-offset-4 transition-all duration-300">
+                        {item.cta || "Saber más"}
+                      </span>
+                    </div>
+                  </Link>
                 </motion.article>
               ))}
             </AnimatePresence>
