@@ -1,92 +1,75 @@
-import { randomUUID } from 'crypto'
+import { createHmac } from 'crypto'
 
-// Token storage (en producción usar base de datos)
-interface StoredToken {
-    userId: string
-    email: string
-    token: string
-    expiresAt: Date
-    used: boolean
-    createdAt: Date
-}
-
-// In-memory storage (reemplazar con DB en producción)
-const tokenStore = new Map<string, StoredToken>()
-
+// SECRETO para firmar tokens (En producción debe estar en .env)
+const TOKEN_SECRET = process.env.AUTH_SECRET || 'cambiar-esto-por-un-secreto-real-en-produccion-123456789'
 const TOKEN_EXPIRY_HOURS = 24
 
 /**
- * Genera un token de confirmación único
+ * Genera un token de confirmación stateless (firmado)
+ * Formato: base64(expiration.email.signature)
  */
 export function generateConfirmationToken(userId: string, email: string): string {
-    const token = randomUUID()
-    const expiresAt = new Date(Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000)
+    const expiresAt = Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000
+    const data = `${userId}:${email}:${expiresAt}`
 
-    const storedToken: StoredToken = {
-        userId,
-        email,
-        token,
-        expiresAt,
-        used: false,
-        createdAt: new Date(),
-    }
+    // Crear firma
+    const signature = createHmac('sha256', TOKEN_SECRET)
+        .update(data)
+        .digest('base64url')
 
-    tokenStore.set(token, storedToken)
-    return token
+    // El token contiene la data necesaria y la firma para validarlo
+    // Usamos base64url para que sea seguro en URLs
+    const payload = Buffer.from(data).toString('base64url')
+
+    return `${payload}.${signature}`
 }
 
 /**
- * Valida un token de confirmación
+ * Valida un token stateless
  */
 export function validateToken(token: string, email: string): {
     valid: boolean
     error?: string
     userId?: string
 } {
-    const storedToken = tokenStore.get(token)
+    try {
+        const [payloadBase64, providedSignature] = token.split('.')
 
-    if (!storedToken) {
-        return { valid: false, error: 'Token inválido o no encontrado' }
-    }
-
-    if (storedToken.email !== email) {
-        return { valid: false, error: 'Email no coincide con el token' }
-    }
-
-    if (storedToken.used) {
-        return { valid: false, error: 'Este token ya ha sido utilizado' }
-    }
-
-    if (new Date() > storedToken.expiresAt) {
-        return { valid: false, error: 'El token ha expirado' }
-    }
-
-    return { valid: true, userId: storedToken.userId }
-}
-
-/**
- * Marca un token como usado
- */
-export function invalidateToken(token: string): void {
-    const storedToken = tokenStore.get(token)
-    if (storedToken) {
-        storedToken.used = true
-    }
-}
-
-/**
- * Elimina tokens expirados (llamar periódicamente)
- */
-export function cleanupExpiredTokens(): number {
-    const now = new Date()
-    let cleaned = 0
-
-    tokenStore.forEach((value, key) => {
-        if (value.expiresAt < now) {
-            tokenStore.delete(key)
-            cleaned++
+        if (!payloadBase64 || !providedSignature) {
+            return { valid: false, error: 'Formato de token inválido' }
         }
-    })
 
-    return cleaned
+        // Decodificar payload
+        const data = Buffer.from(payloadBase64, 'base64url').toString()
+        const [userId, tokenEmail, expiresAtStr] = data.split(':')
+
+        if (!userId || !tokenEmail || !expiresAtStr) {
+            return { valid: false, error: 'Token corrupto' }
+        }
+
+        // 1. Verificar Email
+        if (tokenEmail !== email) {
+            return { valid: false, error: 'El email no coincide con el token' }
+        }
+
+        // 2. Verificar Expiración
+        const expiresAt = parseInt(expiresAtStr)
+        if (Date.now() > expiresAt) {
+            return { valid: false, error: 'El token ha expirado' }
+        }
+
+        // 3. Verificar Firma (Integridad)
+        const expectedSignature = createHmac('sha256', TOKEN_SECRET)
+            .update(data)
+            .digest('base64url')
+
+        if (expectedSignature !== providedSignature) {
+            return { valid: false, error: 'Token inválido o manipulado' }
+        }
+
+        return { valid: true, userId }
+
+    } catch (error) {
+        return { valid: false, error: 'Error procesando el token' }
+    }
 }

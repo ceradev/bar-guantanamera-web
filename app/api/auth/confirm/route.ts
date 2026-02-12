@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server'
-import { validateToken, invalidateToken } from '@/lib/tokens'
+import { validateToken } from '@/lib/tokens'
 import { z } from 'zod'
 
 const confirmSchema = z.object({
     token: z.string().min(1, 'Token requerido'),
     email: z.string().email('Email inválido'),
 })
-
-// Almacén de usuarios verificados (en producción usar base de datos)
-const verifiedUsers = new Map<string, {
-    emailVerified: boolean
-    emailVerifiedAt: Date
-}>()
 
 export async function POST(request: Request) {
     try {
@@ -27,7 +21,7 @@ export async function POST(request: Request) {
 
         const { token, email } = result.data
 
-        // Validar token
+        // Validar token (stateless signature check)
         const validation = validateToken(token, email)
 
         if (!validation.valid) {
@@ -37,16 +31,10 @@ export async function POST(request: Request) {
             )
         }
 
-        // Marcar email como verificado
-        verifiedUsers.set(validation.userId!, {
-            emailVerified: true,
-            emailVerifiedAt: new Date(),
-        })
+        // En un sistema real, aquí actualizarías la DB:
+        // await db.user.update({ where: { id: validation.userId }, data: { emailVerified: true } })
 
-        // Invalidar token
-        invalidateToken(token)
-
-        console.log('Email verificado:', { userId: validation.userId, email })
+        console.log('Email verificado (Stateless):', { userId: validation.userId, email })
 
         return NextResponse.json({
             success: true,
@@ -60,10 +48,4 @@ export async function POST(request: Request) {
             { status: 500 }
         )
     }
-}
-
-// Función helper para verificar si un usuario tiene email verificado
-export function isEmailVerified(userId: string): boolean {
-    const user = verifiedUsers.get(userId)
-    return user?.emailVerified ?? false
 }

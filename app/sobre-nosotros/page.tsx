@@ -25,7 +25,6 @@ export default function SobreNosotrosPage() {
           description="Tantos años de experiencia nos ha dado la oportunidad de brindaros el mejor servicio."
         />
         <AboutStory />
-        {/* Full-width parallax image band */}
         <ParallaxImageBand
           src="/images/about/about-chicken.jpg"
           alt="Pollo asado recién hecho"

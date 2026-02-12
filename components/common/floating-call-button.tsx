@@ -17,7 +17,7 @@ export default function FloatingCallButton() {
 
   // Throttle scroll listener para mejor rendimiento
   const throttledToggleVisibility = useThrottle(toggleVisibility, 150)
-  
+
   // Usar ref para mantener una referencia estable a la función throttled
   const throttledRef = useRef(throttledToggleVisibility)
   throttledRef.current = throttledToggleVisibility

@@ -1,29 +1,21 @@
 import type React from "react";
-import { Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { BusinessSettingsProvider } from "@/components/providers/business-settings-provider"
-import { CartProvider } from "@/components/providers/cart-provider"
-import { Toaster } from "@/components/ui/sonner"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-  weight: ["400", "500", "600", "700"],
-});
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  variable: "--font-open-sans",
-  weight: ["400", "500"],
-});
+import { siteConfig } from "@/config/site";
+import { montserrat, openSans } from "@/lib/fonts";
+import { RootProvider } from "@/components/providers/root-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import FloatingCallButton from "@/components/common/floating-call-button";
+import BackToTopButton from "@/components/common/back-to-top-button";
 
 export const metadata = {
-  title: "Bar Cafeteria Guantanamera",
-  description:
-    "Bar Cafetería Guantanamera - Los mejores pollos asados de Tenerife. Comida para llevar, para compartir y para disfrutar en familia. Especialidad en pollos, costillas y patas asadas con la receta casera que nos define. Más de 20 años de tradición culinaria, donde cada plato cuenta una historia de pasión y autenticidad. Ven y descubre por qué somos el lugar favorito para los amantes de la buena comida asada.",
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
@@ -56,14 +48,14 @@ export default function RootLayout({
           openSans.variable
         )}
       >
-        <BusinessSettingsProvider>
-          <CartProvider>
-            {children}
-          </CartProvider>
-        </BusinessSettingsProvider>
+        <RootProvider>
+          {children}
+        </RootProvider>
         <Toaster />
         <Analytics />
         <SpeedInsights />
+        <FloatingCallButton />
+        <BackToTopButton />
       </body>
     </html>
   );

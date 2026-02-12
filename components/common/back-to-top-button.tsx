@@ -16,7 +16,7 @@ export default function BackToTopButton() {
 
   // Throttle scroll listener para mejor rendimiento
   const throttledToggleVisibility = useThrottle(toggleVisibility, 150)
-  
+
   // Usar ref para mantener una referencia estable a la función throttled
   const throttledRef = useRef(throttledToggleVisibility)
   throttledRef.current = throttledToggleVisibility
@@ -59,7 +59,7 @@ export default function BackToTopButton() {
     <AnimatePresence>
       {isVisible && !footerVisible && (
         <motion.div
-          className="fixed bottom-8 md:bottom-6 right-6 z-50"
+          className="fixed bottom-4 md:bottom-6 right-6 z-50"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}

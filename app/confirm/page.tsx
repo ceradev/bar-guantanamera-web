@@ -1,12 +1,10 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
+import { useEffect, useState, useRef, Suspense } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
-import { CheckCircle2, XCircle, Loader2 } from "lucide-react"
+import { CheckCircle2, XCircle, Loader2, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
-
-type Status = "loading" | "success" | "error"
 
 export default function ConfirmPage() {
     return (
@@ -20,38 +18,55 @@ export default function ConfirmPage() {
 
 function ConfirmFallback() {
     return (
+        <CardWrapper>
+            <Loader2 className="h-16 w-16 text-primary mx-auto mb-4 animate-spin" />
+            <h1 className="text-2xl font-bold text-foreground mb-2">Verificando...</h1>
+            <p className="text-muted-foreground">
+                Por favor espera mientras validamos tu enlace.
+            </p>
+        </CardWrapper>
+    )
+}
+
+function CardWrapper({ children }: { children: React.ReactNode }) {
+    return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-md w-full bg-card rounded-2xl border border-border p-8 text-center"
+            className="max-w-md w-full bg-card rounded-2xl border border-border p-8 text-center shadow-lg"
         >
-            <Loader2 className="h-16 w-16 text-primary mx-auto mb-4 animate-spin" />
-            <h1 className="text-2xl font-bold text-foreground mb-2">
-                Verificando...
-            </h1>
-            <p className="text-muted-foreground">
-                Por favor espera mientras verificamos tu correo electrónico.
-            </p>
+            {children}
         </motion.div>
     )
 }
 
 function ConfirmContent() {
     const searchParams = useSearchParams()
-    const [status, setStatus] = useState<Status>("loading")
+    const router = useRouter()
+
+    // Estados
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
     const [message, setMessage] = useState("")
+
+    // Evitar doble ejecución en React Strict Mode
+    const verificationAttempted = useRef(false)
 
     useEffect(() => {
         const token = searchParams.get("token")
         const email = searchParams.get("email")
 
+        // Si ya intentamos verificar o faltan datos, no hacemos nada
+        if (verificationAttempted.current) return
         if (!token || !email) {
             setStatus("error")
-            setMessage("Enlace de confirmación inválido. Faltan parámetros.")
+            setMessage("Enlace incompleto o inválido.")
             return
         }
 
-        async function confirmEmail() {
+        const verifyToken = async () => {
+            verificationAttempted.current = true
+            setStatus("loading")
+
             try {
                 const response = await fetch("/api/auth/confirm", {
                     method: "POST",
@@ -63,69 +78,64 @@ function ConfirmContent() {
 
                 if (response.ok) {
                     setStatus("success")
-                    setMessage("¡Tu correo electrónico ha sido verificado correctamente!")
+                    setMessage("Tu cuenta ha sido verificada correctamente.")
+                    // Redirigir automáticamente después de 3 segundos
+                    setTimeout(() => router.push("/"), 3000)
                 } else {
                     setStatus("error")
-                    setMessage(data.error || "Error al verificar el correo")
+                    setMessage(data.error || "El enlace ha expirado o no es válido.")
                 }
             } catch (error) {
                 setStatus("error")
-                setMessage("Error de conexión. Intenta de nuevo más tarde.")
+                setMessage("Error de conexión. Intenta nuevamente.")
+                // Permitir reintentar en caso de error de red
+                verificationAttempted.current = false
             }
         }
 
-        confirmEmail()
-    }, [searchParams])
+        verifyToken()
+    }, [searchParams, router])
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-md w-full bg-card rounded-2xl border border-border p-8 text-center"
-        >
-            {status === "loading" && (
+        <CardWrapper>
+            {status === "idle" || status === "loading" ? (
                 <>
                     <Loader2 className="h-16 w-16 text-primary mx-auto mb-4 animate-spin" />
-                    <h1 className="text-2xl font-bold text-foreground mb-2">
-                        Verificando...
-                    </h1>
-                    <p className="text-muted-foreground">
-                        Por favor espera mientras verificamos tu correo electrónico.
-                    </p>
+                    <h1 className="text-2xl font-bold text-foreground mb-2">Verificando...</h1>
+                    <p className="text-muted-foreground">Estamos confirmando tu correo electrónico.</p>
                 </>
-            )}
-
-            {status === "success" && (
+            ) : status === "success" ? (
                 <>
-                    <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                    <h1 className="text-2xl font-bold text-foreground mb-2">
-                        ¡Verificado!
-                    </h1>
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: "spring", duration: 0.5 }}
+                    >
+                        <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                    </motion.div>
+                    <h1 className="text-2xl font-bold text-foreground mb-2">¡Todo listo!</h1>
                     <p className="text-muted-foreground mb-6">{message}</p>
+                    <p className="text-xs text-muted-foreground mb-4">Serás redirigido en unos segundos...</p>
                     <Link
                         href="/"
-                        className="inline-flex items-center justify-center bg-primary text-white font-semibold rounded-md px-6 py-3 hover:bg-primary/90 transition-colors"
+                        className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-medium rounded-md px-6 py-3 hover:bg-primary/90 transition-colors w-full"
                     >
-                        Ir al inicio
+                        Ir al inicio <ArrowRight className="w-4 h-4" />
                     </Link>
                 </>
-            )}
-
-            {status === "error" && (
+            ) : (
                 <>
                     <XCircle className="h-16 w-16 text-destructive mx-auto mb-4" />
-                    <h1 className="text-2xl font-bold text-foreground mb-2">
-                        Error de verificación
-                    </h1>
+                    <h1 className="text-2xl font-bold text-foreground mb-2">Algo salió mal</h1>
                     <p className="text-muted-foreground mb-6">{message}</p>
                     <Link
                         href="/"
-                        className="inline-flex items-center justify-center border-2 border-primary text-primary font-semibold rounded-md px-6 py-3 hover:bg-primary/10 transition-colors"
+                        className="inline-flex items-center justify-center border-2 border-primary text-primary font-semibold rounded-md px-6 py-3 hover:bg-primary/5 transition-colors w-full"
                     >
                         Volver al inicio
                     </Link>
                 </>
             )}
-        </motion.div>
+        </CardWrapper>
     )
 }
