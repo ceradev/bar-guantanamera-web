@@ -11,6 +11,7 @@ export default function ProductCard({
     inCart,
     isOpenNow,
     inactive,
+    madeToOrder,
     onAdd,
     onIncrease,
     onDecrease,
@@ -20,11 +21,13 @@ export default function ProductCard({
     inCart?: CartItem
     isOpenNow: boolean
     inactive?: boolean
+    madeToOrder?: boolean
     onAdd: () => void
     onIncrease: () => void
     onDecrease: () => void
     onRemove: () => void
 }) {
+    const isDisabled = inactive || madeToOrder
     return (
         <div className="rounded-xl border border-border bg-card shadow-sm p-5">
             <div className="relative h-40 rounded-lg overflow-hidden bg-secondary">
@@ -49,9 +52,9 @@ export default function ProductCard({
                     <Button
                         onClick={onAdd}
                         className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm w-full py-3 text-sm font-semibold tracking-wide disabled:opacity-60"
-                        disabled={!isOpenNow || !!inactive}
+                        disabled={!isOpenNow || isDisabled}
                     >
-                        {inactive ? "No disponible" : "+ Anadir"}
+                        {inactive ? "No disponible" : madeToOrder ? "Solo por encargo" : "+ Anadir"}
                     </Button>
                 ) : (
                     <div className="flex items-center justify-between">
@@ -60,7 +63,7 @@ export default function ProductCard({
                             <Minus className="w-4 h-4" />
                           </Button>
                           <div className="w-10 text-center font-semibold text-base text-foreground">{inCart.quantity}</div>
-                          <Button variant="outline" size="icon" className="rounded-sm h-9 w-9 border-border" onClick={onIncrease} disabled={!!inactive}>
+                          <Button variant="outline" size="icon" className="rounded-sm h-9 w-9 border-border" onClick={onIncrease} disabled={isDisabled}>
                             <Plus className="w-4 h-4" />
                           </Button>
                         </div>

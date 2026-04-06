@@ -12,6 +12,7 @@ interface BusinessSettingsContextType {
     nextOpenText: string
     productsLastUpdated: number
     inactiveNames: string[]
+    madeToOrderNames: string[]
 }
 
 const BusinessSettingsContext = createContext<BusinessSettingsContextType>({
@@ -21,7 +22,8 @@ const BusinessSettingsContext = createContext<BusinessSettingsContextType>({
     isOpenNow: false,
     nextOpenText: "",
     productsLastUpdated: 0,
-    inactiveNames: []
+    inactiveNames: [],
+    madeToOrderNames: []
 })
 
 export function BusinessSettingsProvider({ children }: { children: React.ReactNode }) {
@@ -30,11 +32,13 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
     const [error, setError] = useState<string | null>(null)
     const [productsLastUpdated, setProductsLastUpdated] = useState<number>(Date.now())
     const [inactiveNames, setInactiveNames] = useState<string[]>([])
+    const [madeToOrderNames, setMadeToOrderNames] = useState<string[]>([])
 
     const fetchSettings = useCallback(async () => {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.barguantanamera.com"
         try {
             // Fetch Settings
-            const resSettings = await fetch("https://api.barguantanamera.com/settings/public/status", {
+            const resSettings = await fetch(`${apiUrl}/settings/public/status`, {
                 headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
             if (resSettings.ok) {
@@ -46,13 +50,34 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
             }
 
             // Fetch Inactive Products
-            const resInactive = await fetch("https://api.barguantanamera.com/products/inactive-names", {
+            const resInactive = await fetch(`${apiUrl}/products/inactive-names`, {
                 headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
             if (resInactive.ok) {
                 const data = await resInactive.json()
                 const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
                 setInactiveNames(names)
+            }
+
+            // Fetch Made to Order Products
+            const resProducts = await fetch(`${apiUrl}/products`, {
+                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
+            })
+            if (resProducts.ok) {
+                const data = await resProducts.json()
+                const madeToOrderList: string[] = []
+                if (Array.isArray(data)) {
+                    data.forEach((category: any) => {
+                        if (category.products && Array.isArray(category.products)) {
+                            category.products.forEach((product: any) => {
+                                if (product.madeToOrder === true) {
+                                    madeToOrderList.push(product.name)
+                                }
+                            })
+                        }
+                    })
+                }
+                setMadeToOrderNames(madeToOrderList)
             }
 
         } catch (err) {
@@ -138,7 +163,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
     }, [settings])
 
     return (
-        <BusinessSettingsContext.Provider value={{ settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated, inactiveNames }}>
+        <BusinessSettingsContext.Provider value={{ settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated, inactiveNames, madeToOrderNames }}>
             {children}
         </BusinessSettingsContext.Provider>
     )

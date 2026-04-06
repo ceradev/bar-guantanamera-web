@@ -12,6 +12,7 @@ interface MenuProductGridProps {
     menuCategories: any
     cart: any
     inactiveNames: string[]
+    madeToOrderNames: string[]
     canOrder: boolean
     addToCart: (item: any) => void
     increase: (name: string) => void
@@ -30,6 +31,7 @@ export default function MenuProductGrid({
     menuCategories,
     cart,
     inactiveNames,
+    madeToOrderNames,
     canOrder,
     addToCart,
     increase,
@@ -56,6 +58,7 @@ export default function MenuProductGrid({
                             {category.items.map((item: any) => {
                                 const inCart = cart[item.name]
                                 const inactive = inactiveNames.includes(item.name)
+                                const madeToOrder = madeToOrderNames.includes(item.name)
                                 return (
                                     <ProductCard
                                         key={item.name}
@@ -63,6 +66,7 @@ export default function MenuProductGrid({
                                         inCart={inCart}
                                         isOpenNow={canOrder}
                                         inactive={inactive}
+                                        madeToOrder={madeToOrder}
                                         onAdd={() => addToCart(item)}
                                         onIncrease={() => increase(item.name)}
                                         onDecrease={() => decrease(item.name)}
@@ -80,7 +84,10 @@ export default function MenuProductGrid({
                         <h3 className="text-xl md:text-2xl font-bold text-foreground">Platos Combinados</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {comboMeals.map(combo => (
+                        {comboMeals.map(combo => {
+                            const comboInactive = inactiveNames.includes(combo.name)
+                            const comboMadeToOrder = madeToOrderNames.includes(combo.name)
+                            return (
                             <div key={combo.name} className="rounded-xl border border-border bg-card shadow-sm p-5 flex items-start gap-4">
                                 <div className="text-4xl leading-none">{combo.icon}</div>
                                 <div className="flex-1">
@@ -95,14 +102,14 @@ export default function MenuProductGrid({
                                         <Button
                                             onClick={() => addToCart({ name: combo.name, price: combo.price } as any)}
                                             className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-sm text-sm font-semibold"
-                                            disabled={inactiveNames.includes(combo.name) || !canOrder}
+                                            disabled={comboInactive || comboMadeToOrder || !canOrder}
                                         >
-                                            {inactiveNames.includes(combo.name) ? "No disponible" : "+ Anadir"}
+                                            {comboInactive ? "No disponible" : comboMadeToOrder ? "Solo por encargo" : "+ Anadir"}
                                         </Button>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        )})}
                     </div>
                 </section>
 
@@ -112,7 +119,10 @@ export default function MenuProductGrid({
                         <h3 className="text-xl md:text-2xl font-bold text-foreground">Mojos y Salsas</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {mojos.map(mojo => (
+                        {mojos.map(mojo => {
+                            const mojoInactive = inactiveNames.includes(mojo.name)
+                            const mojoMadeToOrder = madeToOrderNames.includes(mojo.name)
+                            return (
                             <div key={mojo.name} className="rounded-xl border border-border bg-card shadow-sm p-5 flex items-center justify-between">
                                 <div className="flex items-center gap-3 flex-1">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -129,13 +139,13 @@ export default function MenuProductGrid({
                                         onClick={() => addToCart({ name: mojo.name, price: mojo.price } as any)}
                                         variant="outline"
                                         className="rounded-sm border-border text-sm"
-                                        disabled={inactiveNames.includes(mojo.name) || !canOrder}
+                                        disabled={mojoInactive || mojoMadeToOrder || !canOrder}
                                     >
-                                        {inactiveNames.includes(mojo.name) ? "No disponible" : "+ Anadir"}
+                                        {mojoInactive ? "No disponible" : mojoMadeToOrder ? "Solo por encargo" : "+ Anadir"}
                                     </Button>
                                 </div>
                             </div>
-                        ))}
+                        )})}
                     </div>
                 </section>
 
@@ -154,7 +164,10 @@ export default function MenuProductGrid({
                                     <h4 className="text-base font-semibold text-foreground capitalize">{category}</h4>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {drinks.map((drink: any) => (
+                                    {drinks.map((drink: any) => {
+                                        const drinkInactive = inactiveNames.includes(drink.name)
+                                        const drinkMadeToOrder = madeToOrderNames.includes(drink.name)
+                                        return (
                                         <div key={drink.name} className="rounded-xl border border-border bg-card shadow-sm p-5 flex items-center justify-between">
                                             <div className="flex items-center gap-3 flex-1">
                                                 <div className="text-foreground font-semibold text-sm">{drink.name}</div>
@@ -165,13 +178,13 @@ export default function MenuProductGrid({
                                                     onClick={() => addToCart({ name: drink.name, price: drink.price } as any)}
                                                     variant="outline"
                                                     className="rounded-sm border-border text-sm"
-                                                    disabled={inactiveNames.includes(drink.name) || !canOrder}
+                                                    disabled={drinkInactive || drinkMadeToOrder || !canOrder}
                                                 >
-                                                    {inactiveNames.includes(drink.name) ? "No disponible" : "+ Anadir"}
+                                                    {drinkInactive ? "No disponible" : drinkMadeToOrder ? "Solo por encargo" : "+ Anadir"}
                                                 </Button>
                                             </div>
                                         </div>
-                                    ))}
+                                    )})}
                                 </div>
                             </div>
                         ))}

@@ -42,6 +42,7 @@ export async function processOrderSubmission(
   if (errors.length > 0) {
     return { errors }
   }
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.barguantanamera.com"
   const payload = {
     customerName: form.name.trim(),
     customerEmail: form.email.trim() || undefined,
@@ -53,7 +54,7 @@ export async function processOrderSubmission(
     ...(form.phone.trim() ? { customerPhone: form.phone.trim() } : {}),
   }
   try {
-    const res = await fetch("https://api.barguantanamera.com/orders", {
+    const res = await fetch(`${apiUrl}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

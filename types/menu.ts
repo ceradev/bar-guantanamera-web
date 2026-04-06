@@ -8,6 +8,7 @@ export interface MenuItem {
   spicy?: boolean
   vegetarian?: boolean
   active?: boolean
+  madeToOrder?: boolean
 }
 
 export interface MenuCategory {

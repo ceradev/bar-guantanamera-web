@@ -21,7 +21,7 @@ export function useOrderPage() {
     const [lastOrder, setLastOrder] = useState<{ name: string; phone: string; pickupTime: string; total: number } | null>(null)
 
     // Business Settings (Context)
-    const { settings, isOpenNow: dynamicIsOpen, nextOpenText: dynamicNextOpen, isLoading: settingsLoading, productsLastUpdated, inactiveNames } = useBusinessSettings()
+    const { settings, isOpenNow: dynamicIsOpen, nextOpenText: dynamicNextOpen, isLoading: settingsLoading, productsLastUpdated, inactiveNames, madeToOrderNames } = useBusinessSettings()
 
     // Static fallback
     const { slots: staticSlots, isOpenNow: staticIsOpen, nextOpenText: staticNextOpen } = useBusinessHours(BUSINESS_HOURS)
@@ -91,6 +91,7 @@ export function useOrderPage() {
         toastMessage,
         lastOrder,
         inactiveNames,
+        madeToOrderNames,
         inactiveError,
 
         // Settings/Business logic

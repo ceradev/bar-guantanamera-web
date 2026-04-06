@@ -8,7 +8,7 @@ import { MenuItem } from "@/types/menu"
 import { CartItem } from "@/types/order"
 
 interface ProductDetailsDialogProps {
-    item: (MenuItem & { category?: string }) | null
+    item: (MenuItem & { category?: string, madeToOrder?: boolean }) | null
     open: boolean
     onOpenChange: (open: boolean) => void
     addToCart: (item: MenuItem | CartItem) => void
@@ -16,6 +16,8 @@ interface ProductDetailsDialogProps {
 
 export default function ProductDetailsDialog({ item, open, onOpenChange, addToCart }: ProductDetailsDialogProps) {
     if (!item) return null
+
+    const isDisabled = item.madeToOrder === true
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -32,6 +34,13 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                     ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
                             <ShoppingCart className="h-12 w-12 opacity-20" />
+                        </div>
+                    )}
+                    {isDisabled && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+                            <span className="bg-amber-500 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                                Solo por encargo
+                            </span>
                         </div>
                     )}
                 </div>
@@ -68,6 +77,11 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                                     Vegetariano
                                 </span>
                             )}
+                            {item.madeToOrder && (
+                                <span className="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded-full dark:bg-amber-900/30 dark:text-amber-500">
+                                    Solo por encargo
+                                </span>
+                            )}
                         </div>
 
                         <div className="pt-4 flex justify-end">
@@ -76,10 +90,11 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                                     addToCart(item)
                                     onOpenChange(false)
                                 }}
-                                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
+                                disabled={isDisabled}
+                                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground"
                             >
                                 <ShoppingCart className="mr-2 h-4 w-4" />
-                                Añadir al pedido
+                                {isDisabled ? "No disponible online" : "Añadir al pedido"}
                             </Button>
                         </div>
                     </div>
