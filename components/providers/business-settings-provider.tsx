@@ -38,7 +38,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.barguantanamera.com"
         try {
             // Fetch Settings
-            const resSettings = await fetch(`${apiUrl}/settings/public/status`, {
+            const resSettings = await fetch(`${apiUrl}/api/settings/public/status`, {
                 headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
             if (resSettings.ok) {
@@ -50,7 +50,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
             }
 
             // Fetch Inactive Products
-            const resInactive = await fetch(`${apiUrl}/products/inactive-names`, {
+            const resInactive = await fetch(`${apiUrl}/api/products/inactive-names`, {
                 headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
             if (resInactive.ok) {
@@ -60,7 +60,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
             }
 
             // Fetch Made to Order Products
-            const resProducts = await fetch(`${apiUrl}/products`, {
+            const resProducts = await fetch(`${apiUrl}/api/products`, {
                 headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
             })
             if (resProducts.ok) {
