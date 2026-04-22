@@ -23,7 +23,7 @@ class NotificationService {
         }
 
         this.isConnecting = true
-        const url = new URL("https://api.barguantanamera.com/notifications")
+        const url = new URL("https://api.barguantanamera.com/api/notifications")
         url.searchParams.append("apiKey", apiKey)
         url.searchParams.append("types", "SETTINGS_UPDATED,PRODUCTS_UPDATED")
 

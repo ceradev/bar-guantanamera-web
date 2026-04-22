@@ -54,7 +54,7 @@ export async function processOrderSubmission(
     ...(form.phone.trim() ? { customerPhone: form.phone.trim() } : {}),
   }
   try {
-    const res = await fetch(`${apiUrl}/orders`, {
+    const res = await fetch(`${apiUrl}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
