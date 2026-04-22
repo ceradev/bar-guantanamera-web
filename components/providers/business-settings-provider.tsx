@@ -38,9 +38,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.barguantanamera.com"
         try {
             // Fetch Settings
-            const resSettings = await fetch(`${apiUrl}/api/settings/public/status`, {
-                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
-            })
+            const resSettings = await fetch(`${apiUrl}/api/settings/public/status`)
             if (resSettings.ok) {
                 const data = await resSettings.json()
                 setSettings(data)
@@ -49,27 +47,19 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
                 throw new Error("Failed to fetch settings")
             }
 
-            // Fetch Inactive Products
-            const resInactive = await fetch(`${apiUrl}/api/products/inactive-names`, {
-                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
-            })
-            if (resInactive.ok) {
-                const data = await resInactive.json()
-                const names = Array.isArray(data) ? data : (Array.isArray(data?.names) ? data.names : [])
-                setInactiveNames(names)
-            }
-
-            // Fetch Made to Order Products
-            const resProducts = await fetch(`${apiUrl}/api/products`, {
-                headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY ?? "" },
-            })
+            // Fetch public products and derive active/madeToOrder names
+            const resProducts = await fetch(`${apiUrl}/api/products`)
             if (resProducts.ok) {
                 const data = await resProducts.json()
                 const madeToOrderList: string[] = []
+                const inactiveList: string[] = []
                 if (Array.isArray(data)) {
                     data.forEach((category: any) => {
                         if (category.products && Array.isArray(category.products)) {
                             category.products.forEach((product: any) => {
+                                if (product.active === false) {
+                                    inactiveList.push(product.name)
+                                }
                                 if (product.madeToOrder === true) {
                                     madeToOrderList.push(product.name)
                                 }
@@ -77,6 +67,7 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
                         }
                     })
                 }
+                setInactiveNames(inactiveList)
                 setMadeToOrderNames(madeToOrderList)
             }
 
@@ -162,8 +153,19 @@ export function BusinessSettingsProvider({ children }: { children: React.ReactNo
 
     }, [settings])
 
+    const contextValue = useMemo(() => ({
+        settings,
+        isLoading,
+        error,
+        isOpenNow,
+        nextOpenText,
+        productsLastUpdated,
+        inactiveNames,
+        madeToOrderNames,
+    }), [settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated, inactiveNames, madeToOrderNames])
+
     return (
-        <BusinessSettingsContext.Provider value={{ settings, isLoading, error, isOpenNow, nextOpenText, productsLastUpdated, inactiveNames, madeToOrderNames }}>
+        <BusinessSettingsContext.Provider value={contextValue}>
             {children}
         </BusinessSettingsContext.Provider>
     )

@@ -6,6 +6,8 @@ class NotificationService {
     private eventSource: EventSource | null = null
     private listeners: Map<NotificationType, Set<NotificationHandler>> = new Map()
     private isConnecting = false
+    private readonly retryDelaysMs = [2000, 5000, 10000]
+    private reconnectAttempts = 0
 
     constructor() {
         this.listeners.set("SETTINGS_UPDATED", new Set())
@@ -16,15 +18,9 @@ class NotificationService {
     private ensureConnection() {
         if (this.eventSource || this.isConnecting) return
 
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY
-        if (!apiKey) {
-            console.error("Falta NEXT_PUBLIC_API_KEY para las notificaciones")
-            return
-        }
-
         this.isConnecting = true
-        const url = new URL("https://api.barguantanamera.com/api/notifications")
-        url.searchParams.append("apiKey", apiKey)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.barguantanamera.com"
+        const url = new URL(`${apiUrl}/api/notifications/public`)
         url.searchParams.append("types", "SETTINGS_UPDATED,PRODUCTS_UPDATED")
 
         this.eventSource = new EventSource(url.toString())
@@ -42,6 +38,7 @@ class NotificationService {
 
         this.eventSource.onopen = () => {
             this.isConnecting = false
+            this.reconnectAttempts = 0
             const handlers = this.listeners.get("CONNECTED")
             if (handlers) {
                 handlers.forEach(handler => handler({ type: "CONNECTED" }))
@@ -52,7 +49,10 @@ class NotificationService {
             this.isConnecting = false
             this.eventSource?.close()
             this.eventSource = null
-            setTimeout(() => this.ensureConnection(), 5000)
+            const delayIndex = Math.min(this.reconnectAttempts, this.retryDelaysMs.length - 1)
+            const delay = this.retryDelaysMs[delayIndex]
+            this.reconnectAttempts += 1
+            setTimeout(() => this.ensureConnection(), delay)
         }
     }
 
