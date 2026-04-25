@@ -1,6 +1,7 @@
 import SiteHeader from "@/components/layout/site-header"
 import SiteFooter from "@/components/layout/site-footer"
 import HomeHero from "@/components/sections/home/home-hero"
+import AwardsSection from "@/components/sections/home/awards-section"
 import PopularDishes from "@/components/sections/home/popular-dishes"
 import FlavorBento from "@/components/sections/home/flavor-bento"
 import RecentNews from "@/components/sections/home/recent-news"
@@ -12,6 +13,7 @@ export default function HomePage() {
       <SiteHeader />
       <main className="flex-1">
         <HomeHero />
+        <AwardsSection />
         <PopularDishes />
         <FlavorBento />
         <RecentNews />
