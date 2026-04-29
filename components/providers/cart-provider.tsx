@@ -8,10 +8,10 @@ import { toast } from "sonner"
 
 interface CartContextType {
     cart: Record<string, CartItem>
-    addToCart: (item: MenuItem | CartItem) => void
-    increase: (name: string) => void
-    decrease: (name: string) => void
-    removeItem: (name: string) => void
+    addToCart: (item: MenuItem | CartItem, selectedOptions?: Record<string, string>) => void
+    increase: (key: string) => void
+    decrease: (key: string) => void
+    removeItem: (key: string) => void
     clearCart: () => void
     total: number
     count: number
@@ -43,61 +43,79 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, [cart, isInitialized])
 
-    const addToCart = (item: MenuItem | CartItem) => {
+    const addToCart = (item: MenuItem | CartItem, selectedOptions?: Record<string, string>) => {
         let price: number
         let image: string | undefined
+        let description: string | undefined
 
         if ("price" in item) {
             // It's a MenuItem
             price = parsePrice(item.price)
             image = item.image
+            description = item.description
         } else {
             // It's a CartItem
             price = item.unitPrice
             image = item.image
+            description = item.description
+        }
+
+        const finalOptions = selectedOptions || (("selectedOptions" in item) ? item.selectedOptions : undefined)
+        
+        // Generate key from name + all options
+        let cartKey = item.name
+        if (finalOptions) {
+            const sortedOptions = Object.values(finalOptions).sort()
+            if (sortedOptions.length > 0) {
+                cartKey = `${item.name} - ${sortedOptions.join(", ")}`
+            }
         }
 
         setCart(prev => {
-            const existing = prev[item.name]
+            const existing = prev[cartKey]
             const nextQty = existing ? existing.quantity + 1 : 1
             return {
                 ...prev,
-                [item.name]: {
+                [cartKey]: {
+                    id: cartKey,
                     name: item.name,
                     unitPrice: price,
                     quantity: nextQty,
-                    image: existing?.image || image
+                    image: existing?.image || image,
+                    description: existing?.description || description,
+                    selectedOptions: finalOptions
                 }
             }
         })
 
-        toast.success(`Añadido: ${item.name}`)
+        const optionsText = finalOptions ? Object.values(finalOptions).join(", ") : ""
+        toast.success(`Añadido: ${item.name}${optionsText ? ` (${optionsText})` : ""}`)
     }
 
-    const increase = (name: string) => {
+    const increase = (key: string) => {
         setCart(prev => {
-            const current = prev[name]
+            const current = prev[key]
             if (!current) return prev
-            return { ...prev, [name]: { ...current, quantity: current.quantity + 1 } }
+            return { ...prev, [key]: { ...current, quantity: current.quantity + 1 } }
         })
     }
 
-    const decrease = (name: string) => {
+    const decrease = (key: string) => {
         setCart(prev => {
-            const current = prev[name]
+            const current = prev[key]
             if (!current) return prev
             const nextQty = current.quantity - 1
             if (nextQty <= 0) {
-                const { [name]: _, ...rest } = prev
+                const { [key]: _, ...rest } = prev
                 return rest
             }
-            return { ...prev, [name]: { ...current, quantity: nextQty } }
+            return { ...prev, [key]: { ...current, quantity: nextQty } }
         })
     }
 
-    const removeItem = (name: string) => {
+    const removeItem = (key: string) => {
         setCart(prev => {
-            const { [name]: _, ...rest } = prev
+            const { [key]: _, ...rest } = prev
             return rest
         })
     }

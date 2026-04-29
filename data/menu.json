@@ -9,32 +9,107 @@
           "description": "Pollo asado entero a la perfección con nuestra mezcla secreta de especias caseras, jugoso por dentro y crujiente por fuera",
           "price": "8.50€",
           "popular": true,
-          "image": "/images/menu/roast-chickens/pollo-asado-entero.png"
+          "image": "/images/menu/roast-chickens/pollo-asado-entero.png",
+          "customizable": true,
+          "optionGroups": [
+            {
+              "id": "corte",
+              "name": "Corte",
+              "options": ["Entero", "Troceado"],
+              "defaultOption": "Entero"
+            },
+            {
+              "id": "punto",
+              "name": "Punto de cocción",
+              "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+              "defaultOption": "Bien hecho"
+            }
+          ]
         },
         {
           "name": "Pollo Asado Entero con Papas",
           "description": "Pollo asado entero con guarnición de papas fritas caseras para compartir dos personas",
           "price": "11.80€",
-          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png"
+          "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
+          "customizable": true,
+          "optionGroups": [
+            {
+              "id": "corte",
+              "name": "Corte",
+              "options": ["Entero", "Troceado"],
+              "defaultOption": "Entero"
+            },
+            {
+              "id": "punto",
+              "name": "Punto de cocción",
+              "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+              "defaultOption": "Bien hecho"
+            }
+          ]
         },
         {
           "name": "Pollo Asado Entero con Papas Familiar",
           "description": "Pollo asado entero acompañado de papas fritas caseras para compartir cuatro personas, ideal para familias",
           "price": "14.00€",
           "image": "/images/menu/roast-chickens/pollo-asado-con-papas.png",
-          "popular": true
+          "popular": true,
+          "customizable": true,
+          "optionGroups": [
+            {
+              "id": "corte",
+              "name": "Corte",
+              "options": ["Entero", "Troceado"],
+              "defaultOption": "Entero"
+            },
+            {
+              "id": "punto",
+              "name": "Punto de cocción",
+              "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+              "defaultOption": "Bien hecho"
+            }
+          ]
         },
         {
           "name": "Medio Pollo",
           "description": "Media ración de pollo asado, perfecto para una comida individual",
           "price": "4.40€",
-          "image": "/images/menu/roast-chickens/medio-pollo.png"
+          "image": "/images/menu/roast-chickens/medio-pollo.png",
+          "customizable": true,
+          "optionGroups": [
+            {
+              "id": "corte",
+              "name": "Corte",
+              "options": ["Entero", "Troceado"],
+              "defaultOption": "Entero"
+            },
+            {
+              "id": "punto",
+              "name": "Punto de cocción",
+              "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+              "defaultOption": "Bien hecho"
+            }
+          ]
         },
         {
           "name": "Medio Pollo con Papas Fritas",
           "description": "Medio pollo asado acompañado de papas fritas caseras para compartir dos personas, opción económica y deliciosa",
           "price": "8.00€",
-          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png"
+          "image": "/images/menu/roast-chickens/medio-pollo-con-papas.png",
+          "customizable": true,
+          "optionGroups": [
+            {
+              "id": "corte",
+              "name": "Corte",
+              "options": ["Entero", "Troceado"],
+              "defaultOption": "Entero"
+            },
+            {
+              "id": "punto",
+              "name": "Punto de cocción",
+              "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+              "defaultOption": "Bien hecho"
+            }
+          ]
         }
       ]
     },
@@ -270,18 +345,51 @@
       "name": "Menu Pollo",
       "description": "Pollo + Papas Fritas + Refresco",
       "price": "14.50€",
-      "icon": "🐔"
+      "image": "/images/menu/combos/menu-pollo.png",
+      "icon": "🐔",
+      "customizable": true,
+      "optionGroups": [
+        {
+          "id": "corte",
+          "name": "Corte",
+          "options": ["Entero", "Troceado"],
+          "defaultOption": "Entero"
+        },
+        {
+          "id": "punto",
+          "name": "Punto de cocción",
+          "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+          "defaultOption": "Bien hecho"
+        }
+      ]
     },
     {
       "name": "Menu Medio Pollo",
       "description": "Medio pollo + Papas Fritas + Refresco",
       "price": "8.80€",
-      "icon": "🍗"
+      "image": "/images/menu/combos/menu-mediopollo.png",
+      "icon": "🍗",
+      "customizable": true,
+      "optionGroups": [
+        {
+          "id": "corte",
+          "name": "Corte",
+          "options": ["Entero", "Troceado"],
+          "defaultOption": "Entero"
+        },
+        {
+          "id": "punto",
+          "name": "Punto de cocción",
+          "options": ["No muy hecho", "Bien hecho", "Muy hecho"],
+          "defaultOption": "Bien hecho"
+        }
+      ]
     },
     {
       "name": "Menu Burrito",
       "description": "Burrito + Papas Fritas + Refresco",
       "price": "7.50€",
+      "image": "/images/menu/combos/menu-burrito.png",
       "icon": "🌯"
     }
   ]

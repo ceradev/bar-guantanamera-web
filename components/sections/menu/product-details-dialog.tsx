@@ -3,18 +3,41 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { ShoppingCart } from "lucide-react"
+import { ShoppingCart, Check } from "lucide-react"
 import { MenuItem } from "@/types/menu"
 import { CartItem } from "@/types/order"
+import { useState, useEffect } from "react"
+import { cn } from "@/lib/utils"
 
 interface ProductDetailsDialogProps {
     item: (MenuItem & { category?: string }) | null
     open: boolean
     onOpenChange: (open: boolean) => void
-    addToCart: (item: MenuItem | CartItem) => void
+    addToCart: (item: MenuItem | CartItem, selectedOptions?: Record<string, string>) => void
 }
 
 export default function ProductDetailsDialog({ item, open, onOpenChange, addToCart }: ProductDetailsDialogProps) {
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
+
+    useEffect(() => {
+        if (item?.customizable && item.optionGroups?.length) {
+            const defaults: Record<string, string> = {}
+            item.optionGroups.forEach(group => {
+                defaults[group.id] = group.defaultOption || group.options[0]
+            })
+            setSelectedOptions(defaults)
+        } else {
+            setSelectedOptions({})
+        }
+    }, [item, open])
+
+    const handleOptionSelect = (groupId: string, option: string) => {
+        setSelectedOptions(prev => ({
+            ...prev,
+            [groupId]: option
+        }))
+    }
+
     if (!item) return null
 
     return (
@@ -47,7 +70,7 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         <p className="text-foreground/80 leading-relaxed font-body">
                             {item.description || "Delicioso plato preparado con ingredientes frescos y de alta calidad. Perfecto para disfrutar en cualquier momento."}
                         </p>
@@ -70,10 +93,39 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                             )}
                         </div>
 
+                        {item.customizable && item.optionGroups && item.optionGroups.length > 0 && (
+                            <div className="pt-4 border-t border-border space-y-6">
+                                {item.optionGroups.map((group) => (
+                                    <div key={group.id}>
+                                        <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                                            {group.name}:
+                                        </h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                            {group.options.map((option) => (
+                                                <button
+                                                    key={option}
+                                                    onClick={() => handleOptionSelect(group.id, option)}
+                                                    className={cn(
+                                                        "flex items-center justify-between px-4 py-2 rounded-lg border text-sm font-medium transition-all",
+                                                        selectedOptions[group.id] === option
+                                                            ? "bg-primary/10 border-primary text-primary shadow-sm"
+                                                            : "bg-background border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                                                    )}
+                                                >
+                                                    {option}
+                                                    {selectedOptions[group.id] === option && <Check className="h-4 w-4" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
                         <div className="pt-4 flex justify-end">
                             <Button
                                 onClick={() => {
-                                    addToCart(item)
+                                    addToCart(item, selectedOptions)
                                     onOpenChange(false)
                                 }}
                                 className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"

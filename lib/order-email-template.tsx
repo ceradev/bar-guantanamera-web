@@ -53,6 +53,7 @@ const footer = {
 interface OrderItem {
     name: string
     quantity: number
+    selectedOptions?: Record<string, string>
 }
 
 interface OrderConfirmationProps {
@@ -97,21 +98,24 @@ export function OrderConfirmationTemplate({
                         borderRadius: '6px',
                         border: '1px solid #e6e6e6',
                     }}>
-                        {items.map((item, index) => (
-                            <div
-                                key={index}
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '8px 0',
-                                    borderBottom: index < items.length - 1 ? '1px solid #e6e6e6' : 'none',
-                                }}
-                            >
-                                <Text style={{ ...paragraph, margin: 0 }}>
-                                    {item.name} x{item.quantity}
-                                </Text>
-                            </div>
-                        ))}
+                        {items.map((item, index) => {
+                            const optionsText = item.selectedOptions ? Object.values(item.selectedOptions).join(", ") : null
+                            return (
+                                <div
+                                    key={index}
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        padding: '8px 0',
+                                        borderBottom: index < items.length - 1 ? '1px solid #e6e6e6' : 'none',
+                                    }}
+                                >
+                                    <Text style={{ ...paragraph, margin: 0 }}>
+                                        {item.name} {optionsText ? `(${optionsText}) ` : ""}x{item.quantity}
+                                    </Text>
+                                </div>
+                            )
+                        })}
                         <div style={{
                             marginTop: '16px',
                             paddingTop: '16px',

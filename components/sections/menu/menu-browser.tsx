@@ -611,7 +611,12 @@ interface ProductProps {
 }
 
 function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onViewDetails }: ProductProps) {
-  const quantityInCart = cart[item.name]?.quantity || 0
+  const quantityInCart = useMemo(() => {
+    return Object.values(cart)
+      .filter(cartItem => cartItem.name === item.name)
+      .reduce((total, cartItem) => total + cartItem.quantity, 0)
+  }, [cart, item.name])
+
   const isInactive = item.active === false
 
   return (
@@ -681,7 +686,14 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
 
           <Button
             size="sm"
-            onClick={() => !isInactive && addToCart(item)}
+            onClick={() => {
+              if (isInactive) return
+              if (item.customizable) {
+                onViewDetails()
+              } else {
+                addToCart(item)
+              }
+            }}
             variant={quantityInCart > 0 ? "secondary" : "default"}
             disabled={isInactive}
             className={cn(
@@ -716,7 +728,12 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
 }
 
 function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, onViewDetails }: ProductProps) {
-  const quantityInCart = cart[item.name]?.quantity || 0
+  const quantityInCart = useMemo(() => {
+    return Object.values(cart)
+      .filter(cartItem => cartItem.name === item.name)
+      .reduce((total, cartItem) => total + cartItem.quantity, 0)
+  }, [cart, item.name])
+
   const isInactive = item.active === false
 
   return (
@@ -767,7 +784,14 @@ function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, on
           <p className="text-base font-bold text-foreground italic">{item.price}</p>
           <Button
             size="sm"
-            onClick={() => !isInactive && addToCart(item)}
+            onClick={() => {
+              if (isInactive) return
+              if (item.customizable) {
+                onViewDetails()
+              } else {
+                addToCart(item)
+              }
+            }}
             variant={quantityInCart > 0 ? "secondary" : "default"}
             disabled={isInactive}
             className={cn(

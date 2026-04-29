@@ -1,3 +1,10 @@
+export interface OptionGroup {
+  id: string
+  name: string
+  options: string[]
+  defaultOption?: string
+}
+
 export interface MenuItem {
   name: string
   description: string
@@ -8,6 +15,9 @@ export interface MenuItem {
   spicy?: boolean
   vegetarian?: boolean
   active?: boolean
+  madeToOrder?: boolean
+  customizable?: boolean
+  optionGroups?: OptionGroup[]
 }
 
 export interface MenuCategory {
@@ -42,6 +52,8 @@ export interface ComboMeal {
   image?: string
   icon: string
   active?: boolean
+  customizable?: boolean
+  optionGroups?: OptionGroup[]
 }
 
 export interface MenuData {
