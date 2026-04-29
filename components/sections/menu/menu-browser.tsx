@@ -36,23 +36,6 @@ function getAllItems(): BrowserMenuItem[] {
       popular: true,
     })
   })
-
-  // Add beverages 
-  data.bebidas.forEach((beverage) => {
-    items.push({
-      ...beverage,
-      category: "Bebidas",
-    })
-  })
-
-  // Add mojos
-  data.mojos.forEach((mojo) => {
-    items.push({
-      ...mojo,
-      category: "Mojos",
-    })
-  })
-
   return items
 }
 
@@ -128,7 +111,7 @@ function useFavorites() {
 export default function MenuBrowser() {
   const { cart, addToCart } = useCart()
   const { favorites, toggleFavorite } = useFavorites()
-  const { inactiveNames, madeToOrderNames } = useBusinessSettings()
+  const { inactiveNames } = useBusinessSettings()
   const [searchQuery, setSearchQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState("todos")
   const [activeTag, setActiveTag] = useState<string | null>(null)
@@ -143,11 +126,10 @@ export default function MenuBrowser() {
   const allItems = useMemo(() => getAllItems(), [])
 
   const filteredItems = useMemo(() => {
-    // Inject dynamic active status and madeToOrder
+    // Inject dynamic active status
     let items = allItems.map(item => ({
       ...item,
-      active: !inactiveNames.includes(item.name),
-      madeToOrder: madeToOrderNames.includes(item.name)
+      active: !inactiveNames.includes(item.name)
     }))
 
     // const data = menuData as unknown as MenuData // Not needed if we use allItems for everything? 
@@ -174,15 +156,13 @@ export default function MenuBrowser() {
         items = data.bebidas.map((b) => ({
           ...b,
           category: "Bebidas",
-          active: !inactiveNames.includes(b.name),
-          madeToOrder: madeToOrderNames.includes(b.name)
+          active: !inactiveNames.includes(b.name)
         }))
       } else if (activeCategory === "mojos") {
         items = data.mojos.map((m) => ({
           ...m,
           category: "Mojos",
-          active: !inactiveNames.includes(m.name),
-          madeToOrder: madeToOrderNames.includes(m.name)
+          active: !inactiveNames.includes(m.name)
         }))
       } else {
         items = items.filter((item) => item.category === categoryLabels.find(c => c.key === activeCategory)?.label || item.category === activeCategory)
@@ -202,8 +182,7 @@ export default function MenuBrowser() {
           items = cat.items.map((item) => ({
             ...item,
             category: cat.title,
-            active: !inactiveNames.includes(item.name),
-            madeToOrder: madeToOrderNames.includes(item.name)
+            active: !inactiveNames.includes(item.name)
           }))
         }
       }
@@ -231,8 +210,7 @@ export default function MenuBrowser() {
           price: c.price,
           image: c.image,
           category: "Ofertas",
-          active: (c.active !== false) && !inactiveNames.includes(c.name),
-          madeToOrder: madeToOrderNames.includes(c.name)
+          active: (c.active !== false) && !inactiveNames.includes(c.name)
         })).filter(item => item.active !== false)
       } else if (activeTag === "Asado") {
         items = items.filter(
@@ -275,7 +253,7 @@ export default function MenuBrowser() {
     }
 
     return items
-  }, [allItems, activeCategory, activeTag, searchQuery, favorites, sortOption, inactiveNames, madeToOrderNames])
+  }, [allItems, activeCategory, activeTag, searchQuery, favorites, sortOption, inactiveNames])
 
   const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE)
   const paginatedItems = filteredItems.slice(
@@ -633,10 +611,13 @@ interface ProductProps {
 }
 
 function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onViewDetails }: ProductProps) {
-  const quantityInCart = cart[item.name]?.quantity || 0
+  const quantityInCart = useMemo(() => {
+    return Object.values(cart)
+      .filter(cartItem => cartItem.name === item.name)
+      .reduce((total, cartItem) => total + cartItem.quantity, 0)
+  }, [cart, item.name])
+
   const isInactive = item.active === false
-  const isMadeToOrder = item.madeToOrder === true
-  const isDisabled = isInactive || isMadeToOrder
 
   return (
     <div className={cn(
@@ -666,16 +647,8 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
           </div>
         )}
 
-        {isMadeToOrder && !isInactive && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px] z-10">
-            <span className="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg transform -rotate-12 border-2 border-white/20">
-              Solo por encargo
-            </span>
-          </div>
-        )}
-
         {/* Floating Actions */}
-        {!isDisabled && (
+        {!isInactive && (
           <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-2 group-hover:translate-x-0 z-20">
             <button
               onClick={(e) => { e.stopPropagation(); onViewDetails(); }}
@@ -701,7 +674,7 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
       <div className="p-4 flex flex-col flex-1">
         <div className="flex-1">
           <div className="flex justify-between items-start gap-2 mb-1">
-            <h3 className="font-bold text-foreground text-sm leading-tight group-hover:text-primary transition-colors cursor-pointer" onClick={isDisabled ? undefined : onViewDetails}>{item.name}</h3>
+            <h3 className="font-bold text-foreground text-sm leading-tight group-hover:text-primary transition-colors cursor-pointer" onClick={isInactive ? undefined : onViewDetails}>{item.name}</h3>
           </div>
           <p className="text-[11px] text-muted-foreground font-body leading-relaxed mb-3 line-clamp-2">
             {item.description || "Deliciosa opción de nuestro menú."}
@@ -713,12 +686,19 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
 
           <Button
             size="sm"
-            onClick={() => !isDisabled && addToCart(item)}
+            onClick={() => {
+              if (isInactive) return
+              if (item.customizable) {
+                onViewDetails()
+              } else {
+                addToCart(item)
+              }
+            }}
             variant={quantityInCart > 0 ? "secondary" : "default"}
-            disabled={isDisabled}
+            disabled={isInactive}
             className={cn(
               "w-full text-xs font-semibold rounded-md h-8 transition-all",
-              isDisabled
+              isInactive
                 ? "bg-muted text-muted-foreground cursor-not-allowed hover:bg-muted"
                 : quantityInCart > 0
                   ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
@@ -727,8 +707,6 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
           >
             {isInactive ? (
               "Agotado"
-            ) : isMadeToOrder ? (
-              "Solo por encargo"
             ) : quantityInCart > 0 ? (
               <>
                 <span className="flex items-center gap-1.5">
@@ -750,17 +728,20 @@ function ProductCard({ item, addToCart, cart, isFavorite, toggleFavorite, onView
 }
 
 function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, onViewDetails }: ProductProps) {
-  const quantityInCart = cart[item.name]?.quantity || 0
+  const quantityInCart = useMemo(() => {
+    return Object.values(cart)
+      .filter(cartItem => cartItem.name === item.name)
+      .reduce((total, cartItem) => total + cartItem.quantity, 0)
+  }, [cart, item.name])
+
   const isInactive = item.active === false
-  const isMadeToOrder = item.madeToOrder === true
-  const isDisabled = isInactive || isMadeToOrder
 
   return (
     <div className={cn(
       "bg-card rounded-xl border border-border overflow-hidden flex gap-4 p-4 group hover:shadow-md transition-all",
-      isDisabled && "opacity-75 grayscale"
+      isInactive && "opacity-75 grayscale"
     )}>
-      <div className="relative w-24 h-24 flex-shrink-0 bg-secondary rounded-lg overflow-hidden cursor-pointer" onClick={isDisabled ? undefined : onViewDetails}>
+      <div className="relative w-24 h-24 flex-shrink-0 bg-secondary rounded-lg overflow-hidden cursor-pointer" onClick={isInactive ? undefined : onViewDetails}>
         {item.image ? (
           <Image
             src={item.image}
@@ -781,27 +762,20 @@ function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, on
             </span>
           </div>
         )}
-        {isMadeToOrder && !isInactive && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px] z-10">
-            <span className="bg-amber-500 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-white/20">
-              Solo por encargo
-            </span>
-          </div>
-        )}
       </div>
       <div className="flex-1 flex flex-col justify-between">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="font-bold text-foreground text-sm mb-1 group-hover:text-primary transition-colors cursor-pointer" onClick={isDisabled ? undefined : onViewDetails}>{item.name}</h3>
+            <h3 className="font-bold text-foreground text-sm mb-1 group-hover:text-primary transition-colors cursor-pointer" onClick={isInactive ? undefined : onViewDetails}>{item.name}</h3>
             <p className="text-xs text-muted-foreground font-body leading-relaxed line-clamp-2 max-w-md">
               {item.description || "Deliciosa opción de nuestro menú."}
             </p>
           </div>
           <div className="flex gap-1.5">
-            <button onClick={onViewDetails} disabled={isDisabled} className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full transition-colors disabled:opacity-50">
+            <button onClick={onViewDetails} disabled={isInactive} className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full transition-colors disabled:opacity-50">
               <Eye className="h-4 w-4" />
             </button>
-            <button onClick={toggleFavorite} disabled={isDisabled} className={cn("p-1.5 rounded-full transition-colors disabled:opacity-50", isFavorite ? "text-red-500 hover:bg-red-50" : "text-muted-foreground hover:text-foreground hover:bg-secondary")}>
+            <button onClick={toggleFavorite} disabled={isInactive} className={cn("p-1.5 rounded-full transition-colors disabled:opacity-50", isFavorite ? "text-red-500 hover:bg-red-50" : "text-muted-foreground hover:text-foreground hover:bg-secondary")}>
               <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
             </button>
           </div>
@@ -810,12 +784,19 @@ function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, on
           <p className="text-base font-bold text-foreground italic">{item.price}</p>
           <Button
             size="sm"
-            onClick={() => !isDisabled && addToCart(item)}
+            onClick={() => {
+              if (isInactive) return
+              if (item.customizable) {
+                onViewDetails()
+              } else {
+                addToCart(item)
+              }
+            }}
             variant={quantityInCart > 0 ? "secondary" : "default"}
-            disabled={isDisabled}
+            disabled={isInactive}
             className={cn(
               "text-xs font-semibold rounded-md h-8 transition-all min-w-[100px]",
-              isDisabled
+              isInactive
                 ? "bg-muted text-muted-foreground cursor-not-allowed hover:bg-muted"
                 : quantityInCart > 0
                   ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
@@ -824,8 +805,6 @@ function ProductListItem({ item, addToCart, cart, isFavorite, toggleFavorite, on
           >
             {isInactive ? (
               "Agotado"
-            ) : isMadeToOrder ? (
-              "Solo por encargo"
             ) : quantityInCart > 0 ? (
               <>
                 <span className="flex items-center gap-1.5">
