@@ -44,8 +44,9 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-card border-border">
-                <div className="relative aspect-video w-full bg-secondary">
+            <DialogContent className="w-[calc(100vw-1rem)] max-h-[calc(100dvh-1rem)] sm:max-w-[600px] p-0 overflow-hidden bg-card border-border">
+                <div className="flex max-h-[calc(100dvh-1rem)] flex-col">
+                <div className="relative aspect-[4/3] w-full shrink-0 bg-secondary sm:aspect-video">
                     {item.image ? (
                         <Image
                             src={item.image}
@@ -68,9 +69,10 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                     )}
                 </div>
 
-                <div className="p-6">
+                <div className="flex min-h-0 flex-1 flex-col">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
                     <DialogHeader className="mb-4">
-                        <DialogTitle className="text-2xl font-bold text-foreground flex justify-between items-start gap-4">
+                        <DialogTitle className="flex items-start justify-between gap-4 pr-8 text-xl font-bold text-foreground sm:text-2xl">
                             <span>{item.name}</span>
                             <span className="text-primary whitespace-nowrap">{item.price}</span>
                         </DialogTitle>
@@ -135,21 +137,22 @@ export default function ProductDetailsDialog({ item, open, onOpenChange, addToCa
                                 ))}
                             </div>
                         )}
-
-                        <div className="pt-4 flex justify-end">
-                            <Button
-                                onClick={() => {
-                                    addToCart(item, selectedOptions)
-                                    onOpenChange(false)
-                                }}
-                                disabled={isDisabled}
-                                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground"
-                            >
-                                <ShoppingCart className="mr-2 h-4 w-4" />
-                                {isDisabled ? "No disponible online" : "Añadir al pedido"}
-                            </Button>
-                        </div>
                     </div>
+                </div>
+                    <div className="shrink-0 border-t border-border bg-card px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4 sm:px-6 sm:pb-6">
+                        <Button
+                            onClick={() => {
+                                addToCart(item, selectedOptions)
+                                onOpenChange(false)
+                            }}
+                            disabled={isDisabled}
+                            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground"
+                        >
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            {isDisabled ? "No disponible online" : "Añadir al pedido"}
+                        </Button>
+                    </div>
+                </div>
                 </div>
             </DialogContent>
         </Dialog>

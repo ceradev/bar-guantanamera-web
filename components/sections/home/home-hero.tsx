@@ -33,16 +33,11 @@ export default function HomeHero() {
           Saborea la diferencia
         </motion.p>
         <motion.h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-background leading-none mb-2"
+          className="flex flex-col text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-2"
           variants={fadeInUp}
         >
-          SABORES
-        </motion.h1>
-        <motion.h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-regular tracking-tight text-primary leading-none mb-2"
-          variants={fadeInUp}
-        >
-          AUTENTICOS
+          <span className="font-bold text-background">SABORES</span>
+          <span className="font-regular text-primary mt-2">AUTÉNTICOS</span>
         </motion.h1>
         <motion.p
           className="text-base md:text-lg text-background/80 font-body max-w-2xl mx-auto leading-relaxed mb-10"
