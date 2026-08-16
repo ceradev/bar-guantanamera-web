@@ -2,7 +2,7 @@ import type React from "react";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
-import { montserrat, openSans } from "@/lib/fonts";
+import { bowlbyOne, montserrat, openSans } from "@/lib/fonts";
 import { RootProvider } from "@/components/providers/root-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
@@ -39,23 +39,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const maintenanceMode = process.env.MAINTENANCE_MODE === "true";
+
   return (
     <html lang="es" className="scroll-smooth">
       <body
         className={cn(
           "bg-background font-sans text-foreground antialiased",
           montserrat.variable,
-          openSans.variable
+          openSans.variable,
+          bowlbyOne.variable
         )}
       >
-        <RootProvider>
-          {children}
-        </RootProvider>
-        <Toaster />
+        {maintenanceMode ? children : <RootProvider>{children}</RootProvider>}
+        {maintenanceMode ? null : <Toaster />}
         <Analytics />
         <SpeedInsights />
-        <FloatingCallButton />
-        <BackToTopButton />
+        {maintenanceMode ? null : <FloatingCallButton />}
+        {maintenanceMode ? null : <BackToTopButton />}
       </body>
     </html>
   );
