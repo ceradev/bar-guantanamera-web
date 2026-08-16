@@ -51,7 +51,7 @@ export default function RootLayout({
           bowlbyOne.variable
         )}
       >
-        {maintenanceMode ? children : <RootProvider>{children}</RootProvider>}
+        <RootProvider>{children}</RootProvider>
         {maintenanceMode ? null : <Toaster />}
         <Analytics />
         <SpeedInsights />
