@@ -80,6 +80,46 @@ No hay formularios, almacenamiento ni datos personales en esta pantalla.
 - El CTA telefónico usará un enlace real y funcionará sin JavaScript.
 - La composición será utilizable desde 320 px hasta pantallas de escritorio amplias.
 
+## Sistema responsive mobile-first
+
+La composición partirá de un flujo vertical estable y añadirá complejidad solo cuando el viewport disponga de espacio real. No se utilizarán anchos superiores a `100vw`, márgenes negativos dependientes del viewport ni columnas con mínimos incompatibles con el breakpoint.
+
+### Móvil: 320-639 px
+
+- Flujo vertical: marca, trayectoria, estado, titular, mensaje, producto y datos del local.
+- Logo limitado por el ancho disponible, sin márgenes negativos.
+- Titular escalado con `clamp()` y límite de ancho para evitar palabras cortadas.
+- Producto dentro de un escenario con `width: 100%` y proporción estable; las órbitas podrán desbordar únicamente dentro de un contenedor recortado.
+- CTA telefónico fijo con `safe-area-inset-bottom` y espacio reservado en el contenido para no tapar el pie.
+- Pie apilado y enlaces con áreas táctiles mínimas de 44 px.
+
+### Tablet: 640-959 px
+
+- Flujo vertical centrado con mayor anchura de lectura.
+- Producto más amplio, pero siempre contenido dentro del viewport.
+- Pie horizontal cuando exista espacio y CTA fijo conservado.
+- Espaciado vertical reducido en tablets apaisadas o con poca altura.
+
+### Portátil: 960-1199 px
+
+- Composición en dos columnas flexibles sin mínimos rígidos.
+- Copia en la izquierda y producto contenido en la derecha.
+- CTA integrado en el contenido; no habrá barra fija.
+- Logo, trayectoria y pie permanecerán dentro de la cuadrícula principal.
+
+### Escritorio: 1200 px o más
+
+- Producto monumental con desbordamiento visual controlado por el contenedor, nunca por el viewport.
+- Titular y CTA mantienen la jerarquía de la referencia aprobada.
+- La página cabe en una sola vista cuando la altura sea suficiente; con poca altura permite desplazamiento vertical sin recortes.
+
+### Altura y orientación
+
+- El layout no dependerá exclusivamente de `100svh`; combinará `min-height` con flujo natural.
+- En viewports con altura menor de 720 px se reducirán espacios y escala del producto, sin ocultar contenido esencial.
+- El CTA fijo solo existirá por debajo de 960 px.
+- Se validará que no haya desplazamiento horizontal en 320, 375, 414, 768, 1024 y 1440 px.
+
 ## SEO y analítica
 
 - La página temporal tendrá `noindex, nofollow`.
