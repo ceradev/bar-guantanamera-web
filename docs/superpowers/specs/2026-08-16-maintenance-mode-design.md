@@ -106,19 +106,27 @@ La composición partirá de un flujo vertical estable y añadirá complejidad so
 - Copia en la izquierda y producto contenido en la derecha.
 - CTA integrado en el contenido; no habrá barra fija.
 - Logo, trayectoria y pie permanecerán dentro de la cuadrícula principal.
+- La página ocupará exactamente `100dvh` y no permitirá desplazamiento vertical ni horizontal.
+- El hero absorberá el espacio restante entre cabecera y pie mediante una fila `minmax(0, 1fr)`.
 
 ### Escritorio: 1200 px o más
 
 - Producto monumental con desbordamiento visual controlado por el contenedor, nunca por el viewport.
 - Titular y CTA mantienen la jerarquía de la referencia aprobada.
-- La página cabe en una sola vista cuando la altura sea suficiente; con poca altura permite desplazamiento vertical sin recortes.
+- La página ocupará exactamente `100dvh` y permanecerá completa en una sola vista, sin scroll.
+- El tamaño del producto se limitará simultáneamente por ancho y altura disponibles para conservar la composición en monitores panorámicos.
 
 ### Altura y orientación
 
-- El layout no dependerá exclusivamente de `100svh`; combinará `min-height` con flujo natural.
-- En viewports con altura menor de 720 px se reducirán espacios y escala del producto, sin ocultar contenido esencial.
+- Por debajo de 960 px, el layout combinará `min-height` con flujo natural y permitirá desplazamiento vertical.
+- Desde 960 px, `.shell` tendrá `height: 100dvh`, `min-height: 0` y `overflow: hidden`.
+- La cabecera, el hero y el pie formarán una cuadrícula de tres filas: `auto minmax(0, 1fr) auto`.
+- El producto se dimensionará con límites basados en `vw`, `vh` y el alto real de la fila central.
+- En viewports de escritorio con altura menor de 720 px se reducirán espacios, tipografía, CTA y producto sin ocultar contenido esencial.
+- En alturas extremadamente reducidas se priorizarán titular, estado, teléfono y producto; no se eliminarán acciones ni datos del local.
 - El CTA fijo solo existirá por debajo de 960 px.
 - Se validará que no haya desplazamiento horizontal en 320, 375, 414, 768, 1024 y 1440 px.
+- Se validará ausencia de desplazamiento vertical en escritorio a 1024×600, 1366×768, 1440×900 y 1920×1080.
 
 ## SEO y analítica
 
