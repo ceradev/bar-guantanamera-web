@@ -50,8 +50,8 @@ export default function MaintenancePage() {
         <Image
           className={styles.logo}
           src="/images/maintenance/guantanamera-logo-white.png"
-          width={1503}
-          height={825}
+          width={1500}
+          height={800}
           priority
           alt="Guantanamera Bar Cafetería"
         />
